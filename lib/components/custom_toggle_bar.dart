@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/utilities/constants.dart';
 
-class CustomToggleBar extends StatelessWidget {
-  const CustomToggleBar({
-    Key key,
-  }) : super(key: key);
+
+class CustomToggleBar extends StatefulWidget {
+  @override
+  _CustomToggleBarState createState() => _CustomToggleBarState();
+
+  final int selectedTab;
+  final Function onTabChanged;
+  const CustomToggleBar({@required this.selectedTab,@required this.onTabChanged});
+}
+
+class _CustomToggleBarState extends State<CustomToggleBar> {
+
+  int selectedTab;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedTab = widget.selectedTab;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +41,26 @@ class CustomToggleBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: kColorPurple,
-                borderRadius: BorderRadius.all(Radius.circular(25)),
-              ),
-              child: Center(
-                child: Text(
-                  'My Store',
-                  style: TextStyle(
-                    color: kColorWhite,
+            child: GestureDetector(
+              onTap: (){
+                setState(() {
+                  selectedTab = 0;
+                });
+                widget.onTabChanged(selectedTab);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: selectedTab == 0 ? kColorPurple : kColorWhite,
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                ),
+                child: Center(
+                  child: Text(
+                    'My Store',
+                    style: TextStyle(
+                      color: selectedTab == 0 ? kColorWhite : kColorPurple,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -45,16 +70,26 @@ class CustomToggleBar extends StatelessWidget {
             width: 5,
           ),
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: kColorWhite,
-                borderRadius: BorderRadius.all(Radius.circular(25)),
-              ),
-              child: Center(
-                child: Text(
-                  'My Orders',
-                  style: TextStyle(
-                    color: kColorPurple,
+            child: GestureDetector(
+              onTap: (){
+                setState(() {
+                  selectedTab = 1;
+                });
+                widget.onTabChanged(selectedTab);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: selectedTab == 1 ? kColorPurple : kColorWhite,
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                ),
+                child: Center(
+                  child: Text(
+                    'My Orders',
+                    style: TextStyle(
+                      color: selectedTab == 1 ? kColorWhite : kColorPurple,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

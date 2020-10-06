@@ -166,7 +166,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           alignment: Alignment.topCenter,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 0),
-                            child: CustomToggleBar(),
+                            child: CustomToggleBar(
+                              selectedTab: 0,
+                              onTabChanged: (value){
+                                //TODO:CODE
+                              },
+                            ),
                           ),
                         ),
                       ),
