@@ -23,6 +23,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_core: ^0.5.0
+  firebase_auth: ^0.18.1+1
+  cloud_firestore: ^0.14.1+2
+  flutter_progress_button: ^0.6.2
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -60,6 +65,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+#  fonts:
+#    - family: Lemon-Regular
+#      fonts:
+#        - asset: assets/fonts/Lemon-Regular.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:
@@ -71,6 +80,7 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+  assets:
+    - assets/images/
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
