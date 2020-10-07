@@ -17,10 +17,8 @@ class  MyApp extends StatelessWidget {
     return MaterialApp(
 
         debugShowCheckedModeBanner: false,
-
-
         home:Login(),
-        routes: <String,WidgetBuilder>{
+        routes:<String,WidgetBuilder>{
           '/landingpage':(BuildContext context)=>MyApp(),
           '/signup':(BuildContext context)=>Signup(),
           '/home':(BuildContext context)=>Home(),
