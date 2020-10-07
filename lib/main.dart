@@ -4,6 +4,7 @@ import 'package:grocery_app/Screens/Registration/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:grocery_app/Screens/Registration/home.dart';
+import 'package:grocery_app/contact.dart;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,15 +18,14 @@ class  MyApp extends StatelessWidget {
     return MaterialApp(
 
         debugShowCheckedModeBanner: false,
-        home:Login(),
-        routes:<String,WidgetBuilder>{
-          '/landingpage':(BuildContext context)=>MyApp(),
-          '/signup':(BuildContext context)=>Signup(),
-          '/home':(BuildContext context)=>Home(),
-
-        }
-
-
+        home:Contact(),
+//        routes: <String,WidgetBuilder>{
+//          '/landingpage': (BuildContext context) => MyApp(),
+//          '/signup': (BuildContext context) => Signup(),
+//          '/home': (BuildContext context) => Home(),
+//
+//
+//        }
     );
   }
 }
