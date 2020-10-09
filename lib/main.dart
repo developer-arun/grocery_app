@@ -16,16 +16,13 @@ class  MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
         debugShowCheckedModeBanner: false,
-        home:Contact(),
-//        routes: <String,WidgetBuilder>{
-//          '/landingpage': (BuildContext context) => MyApp(),
-//          '/signup': (BuildContext context) => Signup(),
-//          '/home': (BuildContext context) => Home(),
-//
-//
-//        }
+        home: Login(),
+        routes: <String,WidgetBuilder>{
+          '/landingpage': (BuildContext context) => MyApp(),
+          '/signup': (BuildContext context) => Signup(),
+          '/home': (BuildContext context) => Home(),
+        }
     );
   }
 }
