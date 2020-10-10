@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/Screens/Registration/details_screen.dart';
 import 'package:grocery_app/Screens/Registration/login_screen.dart';
 import 'package:grocery_app/Screens/Registration/registration_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:grocery_app/Screens/Registration/home_screen.dart';
+import 'file:///C:/Users/hp/AndroidStudioProjects/grocery_app/lib/Screens/home_screen.dart';
 import 'package:grocery_app/Screens/splashscreen.dart';
 
 void main() async {
@@ -21,6 +22,7 @@ class  MyApp extends StatelessWidget {
           '/login' : (BuildContext context) => LoginScreen(),
           '/signup': (BuildContext context) => RegistrationScreen(),
           '/home': (BuildContext context) => Home(),
+          '/details_page': (BuildContext context) => DetailsScreen(),
         }
     );
   }

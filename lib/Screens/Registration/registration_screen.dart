@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:grocery_app/components/clipped_widget.dart';
+import 'package:grocery_app/components/custom_button_widget.dart';
+import 'package:grocery_app/components/text_input_widget.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -12,8 +14,8 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  String _email;
-  String _password;
+  String _email = "";
+  String _password = "";
   bool _passHidden = true;
   bool _loading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -28,25 +30,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ClipPath(
-                clipper: WaveClipperOne(),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
-                  color: kColorPurple,
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        color: kColorWhite,
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
+              ClippedWidget(
+                text: 'Sign Up',
               ),
               Form(
                 key: _formKey,
@@ -54,34 +39,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   padding: EdgeInsets.all(30.0),
                   child: Column(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: kColorPurple.withOpacity(0.1),
-                              blurRadius: 1,
-                              spreadRadius: 1,
-                            ),
-                          ],
-                        ),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            icon: Icon(
-                              Icons.person,
-                              color: kColorPurple,
-                            ),
-                            border: InputBorder.none,
-                            hintText: "Email",
-                            hintStyle: TextStyle(color: Colors.grey[400]),
-                          ),
-                          onChanged: (value) {
-                            _email = value;
-                          },
-                        ),
+                      TextInputWidget(
+                        hint: 'Enter email',
+                        icon: Icons.person,
+                        obscureText: false,
+                        onChanged: (value) {
+                          _email = value;
+                        },
                       ),
                       SizedBox(height: 25.0),
                       Container(
@@ -135,20 +99,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
-                child: MaterialButton(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                  color: kColorPurple,
-                  child: Text(
-                    'Sign Up',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                child: CustomButtonWidget(
+                  label: 'Sign Up',
                   onPressed: () async {
                     if (_email.isNotEmpty &&
                         _password.isNotEmpty &&
@@ -158,7 +110,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       });
                       FirebaseAuth.instance
                           .createUserWithEmailAndPassword(
-                              email: _email, password: _password)
+                          email: _email, password: _password)
                           .then((signedInUser) {
                         FirebaseAuth.instance.currentUser
                             .sendEmailVerification()
@@ -190,7 +142,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             'Password length must be greater than 6.');
                     }
                   },
-                ),
+                )
               ),
               Padding(
                 padding:

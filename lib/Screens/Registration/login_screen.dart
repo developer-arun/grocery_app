@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:grocery_app/components/clipped_widget.dart';
+import 'package:grocery_app/components/custom_button_widget.dart';
+import 'package:grocery_app/components/text_input_widget.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -12,9 +14,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  String _email;
-  String _password;
+  String _email = "";
+  String _password = "";
   bool _loading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -28,25 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ClipPath(
-                clipper: WaveClipperOne(),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
-                  color: kColorPurple,
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        color: kColorWhite,
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
+              ClippedWidget(
+                text: 'Login',
               ),
               Form(
                 key: _formKey,
@@ -54,66 +38,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.all(30.0),
                   child: Column(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: kColorPurple.withOpacity(0.1),
-                              blurRadius: 1,
-                              spreadRadius: 1,
-                            ),
-                          ],
-                        ),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            icon: Icon(
-                              Icons.person,
-                              color: kColorPurple,
-                            ),
-                            border: InputBorder.none,
-                            hintText: "Email",
-                            hintStyle: TextStyle(
-                              color: Colors.grey[400],
-                            ),
-                          ),
-                          onChanged: (value) {
-                            _email = value;
-                          },
-                        ),
+                      TextInputWidget(
+                        hint: "Enter email",
+                        icon: Icons.person,
+                        obscureText: false,
+                        onChanged: (value) {
+                          _email = value;
+                        },
                       ),
                       SizedBox(height: 25.0),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: kColorPurple.withOpacity(0.1),
-                              blurRadius: 1,
-                              spreadRadius: 1,
-                            ),
-                          ],
-                        ),
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              icon: Icon(
-                                Icons.lock,
-                                color: kColorPurple,
-                              ),
-                              border: InputBorder.none,
-                              hintText: "Password",
-                              hintStyle: TextStyle(color: Colors.grey[400])),
-                          obscureText: true,
-                          onChanged: (value) {
-                            _password = value;
-                          },
-                        ),
+                      TextInputWidget(
+                        hint: 'Enter password',
+                        icon: Icons.lock,
+                        obscureText: true,
+                        onChanged: (value) {
+                          _password = value;
+                        },
                       ),
                     ],
                   ),
@@ -122,28 +62,16 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
-                child: RaisedButton(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                  color: kColorPurple,
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  onPressed: () {
+                child: CustomButtonWidget(
+                  label: 'Login',
+                  onPressed: (){
                     if (_email.isNotEmpty && _password.isNotEmpty) {
                       setState(() {
                         _loading = true;
                       });
                       FirebaseAuth.instance
                           .signInWithEmailAndPassword(
-                              email: _email, password: _password)
+                          email: _email, password: _password)
                           .then((user) {
                         if (FirebaseAuth.instance.currentUser.emailVerified) {
                           // USER IS VERIFIED
@@ -170,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Please fill up all the required fields.');
                     }
                   },
-                ),
+                )
               ),
               Padding(
                 padding:
