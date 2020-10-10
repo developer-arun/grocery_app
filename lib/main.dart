@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/Screens/Registration/login.dart';
-import 'package:grocery_app/Screens/Registration/signup.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:grocery_app/Screens/Registration/login_screen.dart';
+import 'package:grocery_app/Screens/Registration/registration_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:grocery_app/Screens/Registration/home.dart';
-import 'package:grocery_app/Screens/ContactUs/contact.dart';
+import 'package:grocery_app/Screens/Registration/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,10 +15,11 @@ class  MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Login(),
+        home: LoginScreen(),
         routes: <String,WidgetBuilder>{
           '/landingpage': (BuildContext context) => MyApp(),
-          '/signup': (BuildContext context) => Signup(),
+          '/login' : (BuildContext context) => LoginScreen(),
+          '/signup': (BuildContext context) => RegistrationScreen(),
           '/home': (BuildContext context) => Home(),
         }
     );
