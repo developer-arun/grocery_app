@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/utilities/constants.dart';
 
-class TextInputWidget extends StatelessWidget {
+class TextInputWidget extends StatefulWidget {
+  @override
+  _TextInputWidgetState createState() => _TextInputWidgetState();
+
   final String hint;
   final IconData icon;
   final bool obscureText;
-  final Function onChanged;
+  final Function onChanged,onTap;
   final TextEditingController controller;
   final TextInputType textInputType;
   const TextInputWidget({
@@ -15,7 +18,13 @@ class TextInputWidget extends StatelessWidget {
     @required this.onChanged,
     this.controller,
     this.textInputType,
+    this.onTap,
   });
+
+}
+
+class _TextInputWidgetState extends State<TextInputWidget> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,22 +42,24 @@ class TextInputWidget extends StatelessWidget {
         ],
       ),
       child: TextFormField(
-        keyboardType: textInputType,
-        controller: controller,
+        keyboardType: widget.textInputType,
+        controller: widget.controller,
         decoration: InputDecoration(
           icon: Icon(
-            icon,
+            widget.icon,
             color: kColorPurple,
           ),
           border: InputBorder.none,
-          hintText: hint,
+          hintText: widget.hint,
           hintStyle: TextStyle(
             color: Colors.grey[400],
           ),
         ),
-        obscureText: obscureText,
-        onChanged: onChanged,
+        obscureText: widget.obscureText,
+        onChanged: widget.onChanged,
+        onTap: widget.onTap,
       ),
     );
   }
 }
+

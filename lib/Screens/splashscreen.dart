@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as AUTH;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Model/User.dart';
-import 'package:grocery_app/Services/user_management.dart';
+import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,16 +18,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void checkLogin() async {
     final authUser = await AUTH.FirebaseAuth.instance.currentUser;   // OBJECT OF FIREBASE USER CLASS
     if (authUser != null) {
-      user = await UserManagement.checkUserDetails(
+      user = await checkUserDetails(
         email: authUser.email,
         context: context,
       );
-      if(user != null){
-        // TODO:LOAD USER DATA
-        Navigator.pushReplacementNamed(context, '/home');
-      }else{
-        Navigator.pushReplacementNamed(context, '/details_page');
-      }
     } else {
       Navigator.pushReplacementNamed(context, '/login');
     }
@@ -57,5 +52,24 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
+  }
+
+  Future checkUserDetails({String email,BuildContext context}) async {
+    User user;
+    FirebaseFirestore
+        .instance
+        .collection("Users")
+        .doc(email)
+        .get()
+        .then((snapshot){
+      if(snapshot.exists){
+        Navigator.pushReplacementNamed(context, '/home');
+      }else{
+        Navigator.pushReplacementNamed(context, '/details_page');
+      }
+    }).catchError( (error) async {
+      await AlertBox.showMessageDialog(context, 'Error', 'An error occurred in loading user data\n${error.message}');
+    });
+    return user;
   }
 }

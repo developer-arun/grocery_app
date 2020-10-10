@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -60,46 +61,60 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
-                child: CustomButtonWidget(
-                  label: 'Login',
-                  onPressed: (){
-                    if (_email.isNotEmpty && _password.isNotEmpty) {
-                      setState(() {
-                        _loading = true;
-                      });
-                      FirebaseAuth.instance
-                          .signInWithEmailAndPassword(
-                          email: _email, password: _password)
-                          .then((user) {
-                        if (FirebaseAuth.instance.currentUser.emailVerified) {
-                          // USER IS VERIFIED
-                          setState(() {
-                            _loading = false;
-                          });
-                          Navigator.pushReplacementNamed(context, '/home');
-                        } else {
-                          // USER NOT VERIFIED
-                          setState(() {
-                            _loading = false;
-                          });
-                          AlertBox.showMessageDialog(context, 'Error',
-                              'Please verify your email first.');
-                        }
-                      }).catchError((e) {
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
+                  child: CustomButtonWidget(
+                    label: 'Login',
+                    onPressed: () {
+                      if (_email.isNotEmpty && _password.isNotEmpty) {
                         setState(() {
-                          _loading = false;
+                          _loading = true;
                         });
-                        AlertBox.showMessageDialog(context, 'Error', e.message);
-                      });
-                    } else {
-                      AlertBox.showMessageDialog(context, 'Error',
-                          'Please fill up all the required fields.');
-                    }
-                  },
-                )
-              ),
+                        FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: _email, password: _password)
+                            .then((user) async {
+                          if (FirebaseAuth.instance.currentUser.emailVerified) {
+                            // USER IS VERIFIED
+                            final User user = await checkUserDetails(
+                              email: _email,
+                              context: context,
+                            );
+                            if (user != null) {
+                              // USER DETAILS PRESENT IN DATABASE
+                              setState(() {
+                                _loading = false;
+                              });
+                              Navigator.pushReplacementNamed(context, '/home');
+                            } else {
+                              // USER DETAILS NOT PRESENT IN DATABASE
+                              setState(() {
+                                _loading = false;
+                              });
+                              Navigator.pushReplacementNamed(
+                                  context, '/details_page');
+                            }
+                          } else {
+                            // USER NOT VERIFIED
+                            setState(() {
+                              _loading = false;
+                            });
+                            AlertBox.showMessageDialog(context, 'Error',
+                                'Please verify your email first.');
+                          }
+                        }).catchError((e) {
+                          setState(() {
+                            _loading = false;
+                          });
+                          AlertBox.showMessageDialog(
+                              context, 'Error', e.message);
+                        });
+                      } else {
+                        AlertBox.showMessageDialog(context, 'Error',
+                            'Please fill up all the required fields.');
+                      }
+                    },
+                  )),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
@@ -126,5 +141,22 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  Future<User> checkUserDetails({String email, BuildContext context}) async {
+    User user;
+    FirebaseFirestore.instance
+        .collection("Users")
+        .doc(email)
+        .get()
+        .then((snapshot) {
+      if (snapshot.exists) {
+        print("Hai");
+      }
+    }).catchError((error) async {
+      await AlertBox.showMessageDialog(context, 'Error',
+          'An error occurred in loading user data\n${error.message}');
+    });
+    return user;
   }
 }
