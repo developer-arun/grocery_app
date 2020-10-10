@@ -3,6 +3,7 @@ import 'package:grocery_app/Screens/Registration/login_screen.dart';
 import 'package:grocery_app/Screens/Registration/registration_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:grocery_app/Screens/Registration/home_screen.dart';
+import 'package:grocery_app/Screens/splashscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,9 +16,8 @@ class  MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        home: SplashScreen(),
         routes: <String,WidgetBuilder>{
-          '/landingpage': (BuildContext context) => MyApp(),
           '/login' : (BuildContext context) => LoginScreen(),
           '/signup': (BuildContext context) => RegistrationScreen(),
           '/home': (BuildContext context) => Home(),
