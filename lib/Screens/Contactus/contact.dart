@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:grocery_app/Screens/ContactUs/contibutors.dart';
+import 'package:grocery_app/Model/contibutors.dart';
+
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 

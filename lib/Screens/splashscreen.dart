@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/Model/User.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
+import 'package:grocery_app/utilities/user_api.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -63,6 +64,23 @@ class _SplashScreenState extends State<SplashScreen> {
         .get()
         .then((snapshot){
       if(snapshot.exists){
+
+        var data = snapshot.data();
+
+        // TODO: ADD MORE FIELDS IN FUTURE
+
+        UserApi userApi = UserApi.instance;
+        userApi.email = data['email'];
+        userApi.firstName = data['firstName'];
+        userApi.lastName = data['lastName'];
+        userApi.address = data['address'];
+        userApi.latitude = data['latitude'];
+        userApi.longitude = data['longitude'];
+        userApi.orders = data['orders'];
+        userApi.phoneNo = data['phoneNumber'];
+
+        print(userApi.email);
+
         Navigator.pushReplacementNamed(context, '/home');
       }else{
         Navigator.pushReplacementNamed(context, '/details_page');
