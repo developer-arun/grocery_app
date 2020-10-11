@@ -1,14 +1,14 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:grocery_app/Model/contibutors.dart';
-
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Contact extends StatelessWidget {
+class ContactUsPage extends StatefulWidget {
+  @override
+  _ContactUsPageState createState() => _ContactUsPageState();
+}
+
+class _ContactUsPageState extends State<ContactUsPage> {
   List<Contributors> contri = [
     Contributors(
         name: "Anubhav Rajput",
@@ -43,16 +43,19 @@ class Contact extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              padding: const EdgeInsets.only(
-                  top: 120, bottom: 20, left: 30, right: 30),
-              width: double.infinity,
-              child: Text(
-                'Get in touch',
-                style: TextStyle(
-                  fontSize: 48.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(top: kToolbarHeight),
+              child: Container(
+                padding: const EdgeInsets.only(
+                    top: 120, bottom: 20, left: 30, right: 30),
+                width: double.infinity,
+                child: Text(
+                  'Get in touch',
+                  style: TextStyle(
+                    fontSize: 48.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -67,10 +70,11 @@ class Contact extends StatelessWidget {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
                       padding:
-                          const EdgeInsets.only(left: 30, right: 30, top: 50),
+                      const EdgeInsets.only(left: 30, right: 30, top: 50),
                       child: Text(
                         'Developed with ❤ by',
                         style: TextStyle(
@@ -91,7 +95,7 @@ class Contact extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 25.0,
                                   backgroundImage:
-                                      AssetImage(contri[index].imageurl),
+                                  AssetImage(contri[index].imageurl),
                                 ),
                                 SizedBox(width: 20.0),
                                 Expanded(
@@ -120,12 +124,12 @@ class Contact extends StatelessWidget {
                                         ],
                                       ),
                                       IconButton(
-                                          icon: Icon(
-                                            Icons.mail,
-                                          ),
-                                          onPressed: (){
-                                            _launchUrl(contri[index].email);
-                                          },
+                                        icon: Icon(
+                                          Icons.mail,
+                                        ),
+                                        onPressed: (){
+                                          _launchUrl(contri[index].email);
+                                        },
                                       ),
                                     ],
                                   ),
@@ -142,6 +146,6 @@ class Contact extends StatelessWidget {
             ),
           ],
         ),
-    );
+      );
   }
 }
