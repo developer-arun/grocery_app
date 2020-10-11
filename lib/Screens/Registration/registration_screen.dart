@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grocery_app/components/clipped_widget.dart';
-import 'package:grocery_app/components/custom_button_widget.dart';
-import 'package:grocery_app/components/text_input_widget.dart';
+import 'package:grocery_app/Components/clipped_widget.dart';
+import 'package:grocery_app/Components/custom_button_widget.dart';
+import 'package:grocery_app/Components/text_input_widget.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
