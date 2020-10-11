@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:grocery_app/screens/Home/landing_screen.dart';
 import 'package:grocery_app/screens/Registration/details_screen.dart';
 import 'package:grocery_app/screens/Registration/login_screen.dart';
 import 'package:grocery_app/screens/Registration/registration_screen.dart';
 import 'package:grocery_app/screens/splashscreen.dart';
 import 'Components/main_profile.dart';
-import 'screens/fruits_screen.dart';
-
 
 
 void main() async {
@@ -29,7 +28,7 @@ class _MyAppState extends State<MyApp> {
         routes: <String,WidgetBuilder>{
           '/login' : (BuildContext context) => LoginScreen(),
           '/signup': (BuildContext context) => RegistrationScreen(),
-          '/home': (BuildContext context) => FruitScreen(Colors.purple[50],Colors.deepPurple[800],Colors.white,"Khana Khazana"),
+          '/home': (BuildContext context) => LandingScreen(),
           '/details_page': (BuildContext context) => DetailsScreen(),
           '/profile': (BuildContext context) => ProfileScreen(),
         }
