@@ -1,7 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/menu_item_widget.dart';
+import 'package:grocery_app/screens/Home/Navigation%20Pages/cart_page.dart';
+import 'package:grocery_app/screens/Home/Navigation%20Pages/offers_page.dart';
+import 'package:grocery_app/screens/Home/Navigation%20Pages/orders_page.dart';
+import 'package:grocery_app/screens/Home/Navigation%20Pages/profile_page.dart';
+import 'package:grocery_app/screens/Home/Navigation%20Pages/settings_page.dart';
+import 'package:grocery_app/screens/Home/Navigation%20Pages/store_page.dart';
+import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
+
+import 'Navigation Pages/contact_us_page.dart';
+import 'Navigation Pages/home_page.dart';
 
 class LandingScreen extends StatefulWidget {
   @override
@@ -19,6 +30,8 @@ class _LandingScreenState extends State<LandingScreen>
   Animation<Offset> _slideAnimation;
 
   UserApi userApi = UserApi.instance;
+  int currentIndex = 0;
+  Color appBarColors = kColorPurple;
 
   @override
   void initState() {
@@ -92,56 +105,80 @@ class _LandingScreenState extends State<LandingScreen>
                                 label: 'Home',
                                 icon: Icons.home_outlined,
                                 onPressed: () {
-                                  // TODO:CODE
+                                  setState(() {
+                                    currentIndex = 0;
+                                    appBarColors = kColorPurple;
+                                  });
                                 },
                               ),
                               MenuItemWidget(
                                 label: 'Profile',
                                 icon: Icons.person_outline,
                                 onPressed: () {
-                                  // TODO:CODE
+                                  setState(() {
+                                    currentIndex = 1;
+                                    appBarColors = kColorPurple;
+                                  });
                                 },
                               ),
                               MenuItemWidget(
                                 label: 'Cart',
                                 icon: Icons.shopping_cart_outlined,
                                 onPressed: () {
-                                  // TODO:CODE
+                                  setState(() {
+                                    currentIndex = 2;
+                                    appBarColors = kColorPurple;
+                                  });
                                 },
                               ),
                               MenuItemWidget(
                                 label: 'My Orders',
                                 icon: Icons.shopping_bag_outlined,
                                 onPressed: () {
-                                  // TODO:CODE
+                                  setState(() {
+                                    currentIndex = 3;
+                                    appBarColors = kColorPurple;
+                                  });
                                 },
                               ),
                               MenuItemWidget(
                                 label: 'My Store',
                                 icon: Icons.store_mall_directory_outlined,
                                 onPressed: () {
-                                  // TODO:CODE
+                                  setState(() {
+                                    currentIndex = 4;
+                                    appBarColors = kColorPurple;
+                                  });
                                 },
                               ),
                               MenuItemWidget(
                                 label: 'Offers',
                                 icon: Icons.local_offer_outlined,
                                 onPressed: () {
-                                  // TODO:CODE
+                                  setState(() {
+                                    currentIndex = 5;
+                                    appBarColors = kColorPurple;
+                                  });
                                 },
                               ),
                               MenuItemWidget(
                                 label: 'Settings',
                                 icon: Icons.settings_outlined,
                                 onPressed: () {
-                                  // TODO:CODE
+                                  setState(() {
+                                    currentIndex = 6;
+                                    appBarColors = kColorPurple;
+                                  });
                                 },
                               ),
                               MenuItemWidget(
                                 label: 'Contact Us',
                                 icon: Icons.info_outline,
                                 onPressed: () {
-                                  // TODO:CODE
+                                  setState(() {
+                                    currentIndex = 7;
+                                    appBarColors = kColorWhite;
+                                  });
                                 },
                               ),
                             ],
@@ -154,7 +191,13 @@ class _LandingScreenState extends State<LandingScreen>
                     label: 'Logout',
                     icon: Icons.logout,
                     onPressed: () {
-                      // TODO:CODE
+                      // TODO:SHOW CONFIRMATION DIALOG
+                      FirebaseAuth.instance.signOut().then((value) {
+                        Navigator.pushReplacementNamed(context, '/login');
+                      }).catchError((error) {
+                        AlertBox.showMessageDialog(context, 'Error',
+                            'Unable to log out.\n${error.message}');
+                      });
                     },
                   ),
                 ],
@@ -171,8 +214,8 @@ class _LandingScreenState extends State<LandingScreen>
       duration: duration,
       height: screenHeight,
       top: isCollapsed ? 0 : 0.15 * screenHeight,
-      left: isCollapsed ? 0 : 0.6 * screenWidth,
-      right: isCollapsed ? 0 : -0.2 * screenWidth,
+      left: isCollapsed ? 0 : 0.5 * screenWidth,
+      right: isCollapsed ? 0 : -0.5 * screenWidth,
       child: ScaleTransition(
         scale: _scaleAnimation,
         child: Material(
@@ -182,6 +225,7 @@ class _LandingScreenState extends State<LandingScreen>
           child: ClipRRect(
             borderRadius: BorderRadius.circular(30.0),
             child: Scaffold(
+              extendBodyBehindAppBar: true,
               backgroundColor: kColorWhite,
               appBar: AppBar(
                 backgroundColor: kColorTransparent,
@@ -191,13 +235,13 @@ class _LandingScreenState extends State<LandingScreen>
                   "SabziWaaley",
                   style: TextStyle(
                     fontSize: 24,
-                    color: kColorPurple,
+                    color: appBarColors,
                   ),
                 ),
                 leading: IconButton(
                   icon: Icon(
                     isCollapsed ? Icons.menu : Icons.arrow_back_ios,
-                    color: kColorPurple,
+                    color: appBarColors,
                   ),
                   onPressed: () {
                     setState(() {
@@ -209,6 +253,19 @@ class _LandingScreenState extends State<LandingScreen>
                     });
                   },
                 ),
+              ),
+              body: IndexedStack(
+                index: currentIndex,
+                children: [
+                  HomePage(),
+                  ProfilePage(),
+                  CartPage(),
+                  OrdersPage(),
+                  StorePage(),
+                  OffersPage(),
+                  SettingsPage(),
+                  ContactUsPage(),
+                ],
               ),
             ),
           ),
