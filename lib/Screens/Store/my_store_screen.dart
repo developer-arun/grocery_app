@@ -48,7 +48,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Text(
-                                'Store Name',
+                                storeApi.name,
                                 style: TextStyle(
                                   color: kColorWhite,
                                   fontWeight: FontWeight.bold,
@@ -67,7 +67,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                                     size: 14,
                                   ),
                                   Text(
-                                    'store no 101, store address',
+                                    storeApi.address,
                                     style: TextStyle(
                                       color: kColorWhite,
                                       fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                         DataDisplayWidget(
                           color: kColorWhite,
                           label: 'Orders',
-                          data: '24',
+                          data: storeApi.orders.toString(),
                         ),
                       ],
                     ),
