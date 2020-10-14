@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -16,4 +17,11 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
+}
+
+class Booking{
+  double fromLatitude;
+  double fromLongitude;
+
+
 }
