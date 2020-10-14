@@ -41,79 +41,42 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             //offers
-            SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12,left: 10,right: 0),
-                    child: Container(
-                      height: 30,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Top Offers"
-                            ,style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                            ),),
-                          FlatButton(
-                            onPressed: () {
-                              setState(() {
+            Container(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12,left: 10,right: 0),
+                      child: Container(
+                        height: 30,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Top Offers"
+                              ,style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),),
+                            FlatButton(
+                              onPressed: () {
+                                setState(() {
 
-                              });
-                            },
-                            child: Text("see more",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.black38
-                              ),
-                            ),
-                            color: Colors.transparent,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  Container(
-                      height: MediaQuery.of(context).size.height*0.18,
-                      color: Colors.transparent,
-                      child: AdvertisementPager()
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12,left: 10,right: 0),
-                    child: Container(
-                      height: 30,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Categories"
-                            ,style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                            ),),
-                          FlatButton(
-                            onPressed: () {
-                              setState(() {
-
-                              });
-                            },
+                                });
+                              },
                               child: Text("see more",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  fontSize: 13,
-                                  color: Colors.black38
+                                    fontSize: 13,
+                                    color: Colors.black38
                                 ),
                               ),
-                            color: Colors.transparent,
-                          )
-                        ],
+                              color: Colors.transparent,
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
                     Container(
                         height: MediaQuery.of(context).size.height*0.18,
@@ -127,74 +90,113 @@ class _HomePageState extends State<HomePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text("Top Sellers"
+                            Text("Categories"
                               ,style: TextStyle(
                                 fontSize: 20,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                              ),),
                             FlatButton(
                               onPressed: () {
                                 setState(() {
 
                                 });
                               },
-                              child: Text("see more",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
+                                child: Text("see more",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
                                     fontSize: 13,
                                     color: Colors.black38
+                                  ),
                                 ),
-                              ),
                               color: Colors.transparent,
                             )
                           ],
                         ),
                       ),
                     ),
-                    Container(
-                      height:  MediaQuery.of(context).size.height*0.18,
-                      child: AdvertisementPager(),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12,left: 10,right: 0),
-                      child: Container(
-                        height: 30,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text("Items of the day"
-                              ,style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            FlatButton(
-                              onPressed: () {
-                                setState(() {
 
-                                });
-                              },
-                              child: Text("see more",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.black38
+                      Container(
+                          height: MediaQuery.of(context).size.height*0.18,
+                          color: Colors.transparent,
+                          child: AdvertisementPager()
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12,left: 10,right: 0),
+                        child: Container(
+                          height: 30,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("Top Sellers"
+                                ,style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              color: Colors.transparent,
-                            )
-                          ],
+                              FlatButton(
+                                onPressed: () {
+                                  setState(() {
+
+                                  });
+                                },
+                                child: Text("see more",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.black38
+                                  ),
+                                ),
+                                color: Colors.transparent,
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      height:  MediaQuery.of(context).size.height*0.18,
-                      child: AdvertisementPager(),
-                    ),
-                ],
+                      Container(
+                        height:  MediaQuery.of(context).size.height*0.18,
+                        child: AdvertisementPager(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 12,left: 10,right: 0),
+                        child: Container(
+                          height: 30,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("Items of the day"
+                                ,style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              FlatButton(
+                                onPressed: () {
+                                  setState(() {
+
+                                  });
+                                },
+                                child: Text("see more",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.black38
+                                  ),
+                                ),
+                                color: Colors.transparent,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height:  MediaQuery.of(context).size.height*0.18,
+                        child: AdvertisementPager(),
+                      ),
+                  ],
+                ),
               ),
             ),
           ],

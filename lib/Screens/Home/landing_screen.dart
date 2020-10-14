@@ -251,7 +251,7 @@ class _LandingScreenState extends State<LandingScreen>
                     IconButton(
                         icon: Icon(
                           isCollapsed ? Icons.menu : Icons.arrow_back_ios,
-                          color: appBarColors,
+                          color: currentIndex!=4?appBarColors:Colors.white,
                         ),
                         onPressed: () {
                           setState(() {
@@ -330,14 +330,14 @@ class _LandingScreenState extends State<LandingScreen>
               body: IndexedStack(
                 index: currentIndex,
                 children: <Widget>[
-                  HomePage(),
-                  ProfilePage(),
-                  CartPage(),
-                  OrdersPage(),
-                  StorePage(),
-                  OffersPage(),
-                  SettingsPage(),
-                  ContactUsPage(),
+                  HomePage(),//0
+                  ProfilePage(),//1
+                  CartPage(),//2
+                  OrdersPage(),//3
+                  StorePage(),//4
+                  OffersPage(),//5
+                  SettingsPage(),//6
+                  ContactUsPage(),//7
                 ],
               ),
 
