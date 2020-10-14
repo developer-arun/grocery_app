@@ -11,8 +11,9 @@ class Store{
   String address;
   double latitude;
   double longitude;
+  int orders;
 
   Store({this.name, this.ownerEmail, this.ownerName, this.ownerContact, this.rating,
-      this.reviews, this.address, this.latitude, this.longitude});
+      this.reviews, this.address, this.latitude, this.longitude,this.orders});
 
 }

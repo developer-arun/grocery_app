@@ -147,7 +147,7 @@ class _LandingScreenState extends State<LandingScreen>
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 4;
-                                    appBarColors = kColorPurple;
+                                    appBarColors = kColorWhite;
                                   });
                                 },
                               ),

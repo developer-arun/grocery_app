@@ -3,10 +3,12 @@ import 'package:grocery_app/utilities/constants.dart';
 
 class DataDisplayWidget extends StatelessWidget {
   final String data, label;
+  final Color color;
 
   const DataDisplayWidget({
     @required this.label,
     @required this.data,
+    @required this.color,
   });
 
   @override
@@ -18,7 +20,7 @@ class DataDisplayWidget extends StatelessWidget {
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
-            color: kColorPurple,
+            color: color,
           ),
         ),
         SizedBox(
@@ -27,7 +29,7 @@ class DataDisplayWidget extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            color: kColorPurple,
+            color: color,
           ),
         ),
       ],

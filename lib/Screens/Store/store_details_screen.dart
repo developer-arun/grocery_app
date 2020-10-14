@@ -118,6 +118,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
                         address: address,
                         rating: 0,
                         reviews: 0,
+                        orders: 0,
                       );
                       await createStore(store);
                       setState(() {
@@ -167,6 +168,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
           storeApi.address = store.address;
           storeApi.rating = store.rating;
           storeApi.reviews = store.reviews;
+          storeApi.orders = store.orders;
 
           await AlertBox.showMessageDialog(context, 'Success', 'Registered as a seller successfully');
 

@@ -79,6 +79,7 @@ class _StorePageState extends State<StorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kColorWhite,
       body: storePageDisplay,
     );
   }

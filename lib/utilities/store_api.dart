@@ -16,6 +16,14 @@ class StoreApi {
   String _address;
   double _latitude;
   double _longitude;
+  int _orders;
+
+
+  int get orders => _orders;
+
+  set orders(int value) {
+    _orders = value;
+  }
 
   String get name => _name;
 
