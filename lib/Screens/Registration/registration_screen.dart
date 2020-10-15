@@ -34,7 +34,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 text: 'Sign Up',
               ),
               Form(
-                key: _formKey,
+                key: _formKey,               //ENTERING DETAILS FOR SIGNUP
                 child: Padding(
                   padding: EdgeInsets.all(30.0),
                   child: Column(
@@ -108,7 +108,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       setState(() {
                         _loading = true;
                       });
-                      FirebaseAuth.instance
+                      FirebaseAuth.instance              //CREATING USER WITH EMAIL AND PASSWORD
                           .createUserWithEmailAndPassword(
                           email: _email, password: _password)
                           .then((signedInUser) {
@@ -118,7 +118,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           setState(() {
                             _loading = false;
                           });
-                          await AlertBox.showMessageDialog(context, 'Success',
+                          await AlertBox.showMessageDialog(context, 'Success',   //SUCCESSFULL SIGNUP
                               'Registration successful! Please verify your email to login.');
                           Navigator.pushReplacementNamed(context, '/login');
                         }).catchError((error) {

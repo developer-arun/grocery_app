@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _email = "";
   String _password = "";
   bool _loading = false;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); //CREATING GLOBAL FORM KEY
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +68,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: CustomButtonWidget(
                     label: 'Login',
                     onPressed: () {
-                      if (_email.isNotEmpty && _password.isNotEmpty) {
+                      if (_email.isNotEmpty && _password.isNotEmpty) {  //CHECKING IF EMAIL IS EMPTY
                         setState(() {
                           _loading = true;
                         });
                         FirebaseAuth.instance
-                            .signInWithEmailAndPassword(
+                            .signInWithEmailAndPassword(           //SIGNING IN WITH EMAIL AND PASSWORD
                                 email: _email, password: _password)
                             .then((user) async {
-                          if (FirebaseAuth.instance.currentUser.emailVerified) {
+                          if (FirebaseAuth.instance.currentUser.emailVerified) {  //CHECKING IF EMAIL IS VERIFIED
                             // USER IS VERIFIED
                             final User user = await checkUserDetails(
                               email: _email,
@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               setState(() {
                                 _loading = false;
                               });
-                              Navigator.pushReplacementNamed(context, '/home');
+                              Navigator.pushReplacementNamed(context, '/home');  //MOVING TO HOME SCREEN
                             } else {
                               // USER DETAILS NOT PRESENT IN DATABASE
                               setState(() {
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<User> checkUserDetails({String email, BuildContext context}) async {
+  Future<User> checkUserDetails({String email, BuildContext context}) async {//CHECKING USER DETAILS
     User user;
     FirebaseFirestore.instance
         .collection("Users")
