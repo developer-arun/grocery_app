@@ -264,7 +264,7 @@ class _LandingScreenState extends State<LandingScreen>
                         },
                       ),
                     Text(
-                        "          SabziWaaley",
+                        "SabziWaaley",
                         style: TextStyle(
                           fontSize: 24,
                           color: appBarColors,

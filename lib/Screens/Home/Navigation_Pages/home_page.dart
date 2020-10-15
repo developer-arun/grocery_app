@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/advertisPager.dart';
+import 'package:grocery_app/Components/categoriesPager.dart';
+import 'package:grocery_app/Components/sellersPager.dart';
 import 'package:grocery_app/Components/text_input_widget.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
@@ -12,197 +14,173 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  UserApi userApi = UserApi.instance;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top:68),
+      padding: const EdgeInsets.only(top: 68),
       child: Scaffold(
         backgroundColor: kColorWhite,
-        body: Column(
-          children: <Widget>[
-            //search bar
-            Form(
-              child: Padding(
-                padding: EdgeInsets.only(top: 10,left: 20,right: 20),
-                child: Column(
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                height: 40,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                child: Text(
+                  'Hello ${userApi.firstName},',
+                  style: TextStyle(
+                    color: kColorPurple,
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 2,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                child: Text(
+                  'Let\'s find some fresh food for you!',
+                  style: TextStyle(
+                    color: kColorPurple.withOpacity(.5),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Form(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 10),
+                        child: TextInputWidget(
+                          hint: "Order something refreshing!!!",
+                          icon: Icons.search,
+                          obscureText: false,
+                          onChanged: (value) {},
+                          onTap: () {
+                            Navigator.pushNamed(context, "/search");
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  textBaseline: TextBaseline.alphabetic,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
                   children: [
-                    TextInputWidget(
-                      hint:  "Order something refreshing!!!",
-                      icon: Icons.search,
-                      obscureText: false,
-                      onChanged: (value) {
-                      },
-                      onTap: (){
-                        Navigator.pushNamed(context,"/search");
-                      },
+                    Text(
+                      'Top Offers',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: kColorPurple,
+                      ),
+                    ),
+                    Text(
+                      'View All',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: kColorPurple.withOpacity(.5),
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-            //offers
-            Container(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12,left: 10,right: 0),
-                      child: Container(
-                        height: 30,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text("Top Offers"
-                              ,style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                              ),),
-                            FlatButton(
-                              onPressed: () {
-                                setState(() {
-
-                                });
-                              },
-                              child: Text("see more",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.black38
-                                ),
-                              ),
-                              color: Colors.transparent,
-                            )
-                          ],
-                        ),
+              AdvertisementPager(),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  textBaseline: TextBaseline.alphabetic,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  children: [
+                    Text(
+                      'Categories',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: kColorPurple,
                       ),
                     ),
-
-                    Container(
-                        height: MediaQuery.of(context).size.height*0.18,
-                        color: Colors.transparent,
-                        child: AdvertisementPager()
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 12,left: 10,right: 0),
-                      child: Container(
-                        height: 30,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text("Categories"
-                              ,style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                              ),),
-                            FlatButton(
-                              onPressed: () {
-                                setState(() {
-
-                                });
-                              },
-                                child: Text("see more",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.black38
-                                  ),
-                                ),
-                              color: Colors.transparent,
-                            )
-                          ],
-                        ),
+                    Text(
+                      'View All',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: kColorPurple.withOpacity(.5),
                       ),
                     ),
-
-                      Container(
-                          height: MediaQuery.of(context).size.height*0.18,
-                          color: Colors.transparent,
-                          child: AdvertisementPager()
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12,left: 10,right: 0),
-                        child: Container(
-                          height: 30,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text("Top Sellers"
-                                ,style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              FlatButton(
-                                onPressed: () {
-                                  setState(() {
-
-                                  });
-                                },
-                                child: Text("see more",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.black38
-                                  ),
-                                ),
-                                color: Colors.transparent,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height:  MediaQuery.of(context).size.height*0.18,
-                        child: AdvertisementPager(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12,left: 10,right: 0),
-                        child: Container(
-                          height: 30,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text("Items of the day"
-                                ,style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              FlatButton(
-                                onPressed: () {
-                                  setState(() {
-
-                                  });
-                                },
-                                child: Text("see more",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.black38
-                                  ),
-                                ),
-                                color: Colors.transparent,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height:  MediaQuery.of(context).size.height*0.18,
-                        child: AdvertisementPager(),
-                      ),
                   ],
                 ),
               ),
-            ),
-          ],
+              CategoriesPager(),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  textBaseline: TextBaseline.alphabetic,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  children: [
+                    Text(
+                      'Top Sellers',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: kColorPurple,
+                      ),
+                    ),
+                    Text(
+                      'View All',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: kColorPurple.withOpacity(.5),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SellersPager(),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
         ),
-
-      )
+      ),
     );
   }
 }

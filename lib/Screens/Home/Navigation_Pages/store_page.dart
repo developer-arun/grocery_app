@@ -28,7 +28,7 @@ class _StorePageState extends State<StorePage> {
   Function to load store details from database
    */
   Future<void> loadStoreData(DocumentSnapshot snapshot) async {
-    Map<String,dynamic> data = snapshot.data();
+    Map<String, dynamic> data = snapshot.data();
 
     // Save all the data in store api class
     StoreApi storeApi = StoreApi.instance;
@@ -42,7 +42,6 @@ class _StorePageState extends State<StorePage> {
     storeApi.rating = data['rating'];
     storeApi.reviews = data['reviews'];
     storeApi.orders = data['orders'];
-
   }
 
   /*
@@ -55,27 +54,27 @@ class _StorePageState extends State<StorePage> {
         .doc(userApi.email)
         .get()
         .then((snapshot) async {
-          // Snapshot loaded
-      if(snapshot.exists){
+      // Snapshot loaded
+      if (snapshot.exists) {
         // Data present - Seller registered
         await loadStoreData(snapshot);
         storePageDisplay = MyStoreScreen();
         setState(() {});
-      }else{
+      } else {
         // Data absent - Seller not registered
         // Replace loading indicator with button
         storePageDisplay = Center(
           child: CustomButtonWidget(
             label: 'Open your store',
-            onPressed: (){
+            onPressed: () {
               // Open store details screen
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => StoreDetailsScreen(),
+                  builder: (context) => StoreDetailsScreen(),
                 ),
               ).then((value) async {
-                if(value == 'SUCCESS'){
+                if (value == 'SUCCESS') {
                   // Display store screen after successfull registration
                   storePageDisplay = MyStoreScreen();
                   setState(() {});
@@ -86,10 +85,10 @@ class _StorePageState extends State<StorePage> {
         );
         setState(() {});
       }
-    })
-        .catchError((error) {
-          // Error in fetching the document
-      AlertBox.showMessageDialog(context, 'Error', 'Unable to reach store.\n${error.message}');
+    }).catchError((error) {
+      // Error in fetching the document
+      AlertBox.showMessageDialog(
+          context, 'Error', 'Unable to reach store.\n${error.message}');
     });
   }
 

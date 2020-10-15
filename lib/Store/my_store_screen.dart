@@ -82,6 +82,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                           ),
                         ),
                         DataDisplayWidget(
+                          color: kColorWhite,
                           label: 'Orders',
                           data: storeApi.orders.toString(),
                         ),
