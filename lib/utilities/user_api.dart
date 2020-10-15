@@ -14,6 +14,7 @@ class UserApi {
   String _phoneNo;
   double _latitude;
   double _longitude;
+  bool _isSeller;
   int _orders;
 
   String get email => _email;
@@ -62,6 +63,11 @@ class UserApi {
 
   set orders(int value) {
     _orders = value;
+  }
+  bool get isSeller=>_isSeller;
+  set isSeller(bool value)
+  {
+    _isSeller=value;
   }
   
 }

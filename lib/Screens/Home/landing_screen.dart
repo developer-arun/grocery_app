@@ -1,18 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/menu_item_widget.dart';
-import 'package:grocery_app/screens/Home/Navigation%20Pages/cart_page.dart';
-import 'package:grocery_app/screens/Home/Navigation%20Pages/offers_page.dart';
-import 'package:grocery_app/screens/Home/Navigation%20Pages/orders_page.dart';
-import 'package:grocery_app/screens/Home/Navigation%20Pages/profile_page.dart';
-import 'package:grocery_app/screens/Home/Navigation%20Pages/settings_page.dart';
-import 'package:grocery_app/screens/Home/Navigation%20Pages/store_page.dart';
+import 'package:grocery_app/Screens/Home/Navigation_Pages/home_page.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
-import 'Navigation Pages/contact_us_page.dart';
-import 'Navigation Pages/home_page.dart';
+import 'Navigation_Pages/cart_page.dart';
+import 'Navigation_Pages/contact_us_page.dart';
+import 'Navigation_Pages/offers_page.dart';
+import 'Navigation_Pages/orders_page.dart';
+import 'Navigation_Pages/profile_page.dart';
+import 'Navigation_Pages/settings_page.dart';
+import 'Navigation_Pages/store_page.dart';
+
 
 class LandingScreen extends StatefulWidget {
   @override
@@ -83,7 +85,11 @@ class _LandingScreenState extends State<LandingScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    height: 30,
+                    height: 24,
+                  ),
+                  CircleAvatar(
+                    backgroundImage: AssetImage('assets/images/profile-pic.jpeg'),
+                    radius: 50,
                   ),
                   Text(
                     '${userApi.firstName} ${userApi.lastName}',
@@ -92,6 +98,15 @@ class _LandingScreenState extends State<LandingScreen>
                   Text(
                     userApi.email,
                     style: TextStyle(fontSize: 14),
+                  ),
+                  Container(
+                    width: 200,
+                    height: 16,
+                    child: Text(
+                      userApi.address,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 14),
+                    ),
                   ),
                   Expanded(
                     child: Container(
@@ -103,7 +118,7 @@ class _LandingScreenState extends State<LandingScreen>
                             children: [
                               MenuItemWidget(
                                 label: 'Home',
-                                icon: Icons.home_outlined,
+                                icon: Icons.home,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 0;
@@ -113,7 +128,7 @@ class _LandingScreenState extends State<LandingScreen>
                               ),
                               MenuItemWidget(
                                 label: 'Profile',
-                                icon: Icons.person_outline,
+                                icon: Icons.person,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 1;
@@ -123,7 +138,7 @@ class _LandingScreenState extends State<LandingScreen>
                               ),
                               MenuItemWidget(
                                 label: 'Cart',
-                                icon: Icons.shopping_cart_outlined,
+                                icon: Icons.shopping_cart,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 2;
@@ -133,7 +148,7 @@ class _LandingScreenState extends State<LandingScreen>
                               ),
                               MenuItemWidget(
                                 label: 'My Orders',
-                                icon: Icons.shopping_bag_outlined,
+                                icon: Icons.shop,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 3;
@@ -143,7 +158,7 @@ class _LandingScreenState extends State<LandingScreen>
                               ),
                               MenuItemWidget(
                                 label: 'My Store',
-                                icon: Icons.store_mall_directory_outlined,
+                                icon: Icons.store_mall_directory,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 4;
@@ -153,7 +168,7 @@ class _LandingScreenState extends State<LandingScreen>
                               ),
                               MenuItemWidget(
                                 label: 'Offers',
-                                icon: Icons.local_offer_outlined,
+                                icon: Icons.local_offer,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 5;
@@ -163,7 +178,7 @@ class _LandingScreenState extends State<LandingScreen>
                               ),
                               MenuItemWidget(
                                 label: 'Settings',
-                                icon: Icons.settings_outlined,
+                                icon: Icons.settings,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 6;
@@ -189,7 +204,7 @@ class _LandingScreenState extends State<LandingScreen>
                   ),
                   MenuItemWidget(
                     label: 'Logout',
-                    icon: Icons.logout,
+                    icon: Icons.exit_to_app,
                     onPressed: () {
                       // TODO:SHOW CONFIRMATION DIALOG
                       FirebaseAuth.instance.signOut().then((value) {
@@ -221,52 +236,111 @@ class _LandingScreenState extends State<LandingScreen>
         child: Material(
           elevation: 10,
           color: kColorTransparent,
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.only(topRight: Radius.circular(30.0),topLeft: Radius.circular(30.0)),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30.0),topLeft: Radius.circular(30.0)),
             child: Scaffold(
               extendBodyBehindAppBar: true,
               backgroundColor: kColorWhite,
-              appBar: AppBar(
-                backgroundColor: kColorTransparent,
-                elevation: 0,
-                centerTitle: true,
-                title: Text(
-                  "SabziWaaley",
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: appBarColors,
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(45) ,
+                child: SafeArea(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                    IconButton(
+                        icon: Icon(
+                          isCollapsed ? Icons.menu : Icons.arrow_back_ios,
+                          color: currentIndex!=4?appBarColors:Colors.white,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            if (isCollapsed)
+                              _controller.forward();
+                            else
+                              _controller.reverse();
+                            isCollapsed = !isCollapsed;
+                          });
+                        },
+                      ),
+                    Text(
+                        "          SabziWaaley",
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: appBarColors,
+                        ),
+                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                              currentIndex==0?Icons.add_shopping_cart:null),
+                          color: kColorPurple,
+                          onPressed: currentIndex==0?(){
+                            // TODO transfer to cart screen
+                            setState(() {
+                              currentIndex=2;
+                            });
+                          }:null,
+                        ),
+                        IconButton(
+                          icon: Icon(
+                              (currentIndex==0||currentIndex==2)?Icons.edit_location:null),
+                          color: kColorPurple,
+                          onPressed:  (currentIndex==0||currentIndex==2)?()
+                          {
+                            // TODO change address functionality
+                          }:null,
+                        ),
+                      ],
+                    )
+                    ],
                   ),
-                ),
-                leading: IconButton(
-                  icon: Icon(
-                    isCollapsed ? Icons.menu : Icons.arrow_back_ios,
-                    color: appBarColors,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      if (isCollapsed)
-                        _controller.forward();
-                      else
-                        _controller.reverse();
-                      isCollapsed = !isCollapsed;
-                    });
-                  },
                 ),
               ),
+              // appBar: AppBar(
+              //   backgroundColor: kColorTransparent,
+              //   elevation: 0,
+              //   centerTitle: true,
+              //   title: Text(
+              //     "SabziWaaley",
+              //     style: TextStyle(
+              //       fontSize: 24,
+              //       color: appBarColors,
+              //     ),
+              //   ),
+              //   leading: IconButton(
+              //     icon: Icon(
+              //       isCollapsed ? Icons.menu : Icons.arrow_back_ios,
+              //       color: appBarColors,
+              //     ),
+              //     onPressed: () {
+              //       setState(() {
+              //         if (isCollapsed)
+              //           _controller.forward();
+              //         else
+              //           _controller.reverse();
+              //         isCollapsed = !isCollapsed;
+              //       });
+              //     },
+              //   ),
+              //
+              // ),
               body: IndexedStack(
                 index: currentIndex,
-                children: [
-                  HomePage(),
-                  ProfilePage(),
-                  CartPage(),
-                  OrdersPage(),
-                  StorePage(),
-                  OffersPage(),
-                  SettingsPage(),
-                  ContactUsPage(),
+                children: <Widget>[
+                  HomePage(),//0
+                  ProfilePage(),//1
+                  CartPage(),//2
+                  OrdersPage(),//3
+                  StorePage(),//4
+                  OffersPage(),//5
+                  SettingsPage(),//6
+                  ContactUsPage(),//7
                 ],
               ),
+
             ),
           ),
         ),

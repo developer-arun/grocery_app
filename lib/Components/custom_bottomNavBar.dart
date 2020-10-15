@@ -15,7 +15,7 @@ class _CustomBtmNavBARState extends State<CustomBtmNavBAR> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height*0.12,
+      height: MediaQuery.of(context).size.height*0.09,
       child: Material(
       color: Colors.transparent,
         child: Stack(
@@ -40,7 +40,7 @@ class _CustomBtmNavBARState extends State<CustomBtmNavBAR> {
             ),
           ),
           Positioned(
-            bottom: 45,
+            bottom: 30,
             width: MediaQuery.of(context).size.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -54,7 +54,8 @@ class _CustomBtmNavBARState extends State<CustomBtmNavBAR> {
                     radius: 30,
                    backgroundColor: Colors.transparent,
                    child: Icon(
-                     Icons.arrow_back_ios,
+                     Icons.remove_circle_outline,
+                     size: 30,
                      color: primary2),
                   ),
                 ),
@@ -65,7 +66,8 @@ class _CustomBtmNavBARState extends State<CustomBtmNavBAR> {
                     radius: 30,
                     backgroundColor: Colors.transparent,
                     child: Icon(
-                      Icons.search,
+                      Icons.shopping_cart,
+                      size: 30,
                       color: primary2),
 
                   ),
@@ -79,7 +81,8 @@ class _CustomBtmNavBARState extends State<CustomBtmNavBAR> {
                     radius: 30,
                     backgroundColor: Colors.transparent,
                     child: Icon(
-                      Icons.arrow_forward_ios,
+                      Icons.add_circle_outline,
+                      size: 30,
                       color: primary2),
                   ),
                 ),
@@ -93,15 +96,15 @@ class _CustomBtmNavBARState extends State<CustomBtmNavBAR> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text(
-                  "Fruits",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+                  "Remove",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
                 ),
                 Container(),
                 Text(
-                  "Search",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+                  "Cart",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
                 ),
                 Container(),
                 Text(
-                  "Vegies",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+                  "Add More",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
                 )
               ],
             ),

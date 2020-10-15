@@ -78,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen> {
         userApi.longitude = data['longitude'];
         userApi.orders = data['orders'];
         userApi.phoneNo = data['phoneNumber'];
-
+        userApi.isSeller=data['isSeller'];
         print(userApi.email);
 
         Navigator.pushReplacementNamed(context, '/home');

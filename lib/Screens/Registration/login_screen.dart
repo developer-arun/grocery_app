@@ -45,7 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         icon: Icons.person,
                         obscureText: false,
                         onChanged: (value) {
-                          _email = value;
+                          String trim=value;
+                          _email = trim.trim();
                         },
                       ),
                       SizedBox(height: 25.0),

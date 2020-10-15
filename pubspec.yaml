@@ -20,8 +20,9 @@ dependencies:
   geolocator: ^6.0.0
   geocoding: ^1.0.4+1
   cupertino_icons: ^0.1.3
-
-
+  image_picker: ^0.6.7+4
+  firebase_storage: ^4.0.1
+  permission_handler: ^5.0.1+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -33,6 +34,9 @@ flutter:
     - assets/images/
 
   fonts:
+     - family: Montserrat
+       fonts:
+         - asset: assets/fonts/Montserrat-Bold.ttf
      - family: Pacifico
        fonts:
          - asset: fonts/Pacifico.ttf

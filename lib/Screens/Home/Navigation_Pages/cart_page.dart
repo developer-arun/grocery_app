@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:grocery_app/Components/custom_bottomNavBar.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -15,13 +15,7 @@ class _CartPageState extends State<CartPage> {
           'Cart Page',
         ),
       ),
+      bottomNavigationBar: CustomBtmNavBAR(Colors.pink,Colors.purple[700]),
     );
   }
-}
-
-class Booking{
-  double fromLatitude;
-  double fromLongitude;
-
-
 }
