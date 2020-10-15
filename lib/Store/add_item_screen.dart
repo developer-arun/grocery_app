@@ -1,4 +1,6 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/clipped_widget.dart';
@@ -8,6 +10,7 @@ import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/store_api.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class AddItem extends StatefulWidget {
@@ -22,7 +25,9 @@ class _AddItemState extends State<AddItem> {
   imageurl="",
   category="Choose category";
   double price=0,quantity=0;
-  bool _loading = false;
+  bool _loading = false,imageSelected=false;
+  PickedFile _file;
+  
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -265,6 +270,65 @@ class _AddItemState extends State<AddItem> {
                   ),
                 ],
               ),
+              SizedBox(height: 10,),
+              imageSelected?Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Text("")//Todo  display image here
+                )
+              )
+                  :Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+                    child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(20),
+                              boxShadow: [ BoxShadow(
+                        color: kColorPurple.withOpacity(0.1),
+                        blurRadius: 1,
+                        spreadRadius: 1,)]
+                        ),
+                              child: Text("Choose image for your product",
+                        style: TextStyle(
+                              color: Colors.black38,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.photo_camera),
+                      color: kColorPurple,
+                      iconSize: 25,
+                      onPressed: (){
+                        setState(() {
+                          imageSelected=true;
+                          _file=ImagePicker.pickImage(source: ImageSource.camera) as PickedFile ;
+                        });
+                        },
+                    ),
+                    IconButton(
+                        icon: Icon(Icons.photo_library,
+                        color: kColorPurple,),
+                        iconSize: 25,
+                        onPressed: (){
+                          setState(() async {
+                            imageSelected=true;
+                            _file=(await ImagePicker.pickImage(source: ImageSource.gallery)) as PickedFile;
+                          });
+                        })
+                  ],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
                 child: CustomButtonWidget(label: "Add Product", onPressed: () async {
@@ -295,7 +359,7 @@ class _AddItemState extends State<AddItem> {
 
                   }
                 ),
-              )
+              ),
             ],
               )
           ),
@@ -304,6 +368,7 @@ class _AddItemState extends State<AddItem> {
   }
 
  Future AddProductDetails({Product product, BuildContext context}) async {
+
     Map<String,dynamic> data={
       "itemId":product.name+"_"+product.ownerID_email,
       "storeId": product.ownerID_email,
@@ -315,7 +380,9 @@ class _AddItemState extends State<AddItem> {
       "category":product.category,
       "orders":product.orders,
       "description":product.desc,
+      "imageurl":imageurl,
     };
+
     //Todo : add proper doc name
     FirebaseFirestore
         .instance
