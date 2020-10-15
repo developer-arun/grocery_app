@@ -9,7 +9,7 @@ class ContactUsPage extends StatefulWidget {
 }
 
 class _ContactUsPageState extends State<ContactUsPage> {
-  List<Contributors> contri = [
+  List<Contributors> contri = [                  //creating a list of contributors
     Contributors(
         name: "Anubhav Rajput",
         nickname: "Anubhav",
@@ -27,7 +27,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
         imageurl: "assets/images/anu.jpg"),
   ];
 
-  void _launchUrl(String emailid) async {
+  void _launchUrl(String emailid) async {                     //sending help mail
     var url = "mailto:$emailid?subject=Regarding help";
     if (canLaunch(url) != null) {
       await launch(url);
@@ -84,7 +84,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       ),
                     ),
                     Expanded(
-                      child: ListView.builder(
+                      child: ListView.builder(           //creating a listview builder
                         itemCount: 3,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(

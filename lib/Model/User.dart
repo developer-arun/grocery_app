@@ -1,4 +1,4 @@
-class User{
+class User{             //CREATING A USER CLASS
 
   String email;
   String fistName;

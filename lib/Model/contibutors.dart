@@ -1,4 +1,4 @@
-class Contributors{
+class Contributors{                         //CREATING A CONTRIBUTORS CLASS
   final String name;
   final String email;
   final String imageurl;

@@ -6,6 +6,7 @@ import 'package:grocery_app/screens/Registration/login_screen.dart';
 import 'package:grocery_app/screens/Registration/registration_screen.dart';
 import 'package:grocery_app/screens/splashscreen.dart';
 import 'Components/main_profile.dart';
+import 'Screens/Home/Navigation Pages/cart_page.dart';
 
 
 void main() async {
@@ -24,14 +25,14 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
-        routes: <String,WidgetBuilder>{
-          '/login' : (BuildContext context) => LoginScreen(),
-          '/signup': (BuildContext context) => RegistrationScreen(),
-          '/home': (BuildContext context) => LandingScreen(),
-          '/details_page': (BuildContext context) => DetailsScreen(),
-          '/profile': (BuildContext context) => ProfileScreen(),
-        }
+        home: CartPage(),
+//        routes: <String,WidgetBuilder>{
+//          '/login' : (BuildContext context) => LoginScreen(),
+//          '/signup': (BuildContext context) => RegistrationScreen(),
+//          '/home': (BuildContext context) => LandingScreen(),
+//          '/details_page': (BuildContext context) => DetailsScreen(),
+//          '/profile': (BuildContext context) => ProfileScreen(),
+
     );
   }
 }

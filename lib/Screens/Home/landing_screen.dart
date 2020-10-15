@@ -103,7 +103,7 @@ class _LandingScreenState extends State<LandingScreen>
                             children: [
                               MenuItemWidget(
                                 label: 'Home',
-                                icon: Icons.home_outlined,
+//                                icon: Icons.home_outlined,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 0;
@@ -123,7 +123,7 @@ class _LandingScreenState extends State<LandingScreen>
                               ),
                               MenuItemWidget(
                                 label: 'Cart',
-                                icon: Icons.shopping_cart_outlined,
+//                                icon: Icons.shopping_cart_outlined,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 2;
@@ -133,7 +133,7 @@ class _LandingScreenState extends State<LandingScreen>
                               ),
                               MenuItemWidget(
                                 label: 'My Orders',
-                                icon: Icons.shopping_bag_outlined,
+//                                icon: Icons.shopping_bag_outlined,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 3;
@@ -143,7 +143,7 @@ class _LandingScreenState extends State<LandingScreen>
                               ),
                               MenuItemWidget(
                                 label: 'My Store',
-                                icon: Icons.store_mall_directory_outlined,
+//                                icon: Icons.store_mall_directory_outlined,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 4;
@@ -153,7 +153,7 @@ class _LandingScreenState extends State<LandingScreen>
                               ),
                               MenuItemWidget(
                                 label: 'Offers',
-                                icon: Icons.local_offer_outlined,
+//                                icon: Icons.local_offer_outlined,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 5;
@@ -163,7 +163,7 @@ class _LandingScreenState extends State<LandingScreen>
                               ),
                               MenuItemWidget(
                                 label: 'Settings',
-                                icon: Icons.settings_outlined,
+//                                icon: Icons.settings_outlined,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 6;
@@ -189,7 +189,7 @@ class _LandingScreenState extends State<LandingScreen>
                   ),
                   MenuItemWidget(
                     label: 'Logout',
-                    icon: Icons.logout,
+//                    icon: Icons.logout,
                     onPressed: () {
                       // TODO:SHOW CONFIRMATION DIALOG
                       FirebaseAuth.instance.signOut().then((value) {
