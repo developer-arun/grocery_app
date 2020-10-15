@@ -15,7 +15,6 @@ import 'Navigation_Pages/profile_page.dart';
 import 'Navigation_Pages/settings_page.dart';
 import 'Navigation_Pages/store_page.dart';
 
-
 class LandingScreen extends StatefulWidget {
   @override
   _LandingScreenState createState() => _LandingScreenState();
@@ -88,7 +87,8 @@ class _LandingScreenState extends State<LandingScreen>
                     height: 24,
                   ),
                   CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/profile-pic.jpeg'),
+                    backgroundImage:
+                        AssetImage('assets/images/profile-pic.jpeg'),
                     radius: 50,
                   ),
                   Text(
@@ -236,22 +236,26 @@ class _LandingScreenState extends State<LandingScreen>
         child: Material(
           elevation: 10,
           color: kColorTransparent,
-          borderRadius: BorderRadius.only(topRight: Radius.circular(30.0),topLeft: Radius.circular(30.0)),
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(30.0), topLeft: Radius.circular(30.0)),
           child: ClipRRect(
-            borderRadius: BorderRadius.only(topRight: Radius.circular(30.0),topLeft: Radius.circular(30.0)),
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30.0),
+                topLeft: Radius.circular(30.0)),
             child: Scaffold(
               extendBodyBehindAppBar: true,
               backgroundColor: kColorWhite,
               appBar: PreferredSize(
-                preferredSize: Size.fromHeight(45) ,
+                preferredSize: Size.fromHeight(45),
                 child: SafeArea(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                    IconButton(
+                      IconButton(
                         icon: Icon(
                           isCollapsed ? Icons.menu : Icons.arrow_back_ios,
-                          color: currentIndex!=4?appBarColors:Colors.white,
+                          color:
+                              currentIndex != 4 ? appBarColors : Colors.white,
                         ),
                         onPressed: () {
                           setState(() {
@@ -263,38 +267,43 @@ class _LandingScreenState extends State<LandingScreen>
                           });
                         },
                       ),
-                    Text(
+                      Text(
                         "SabziWaaley",
                         style: TextStyle(
                           fontSize: 24,
                           color: appBarColors,
                         ),
                       ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                              currentIndex==0?Icons.add_shopping_cart:null),
-                          color: kColorPurple,
-                          onPressed: currentIndex==0?(){
-                            // TODO transfer to cart screen
-                            setState(() {
-                              currentIndex=2;
-                            });
-                          }:null,
-                        ),
-                        IconButton(
-                          icon: Icon(
-                              (currentIndex==0||currentIndex==2)?Icons.edit_location:null),
-                          color: kColorPurple,
-                          onPressed:  (currentIndex==0||currentIndex==2)?()
-                          {
-                            // TODO change address functionality
-                          }:null,
-                        ),
-                      ],
-                    )
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(currentIndex == 0
+                                ? Icons.add_shopping_cart
+                                : null),
+                            color: kColorPurple,
+                            onPressed: currentIndex == 0
+                                ? () {
+                                    // TODO transfer to cart screen
+                                    setState(() {
+                                      currentIndex = 2;
+                                    });
+                                  }
+                                : null,
+                          ),
+                          IconButton(
+                            icon: Icon((currentIndex == 0 || currentIndex == 2)
+                                ? Icons.location_on
+                                : null),
+                            color: kColorPurple,
+                            onPressed: (currentIndex == 0 || currentIndex == 2)
+                                ? () {
+                                    // TODO change address functionality
+                                  }
+                                : null,
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -330,17 +339,16 @@ class _LandingScreenState extends State<LandingScreen>
               body: IndexedStack(
                 index: currentIndex,
                 children: <Widget>[
-                  HomePage(),//0
-                  ProfilePage(),//1
-                  CartPage(),//2
-                  OrdersPage(),//3
-                  StorePage(),//4
-                  OffersPage(),//5
-                  SettingsPage(),//6
-                  ContactUsPage(),//7
+                  HomePage(), //0
+                  ProfilePage(), //1
+                  CartPage(), //2
+                  OrdersPage(), //3
+                  StorePage(), //4
+                  OffersPage(), //5
+                  SettingsPage(), //6
+                  ContactUsPage(), //7
                 ],
               ),
-
             ),
           ),
         ),
