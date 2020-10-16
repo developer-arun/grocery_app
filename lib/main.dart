@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:grocery_app/Screens/details_screen.dart';
 import 'package:grocery_app/Screens/search_screen.dart';
 import 'package:grocery_app/Store/add_item_screen.dart';
 import 'package:grocery_app/screens/Home/landing_screen.dart';

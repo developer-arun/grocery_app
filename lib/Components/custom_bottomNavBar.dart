@@ -11,6 +11,7 @@ class CustomBtmNavBAR extends StatefulWidget {
 
 class _CustomBtmNavBARState extends State<CustomBtmNavBAR> {
   Color primary1,primary2;
+  int count=0;
   _CustomBtmNavBARState(this.primary1,this.primary2);
   @override
   Widget build(BuildContext context) {
@@ -40,15 +41,23 @@ class _CustomBtmNavBARState extends State<CustomBtmNavBAR> {
             ),
           ),
           Positioned(
-            bottom: 30,
+            bottom: 27,
             width: MediaQuery.of(context).size.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 GestureDetector(
                   onTap: (){
-                    print("taped");
-                    Navigator.pushNamed(context, '/fruits');
+                    if(count<=0)
+                      {
+                        setState(() {
+                          count=0;
+                        });
+                      }
+                    else
+                      setState(() {
+                      --count;
+                    });
                   },
                   child: CircleAvatar(
                     radius: 30,
@@ -61,7 +70,9 @@ class _CustomBtmNavBARState extends State<CustomBtmNavBAR> {
                 ),
                 Container(),
                 GestureDetector(
-                  onTap: (){ },
+                  onTap: (){
+                        //todo add the data to cart
+                  },
                   child: CircleAvatar(
                     radius: 30,
                     backgroundColor: Colors.transparent,
@@ -75,7 +86,9 @@ class _CustomBtmNavBARState extends State<CustomBtmNavBAR> {
                 Container(),
                 GestureDetector(
                   onTap: (){
-
+                    setState(() {
+                      ++count;
+                    });
                   },
                   child: CircleAvatar(
                     radius: 30,
@@ -96,15 +109,15 @@ class _CustomBtmNavBARState extends State<CustomBtmNavBAR> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text(
-                  "Remove",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+                  "-1",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
                 ),
                 Container(),
                 Text(
-                  "Cart",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+                  "$count",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
                 ),
                 Container(),
                 Text(
-                  "Add More",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+                  "+1",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
                 )
               ],
             ),

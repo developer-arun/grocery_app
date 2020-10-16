@@ -53,16 +53,50 @@ class StockItemWidget extends StatelessWidget {
           SizedBox(
             height: 2,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 0),
-            child: Text(
-              '2 Kg',
-              style: TextStyle(
-                color: kColorPurple,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 0),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5,vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.red[100],
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [BoxShadow(color: Colors.redAccent,blurRadius: 0.0,spreadRadius: 1),]
+                  ),
+                  child: Text(
+                    '2 Kg',
+                    style: TextStyle(
+                      color: Colors.red[900],
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 0),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5,vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.green[200],
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(color: Colors.green,blurRadius: 0.0,spreadRadius: 1),
+                    ]
+                  ),
+                  child: Text(
+                    '\$ 1.99',
+                    style: TextStyle(
+                      color: Colors.green[900],
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           SizedBox(
             height: 5,

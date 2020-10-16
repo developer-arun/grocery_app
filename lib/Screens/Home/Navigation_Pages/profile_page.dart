@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/Components/main_profile.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -9,10 +10,9 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          'Profile Page',
-        ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 70),
+        child: ProfileScreen(),
       ),
     );
   }

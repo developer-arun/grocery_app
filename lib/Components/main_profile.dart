@@ -37,30 +37,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Scaffold(
               extendBodyBehindAppBar: true,
               backgroundColor: kColorWhite,
-              appBar: AppBar(
-                backgroundColor: kColorTransparent,
-                elevation: 0,
-                leading: IconButton(
-                  icon: Icon(
-                  Icons.menu,
-                   ),
-                    onPressed: () {
-                      setState(() {
-                        menuiscolapsed=!menuiscolapsed;
-                      });
-                    },
-                  ),
-                  actions: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.shopping_cart,
-                      ),
-                      onPressed: () {
-                        // TODO:CODE
-                      },
-                    ),
-                  ],
-                ),
             body: CustomScrollView(
               slivers: [
                 SliverFillRemaining(
