@@ -86,26 +86,15 @@ class _LandingScreenState extends State<LandingScreen>
                   SizedBox(
                     height: 24,
                   ),
-                  CircleAvatar(
-                    backgroundImage:
-                        AssetImage('assets/images/profile-pic.jpeg'),
-                    radius: 50,
-                  ),
                   Text(
                     '${userApi.firstName} ${userApi.lastName}',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     userApi.email,
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  Container(
-                    width: 200,
-                    height: 16,
-                    child: Text(
-                      userApi.address,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: kColorPurple.withOpacity(0.5),
                     ),
                   ),
                   Expanded(
@@ -274,35 +263,16 @@ class _LandingScreenState extends State<LandingScreen>
                           color: appBarColors,
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          IconButton(
-                            icon: Icon(currentIndex == 0
-                                ? Icons.add_shopping_cart
-                                : null),
-                            color: kColorPurple,
-                            onPressed: currentIndex == 0
-                                ? () {
-                                    // TODO transfer to cart screen
-                                    setState(() {
-                                      currentIndex = 2;
-                                    });
-                                  }
-                                : null,
-                          ),
-                          IconButton(
-                            icon: Icon((currentIndex == 0 || currentIndex == 2)
-                                ? Icons.location_on
-                                : null),
-                            color: kColorPurple,
-                            onPressed: (currentIndex == 0 || currentIndex == 2)
-                                ? () {
-                                    // TODO change address functionality
-                                  }
-                                : null,
-                          ),
-                        ],
+                      IconButton(
+                        icon: Icon((currentIndex == 0 || currentIndex == 2)
+                            ? Icons.shopping_cart
+                            : null),
+                        color: kColorPurple,
+                        onPressed: (currentIndex == 0 || currentIndex == 2)
+                            ? () {
+                                // TODO change address functionality
+                              }
+                            : null,
                       )
                     ],
                   ),

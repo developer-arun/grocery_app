@@ -4,7 +4,7 @@ class Product {
 
   String name;
   String desc;
-  String ownerID_email;
+  String ownerEmail;
   double price;
   double quantity;
   double rating;
@@ -14,6 +14,6 @@ class Product {
   String category;
 
   Product({this.quantity,this.price,this.category,this.name,this.desc,this.imageURL,
-    this.orders,this.ownerID_email,this.rating,this.reviews});
+    this.orders,this.ownerEmail,this.rating,this.reviews});
 }
 

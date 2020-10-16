@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/advertisPager.dart';
 import 'package:grocery_app/Components/categoriesPager.dart';
@@ -66,15 +67,50 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 10),
-                        child: TextInputWidget(
-                          hint: "Order something refreshing!!!",
-                          icon: Icons.search,
-                          obscureText: false,
-                          onChanged: (value) {},
-                          onTap: () {
+                          horizontal: 8,
+                          vertical: 10,
+                        ),
+                        child: GestureDetector(
+                          onTap: (){
                             Navigator.pushNamed(context, "/search");
                           },
+                          child: Container(
+                            width: double.infinity,
+                            height: 50,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: kColorWhite,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: kColorPurple.withOpacity(0.1),
+                                  spreadRadius: 1,
+                                  blurRadius: 2,
+                                ),
+                              ],
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                            ),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.search,
+                                    color: kColorPurple,
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    'Order something refreshing!!',
+                                    style: TextStyle(
+                                      color: kColorPurple.withOpacity(0.3),
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
