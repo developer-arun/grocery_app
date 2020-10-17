@@ -469,6 +469,7 @@ class _AddItemState extends State<AddItem> {
     String imageurl = "";
     imageurl = await (await storageUploadTask.onComplete).ref.getDownloadURL();
 
+    // TODO: PRODUCT DATA MAP
     Map<String, dynamic> data = {
       "itemId": documentReference.id,
       "storeId": product.ownerEmail,
@@ -481,6 +482,7 @@ class _AddItemState extends State<AddItem> {
       "orders": product.orders,
       "description": product.desc,
       "imageurl": imageurl,
+      "timestamp" : (new DateTime.now().millisecondsSinceEpoch).toString(),
     };
 
     FirebaseFirestore.instance
