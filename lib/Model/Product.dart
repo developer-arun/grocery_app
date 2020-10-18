@@ -13,8 +13,12 @@ class Product {
   String imageURL;
   String category;
   int timestamp;
+  String city;
+  String country;
 
-  Product({this.quantity,this.price,this.category,this.name,this.desc,this.imageURL,
-    this.orders,this.ownerEmail,this.rating,this.reviews,this.timestamp});
+  Product({this.name, this.desc, this.ownerEmail, this.price, this.quantity,
+      this.rating, this.reviews, this.orders, this.imageURL, this.category,
+      this.timestamp, this.city, this.country});
+
 }
 
