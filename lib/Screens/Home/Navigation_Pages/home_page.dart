@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grocery_app/Components/advertisPager.dart';
+import 'package:grocery_app/Components/advertisementPager.dart';
 import 'package:grocery_app/Components/categoriesPager.dart';
 import 'package:grocery_app/Components/sellersPager.dart';
 import 'package:grocery_app/Components/text_input_widget.dart';

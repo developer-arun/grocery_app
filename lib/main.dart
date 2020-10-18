@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:grocery_app/Screens/details_screen.dart';
 import 'package:grocery_app/Screens/search_screen.dart';
-import 'package:grocery_app/Store/add_item_screen.dart';
 import 'package:grocery_app/screens/Home/landing_screen.dart';
 import 'package:grocery_app/screens/Registration/details_screen.dart';
 import 'package:grocery_app/screens/Registration/login_screen.dart';
 import 'package:grocery_app/screens/Registration/registration_screen.dart';
 import 'package:grocery_app/screens/splashscreen.dart';
-import 'Components/main_profile.dart';
+
+import 'Screens/Store/add_item_screen.dart';
 
 
 void main() async {
@@ -33,7 +33,6 @@ class _MyAppState extends State<MyApp> {
           '/signup': (BuildContext context) => RegistrationScreen(),
           '/home': (BuildContext context) => LandingScreen(),
           '/details_page': (BuildContext context) => DetailsScreen(),
-          '/profile': (BuildContext context) => ProfileScreen(),
           '/search':(BuildContext context) =>SearchPage(),
           '/addItem':(BuildContext context) =>AddItem(),
         }

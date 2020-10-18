@@ -11,6 +11,7 @@ import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/store_api.dart';
+import 'package:grocery_app/utilities/user_api.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -469,6 +470,8 @@ class _AddItemState extends State<AddItem> {
     String imageurl = "";
     imageurl = await (await storageUploadTask.onComplete).ref.getDownloadURL();
 
+    UserApi userApi = UserApi.instance;
+
     // TODO: PRODUCT DATA MAP
     Map<String, dynamic> data = {
       "itemId": documentReference.id,
@@ -483,6 +486,8 @@ class _AddItemState extends State<AddItem> {
       "description": product.desc,
       "imageurl": imageurl,
       "timestamp" : (new DateTime.now().millisecondsSinceEpoch).toString(),
+      "city" : userApi.getCity(),
+      "country" : userApi.getCountry(),
     };
 
     FirebaseFirestore.instance

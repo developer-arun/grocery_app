@@ -16,6 +16,20 @@ class UserApi {
   double _longitude;
   bool _isSeller;
   int _orders;
+  String _city;
+  String _country;
+
+  String getCity(){
+    List<String> myList = _address.split(",").toList();
+    String city = myList[2].trim();
+    return city;
+  }
+
+  String getCountry(){
+    List<String> myList = _address.split(",").toList();
+    String country = myList[4].trim();
+    return country;
+  }
 
   String get email => _email;
 

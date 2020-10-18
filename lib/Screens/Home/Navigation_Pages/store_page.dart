@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/custom_button_widget.dart';
-import 'package:grocery_app/Store/my_store_screen.dart';
-import 'package:grocery_app/Store/store_details_screen.dart';
-
+import 'package:grocery_app/Screens/Store/my_store_screen.dart';
+import 'package:grocery_app/Screens/Store/store_details_screen.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/store_api.dart';

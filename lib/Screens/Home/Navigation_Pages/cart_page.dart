@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grocery_app/Components/custom_bottomNavBar.dart';
+import 'package:grocery_app/Components/custom_bottom_bar.dart';
 import 'package:grocery_app/Components/custom_button_widget.dart';
 import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/utilities/constants.dart';
