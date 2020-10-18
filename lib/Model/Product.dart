@@ -15,11 +15,10 @@ class Product {
   int timestamp;
   String city;
   String country;
-  String itemId;
 
   Product({this.name, this.desc, this.ownerEmail, this.price, this.quantity,
       this.rating, this.reviews, this.orders, this.imageURL, this.category,
-      this.timestamp, this.city, this.country,this.itemId});
+      this.timestamp, this.city, this.country});
 
 }
 
