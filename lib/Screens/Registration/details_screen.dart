@@ -156,7 +156,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
       'orders' : user.orders,
       'isSeller' : user.isSeller,
     };
-
     FirebaseFirestore
         .instance
         .collection("Users")

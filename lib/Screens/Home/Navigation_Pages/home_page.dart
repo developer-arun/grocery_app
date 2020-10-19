@@ -6,6 +6,8 @@ import 'package:grocery_app/Components/advertisementPager.dart';
 import 'package:grocery_app/Components/categoriesPager.dart';
 import 'package:grocery_app/Components/sellersPager.dart';
 import 'package:grocery_app/Components/text_input_widget.dart';
+import 'package:grocery_app/Model/Store.dart';
+import 'package:grocery_app/Services/database_services.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
@@ -20,16 +22,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 68),
+      padding: const EdgeInsets.only(top: 72),
       child: Scaffold(
         backgroundColor: kColorWhite,
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              SizedBox(
-                height: 40,
-              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 0),

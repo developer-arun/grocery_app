@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/Components/main_profile.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -12,7 +11,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 70),
-        child: ProfileScreen(),
+        child: Container(),
       ),
     );
   }
