@@ -16,9 +16,19 @@ class Product {
   String city;
   String country;
 
-  Product({this.name, this.desc, this.ownerEmail, this.price, this.quantity,
-      this.rating, this.reviews, this.orders, this.imageURL, this.category,
-      this.timestamp, this.city, this.country});
+  Product({this.name,
+    this.desc,
+    this.ownerEmail,
+    this.price,
+    this.quantity,
+    this.rating,
+    this.reviews,
+    this.orders,
+    this.imageURL,
+    this.category,
+    this.timestamp,
+    this.city,
+    this.country});
 
 }
 
