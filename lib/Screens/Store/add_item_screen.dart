@@ -59,380 +59,380 @@ class _AddItemState extends State<AddItem> {
         ),
         body: SingleChildScrollView(
             child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            ClippedWidget(
-              text: 'Add new product to your store',
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              child: TextInputWidget(
-                hint: 'Enter name of product',
-                icon: Icons.fastfood,
-                obscureText: false,
-                onChanged: (value) {
-                  itemName = value;
-                },
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              child: TextInputWidget(
-                hint: 'Enter product details',
-                icon: Icons.details,
-                obscureText: false,
-                onChanged: (value) {
-                  description = value;
-                },
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              child: TextInputWidget(
-                hint: 'Enter quantity of product',
-                icon: Icons.assignment_turned_in,
-                obscureText: false,
-                textInputType: TextInputType.number,
-                onChanged: (value) {
-                  quantity = double.parse(value);
-                },
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              child: TextInputWidget(
-                hint: 'Enter price of product',
-                icon: Icons.attach_money,
-                obscureText: false,
-                textInputType: TextInputType.number,
-                onChanged: (value) {
-                  price = double.parse(value);
-                },
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: kColorPurple.withOpacity(0.1),
-                          blurRadius: 1,
-                          spreadRadius: 1,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.category,
-                              color: kColorPurple,
-                            ),
-                            SizedBox(width: 17),
-                            Text(
-                              category,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: category == "Choose category"
-                                    ? Colors.grey[400]
-                                    : Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.clear),
-                          color: category == "Choose category"
-                              ? Colors.white
-                              : kColorPurple,
-                          onPressed: category == "Choose category"
-                              ? null
-                              : () {
-                                  setState(() {
-                                    category = "Choose category";
-                                  });
-                                },
-                        )
-                      ],
-                    ))),
-            SizedBox(
-              height: 5,
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  FlatButton(
-                    splashColor: Colors.transparent,
-                    color: Colors.red[200],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        category = _Categories.Bakery.toString().split(".")[1];
-                      });
-                    },
-                    child: Text(
-                      _Categories.Bakery.toString().split(".")[1],
-                      style: TextStyle(
-                        color: Colors.red[900],
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ClippedWidget(
+                    text: 'Add new product to your store',
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    child: TextInputWidget(
+                      hint: 'Enter name of product',
+                      icon: Icons.fastfood,
+                      obscureText: false,
+                      onChanged: (value) {
+                        itemName = value;
+                      },
                     ),
                   ),
-                  FlatButton(
-                    splashColor: Colors.transparent,
-                    color: Colors.purple[200],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        category =
-                            _Categories.Beverages.toString().split(".")[1];
-                      });
-                    },
-                    child: Text(
-                      _Categories.Beverages.toString().split(".")[1],
-                      style: TextStyle(
-                        color: Colors.purple[900],
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    child: TextInputWidget(
+                      hint: 'Enter product details',
+                      icon: Icons.details,
+                      obscureText: false,
+                      onChanged: (value) {
+                        description = value;
+                      },
                     ),
                   ),
-                  FlatButton(
-                    splashColor: Colors.transparent,
-                    color: Colors.orange[100],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        category = _Categories.Spices.toString().split(".")[1];
-                      });
-                    },
-                    child: Text(
-                      _Categories.Spices.toString().split(".")[1],
-                      style: TextStyle(
-                        color: Colors.orange[900],
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    child: TextInputWidget(
+                      hint: 'Enter quantity of product',
+                      icon: Icons.assignment_turned_in,
+                      obscureText: false,
+                      textInputType: TextInputType.number,
+                      onChanged: (value) {
+                        quantity = double.parse(value);
+                      },
                     ),
                   ),
-                  FlatButton(
-                    splashColor: Colors.transparent,
-                    color: Colors.indigo[100],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        category = _Categories.Dairy.toString().split(".")[1];
-                      });
-                    },
-                    child: Text(
-                      _Categories.Dairy.toString().split(".")[1],
-                      style: TextStyle(
-                        color: Colors.indigo[900],
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    child: TextInputWidget(
+                      hint: 'Enter price of product',
+                      icon: Icons.attach_money,
+                      obscureText: false,
+                      textInputType: TextInputType.number,
+                      onChanged: (value) {
+                        price = double.parse(value);
+                      },
                     ),
                   ),
-                ]),
-            SizedBox(height: 3),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                FlatButton(
-                  splashColor: Colors.transparent,
-                  color: Colors.pink[100],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                  SizedBox(
+                    height: 15,
                   ),
-                  onPressed: () {
-                    setState(() {
-                      category =
-                          _Categories.Perishables.toString().split(".")[1];
-                    });
-                  },
-                  child: Text(
-                    _Categories.Perishables.toString().split(".")[1],
-                    style: TextStyle(
-                      color: Colors.pink[900],
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                FlatButton(
-                  splashColor: Colors.transparent,
-                  color: Colors.green[200],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      category =
-                          _Categories.FreshProduce.toString().split(".")[1];
-                    });
-                  },
-                  child: Text(
-                    _Categories.FreshProduce.toString().split(".")[1],
-                    style: TextStyle(
-                      color: Colors.green[900],
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                FlatButton(
-                  splashColor: Colors.transparent,
-                  color: Colors.blue[100],
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      category = _Categories.Others.toString().split(".")[1];
-                    });
-                  },
-                  child: Text(
-                    _Categories.Others.toString().split(".")[1],
-                    style: TextStyle(
-                      color: Colors.blue[900],
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            _productImage != null
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 10),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image(
-                          image: FileImage(_productImage),
-                        )),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 10),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(20),
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
                               color: kColorPurple.withOpacity(0.1),
                               blurRadius: 1,
                               spreadRadius: 1,
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.category,
+                                  color: kColorPurple,
+                                ),
+                                SizedBox(width: 17),
+                                Text(
+                                  category,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: category == "Choose category"
+                                        ? Colors.grey[400]
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.clear),
+                              color: category == "Choose category"
+                                  ? Colors.white
+                                  : kColorPurple,
+                              onPressed: category == "Choose category"
+                                  ? null
+                                  : () {
+                                      setState(() {
+                                        category = "Choose category";
+                                      });
+                                    },
                             )
-                          ]),
+                          ],
+                        ))),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      FlatButton(
+                        splashColor: Colors.transparent,
+                        color: Colors.red[200],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            category = _Categories.Bakery.toString().split(".")[1];
+                          });
+                        },
+                        child: Text(
+                          _Categories.Bakery.toString().split(".")[1],
+                          style: TextStyle(
+                            color: Colors.red[900],
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      FlatButton(
+                        splashColor: Colors.transparent,
+                        color: Colors.purple[200],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            category =
+                                _Categories.Beverages.toString().split(".")[1];
+                          });
+                        },
+                        child: Text(
+                          _Categories.Beverages.toString().split(".")[1],
+                          style: TextStyle(
+                            color: Colors.purple[900],
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      FlatButton(
+                        splashColor: Colors.transparent,
+                        color: Colors.orange[100],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            category = _Categories.Spices.toString().split(".")[1];
+                          });
+                        },
+                        child: Text(
+                          _Categories.Spices.toString().split(".")[1],
+                          style: TextStyle(
+                            color: Colors.orange[900],
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      FlatButton(
+                        splashColor: Colors.transparent,
+                        color: Colors.indigo[100],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            category = _Categories.Dairy.toString().split(".")[1];
+                          });
+                        },
+                        child: Text(
+                          _Categories.Dairy.toString().split(".")[1],
+                          style: TextStyle(
+                            color: Colors.indigo[900],
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ]),
+                SizedBox(height: 3),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FlatButton(
+                      splashColor: Colors.transparent,
+                      color: Colors.pink[100],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          category =
+                              _Categories.Perishables.toString().split(".")[1];
+                        });
+                      },
                       child: Text(
-                        "Choose image for your product",
+                        _Categories.Perishables.toString().split(".")[1],
                         style: TextStyle(
-                            color: Colors.black38,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
+                          color: Colors.pink[900],
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.photo_camera),
-                    color: kColorPurple,
-                    iconSize: 25,
-                    onPressed: () {
-                      getImage(ImageSource.camera);
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.photo_library,
-                      color: kColorPurple,
+                    FlatButton(
+                      splashColor: Colors.transparent,
+                      color: Colors.green[200],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          category =
+                              _Categories.FreshProduce.toString().split(".")[1];
+                        });
+                      },
+                      child: Text(
+                        _Categories.FreshProduce.toString().split(".")[1],
+                        style: TextStyle(
+                          color: Colors.green[900],
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    iconSize: 25,
-                    onPressed: () {
-                      getImage(ImageSource.gallery);
-                    },
+                    FlatButton(
+                      splashColor: Colors.transparent,
+                      color: Colors.blue[100],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          category = _Categories.Others.toString().split(".")[1];
+                        });
+                      },
+                      child: Text(
+                        _Categories.Others.toString().split(".")[1],
+                        style: TextStyle(
+                          color: Colors.blue[900],
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                _productImage != null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image(
+                              image: FileImage(_productImage),
+                            )),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: kColorPurple.withOpacity(0.1),
+                                  blurRadius: 1,
+                                  spreadRadius: 1,
+                                )
+                              ]),
+                          child: Text(
+                            "Choose image for your product",
+                            style: TextStyle(
+                                color: Colors.black38,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.photo_camera),
+                        color: kColorPurple,
+                        iconSize: 25,
+                        onPressed: () {
+                          getImage(ImageSource.camera);
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.photo_library,
+                          color: kColorPurple,
+                        ),
+                        iconSize: 25,
+                        onPressed: () {
+                          getImage(ImageSource.gallery);
+                        },
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              child: CustomButtonWidget(
-                label: "Add Product",
-                onPressed: () async {
-                  if (itemName.isNotEmpty &&
-                      description.isNotEmpty &&
-                      category != "Choose category" &&
-                      price != 0 &&
-                      quantity != 0) {
-                    setState(() {
-                      _loading = true;
-                    });
-                    Product product = Product(
-                      quantity: quantity,
-                      name: itemName,
-                      desc: description,
-                      price: price,
-                      category: category,
-                      ownerEmail: StoreApi.instance.ownerEmail,
-                      reviews: 0,
-                      rating: 0,
-                      orders: 0,
-                    );
-                    await addProductDetails(
-                      product: product,
-                      context: context,
-                    );
-                  } else {
-                    AlertBox.showMessageDialog(
-                        context, 'Error', 'Please fill up all the fields!');
-                  }
-                },
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  child: CustomButtonWidget(
+                    label: "Add Product",
+                    onPressed: () async {
+                      if (itemName.isNotEmpty &&
+                          description.isNotEmpty &&
+                          category != "Choose category" &&
+                          price != 0 &&
+                          quantity != 0) {
+                        setState(() {
+                          _loading = true;
+                        });
+                        Product product = Product(
+                          quantity: quantity,
+                          name: itemName,
+                          desc: description,
+                          price: price,
+                          category: category,
+                          ownerEmail: StoreApi.instance.ownerEmail,
+                          reviews: 0,
+                          rating: 0,
+                          orders: 0,
+                        );
+                        await addProductDetails(
+                          product: product,
+                          context: context,
+                        );
+                      } else {
+                        AlertBox.showMessageDialog(
+                            context, 'Error', 'Please fill up all the fields!');
+                      }
+                    },
               ),
             ),
           ],
