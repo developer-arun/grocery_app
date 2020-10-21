@@ -166,14 +166,6 @@ class _HomePageState extends State<HomePage> {
                         color: kColorPurple,
                       ),
                     ),
-                    Text(
-                      'View All',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: kColorPurple.withOpacity(.5),
-                      ),
-                    ),
                   ],
                 ),
               ),

@@ -172,6 +172,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
 
           await AlertBox.showMessageDialog(context, 'Success', 'Registered as a seller successfully');
 
+          // TODO: SEND REQUEST
           Navigator.pop(context,'SUCCESS');
     }).catchError((error){
       AlertBox.showMessageDialog(context, 'Error','Unable to create store.\n${error.message}');
