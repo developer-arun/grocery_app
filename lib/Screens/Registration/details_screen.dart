@@ -17,6 +17,7 @@ import 'package:grocery_app/Model/User.dart';
 import 'package:grocery_app/Services/location_service.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
+import 'package:grocery_app/utilities/user_api.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -175,6 +176,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
         .doc(user.email)
         .set(data).then((value) async {
           // After successfully saving the details, sowing a success dialog and moving to home screen
+      UserApi userApi = UserApi.instance;
+      userApi.email = user.email;
+      userApi.firstName = user.fistName;
+      userApi.lastName = user.lastName;
+      userApi.address = user.address;
+      userApi.phoneNo = user.phoneNumber;
+      userApi.latitude = user.latitude;
+      userApi.longitude = user.longitude;
+      userApi.isSeller = false;
+      userApi.orders = 0;
       await AlertBox.showMessageDialog(context, 'Success', 'User details stored successfully!');
       setState(() {
         _loading = false;
