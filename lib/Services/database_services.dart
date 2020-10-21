@@ -20,6 +20,7 @@ class DatabaseServices {
         .then((result) {
       for (var element in result.docs) {
         products.add(Product(
+          id: element.data()["itemId"],
           name: element.data()["name"],
           desc: element.data()["description"],
           ownerEmail: element.data()["storeId"],
