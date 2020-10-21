@@ -6,6 +6,8 @@ import 'package:grocery_app/Components/advertisementPager.dart';
 import 'package:grocery_app/Components/categoriesPager.dart';
 import 'package:grocery_app/Components/sellersPager.dart';
 import 'package:grocery_app/Components/text_input_widget.dart';
+import 'package:grocery_app/Model/Product.dart';
+import 'package:grocery_app/Services/database_services.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
@@ -15,7 +17,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   UserApi userApi = UserApi.instance;
+
+
 
   @override
   Widget build(BuildContext context) {
