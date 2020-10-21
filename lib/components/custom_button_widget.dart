@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/utilities/constants.dart';
 
@@ -19,6 +20,7 @@ class CustomButtonWidget extends StatelessWidget {
           color: Colors.white,
           fontSize: 16,
         ),
+        textAlign: TextAlign.center,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
