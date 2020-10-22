@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,7 +18,7 @@ class ProductScreen extends StatefulWidget {
   final Product product;
   final bool fromCart;
 
-  const ProductScreen({@required this.product,@required this.fromCart});
+  const ProductScreen({@required this.product, @required this.fromCart});
 }
 
 class _ProductScreenState extends State<ProductScreen>
@@ -34,7 +35,9 @@ class _ProductScreenState extends State<ProductScreen>
 
     controller = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
-    animation = Tween<Offset>(begin: Offset(0, widget.fromCart?1.2:1), end: Offset(0, 0)).animate(
+    animation = Tween<Offset>(
+            begin: Offset(0, widget.fromCart ? 1.2 : 1), end: Offset(0, 0))
+        .animate(
       CurvedAnimation(
         parent: controller,
         curve: Interval(
@@ -78,7 +81,20 @@ class _ProductScreenState extends State<ProductScreen>
             onPressed: () {
               // TODO:CODE
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => CartPage()));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CartPage(
+                    leadingWidget: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ),
+              );
             },
           ),
         ],
@@ -88,7 +104,9 @@ class _ProductScreenState extends State<ProductScreen>
           Align(
             alignment: Alignment.topCenter,
             child: Hero(
-              tag: widget.fromCart ? '${widget.product.id}cart':widget.product.id,
+              tag: widget.fromCart
+                  ? '${widget.product.id}cart'
+                  : widget.product.id,
               child: Container(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height * 2 / 3,

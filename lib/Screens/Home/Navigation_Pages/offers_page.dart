@@ -1,36 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/Components/stock_item_widget.dart';
+import 'package:grocery_app/utilities/constants.dart';
 
 class OffersPage extends StatefulWidget {
   @override
   _OffersPageState createState() => _OffersPageState();
+
+  final Widget leadingWidget;
+  const OffersPage({@required this.leadingWidget});
 }
 
 class _OffersPageState extends State<OffersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 70),
-        child: SingleChildScrollView(
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                StockItemWidget(),
-                SizedBox(height: 5,),
-                StockItemWidget(),SizedBox(height: 5,),
-                StockItemWidget(),SizedBox(height: 5,),
-                StockItemWidget(),SizedBox(height: 5,),
-                StockItemWidget(),SizedBox(height: 5,),
-                StockItemWidget(),SizedBox(height: 5,),
-                StockItemWidget(),
-              ],
-            ),
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: kColorPurple,
+        ),
+        backgroundColor: kColorWhite,
+        elevation: 0,
+        leading: widget.leadingWidget,
+        centerTitle: true,
+        title: Text(
+          'My Cart',
+          style: TextStyle(
+            color: kColorPurple,
+            fontSize: 24,
           ),
         ),
-      )
+      ),
+      body: Center(
+        child: Text(
+          'Offers Page',
+        ),
+      ),
     );
   }
 }

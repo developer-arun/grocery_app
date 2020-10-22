@@ -11,10 +11,15 @@ import 'package:grocery_app/utilities/user_api.dart';
 class StorePage extends StatefulWidget {
   @override
   _StorePageState createState() => _StorePageState();
+
+  final Widget leadingWidget;
+  const StorePage({@required this.leadingWidget});
 }
 
 class _StorePageState extends State<StorePage> {
+
   UserApi userApi = UserApi.instance;
+  bool darkAppBarIcons = false;
 
   // Display progress indicator until data is loaded
   Widget storePageDisplay = Center(
@@ -58,10 +63,12 @@ class _StorePageState extends State<StorePage> {
         // Data present - Seller registered
         await loadStoreData(snapshot);
         storePageDisplay = MyStoreScreen();
+        darkAppBarIcons = false;
         setState(() {});
       } else {
         // Data absent - Seller not registered
         // Replace loading indicator with button
+        darkAppBarIcons = true;
         storePageDisplay = Center(
           child: CustomButtonWidget(
             label: 'Open your store',
@@ -101,6 +108,22 @@ class _StorePageState extends State<StorePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kColorWhite,
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: darkAppBarIcons ? kColorPurple : kColorWhite,
+        ),
+        backgroundColor: darkAppBarIcons ? kColorWhite : kColorPurple,
+        elevation: 0,
+        leading: widget.leadingWidget,
+        centerTitle: true,
+        title: Text(
+          'My Cart',
+          style: TextStyle(
+            color: darkAppBarIcons ? kColorPurple : kColorWhite,
+            fontSize: 24,
+          ),
+        ),
+      ),
       body: storePageDisplay,
     );
   }
