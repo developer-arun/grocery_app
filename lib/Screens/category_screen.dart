@@ -80,7 +80,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ProductScreen(product: products[index]),
+                              ProductScreen(
+                                  product: products[index],
+                                fromCart: false,
+                              ),
                         ),
                       );
                     },

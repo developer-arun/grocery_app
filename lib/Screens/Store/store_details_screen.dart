@@ -151,6 +151,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
       'address': store.address,
       'rating': store.rating,
       'reviews': store.reviews,
+      'orders' : store.orders,
     };
 
     // ignore: deprecated_member_use
