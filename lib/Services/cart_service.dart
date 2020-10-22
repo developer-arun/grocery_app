@@ -1,7 +1,8 @@
-import 'package:grocery_app/Model/Product.dart';
+import 'package:grocery_app/Model/CartProduct.dart';
 
 class CartService{
 
-  static List<Product> cartItems = [];
+  static String sellerId;
+  static Map<String,CartProduct> cartProducts = {};
 
 }

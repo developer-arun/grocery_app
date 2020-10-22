@@ -6,6 +6,9 @@ import 'package:url_launcher/url_launcher.dart';
 class ContactUsPage extends StatefulWidget {
   @override
   _ContactUsPageState createState() => _ContactUsPageState();
+
+  final Widget leadingWidget;
+  const ContactUsPage({@required this.leadingWidget});
 }
 
 class _ContactUsPageState extends State<ContactUsPage> {
@@ -40,14 +43,29 @@ class _ContactUsPageState extends State<ContactUsPage> {
     return
       Scaffold(
         backgroundColor: kColorPurple,
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: kColorWhite,
+          ),
+          backgroundColor: kColorPurple,
+          elevation: 0,
+          leading: widget.leadingWidget,
+          centerTitle: true,
+          title: Text(
+            'My Cart',
+            style: TextStyle(
+              color: kColorWhite,
+              fontSize: 24,
+            ),
+          ),
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: kToolbarHeight),
               child: Container(
-                padding: const EdgeInsets.only(
-                    top: 120, bottom: 20, left: 30, right: 30),
+                padding: const EdgeInsets.all(30),
                 width: double.infinity,
                 child: Text(
                   'Get in touch',
@@ -61,6 +79,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
             ),
             Expanded(
               child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 0,vertical: 30),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -68,79 +87,60 @@ class _ContactUsPageState extends State<ContactUsPage> {
                     topRight: Radius.circular(30.0),
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding:
-                      const EdgeInsets.only(left: 30, right: 30, top: 50),
-                      child: Text(
-                        'Developed with ❤ by',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(           //creating a listview builder
-                        itemCount: 3,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            margin: EdgeInsets.only(
-                                left: 20, right: 20, bottom: 30),
+                child: ListView.builder(           //creating a listview builder
+                  itemCount: 3,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      margin: EdgeInsets.only(
+                          left: 20, right: 20, bottom: 30),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 25.0,
+                            backgroundImage:
+                            AssetImage(contri[index].imageurl),
+                          ),
+                          SizedBox(width: 20.0),
+                          Expanded(
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CircleAvatar(
-                                  radius: 25.0,
-                                  backgroundImage:
-                                  AssetImage(contri[index].imageurl),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      contri[index].name,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 2,),
+                                    Text(
+                                      contri[index].email,
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(width: 20.0),
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            contri[index].name,
-                                            style: TextStyle(
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: 2,),
-                                          Text(
-                                            contri[index].email,
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      IconButton(
-                                        icon: Icon(
-                                          Icons.mail,
-                                        ),
-                                        onPressed: (){
-                                          _launchUrl(contri[index].email);
-                                        },
-                                      ),
-                                    ],
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.mail,
                                   ),
+                                  onPressed: (){
+                                    _launchUrl(contri[index].email);
+                                  },
                                 ),
                               ],
                             ),
-                          );
-                        },
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ),

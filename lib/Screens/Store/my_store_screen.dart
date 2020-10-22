@@ -13,7 +13,6 @@ class MyStoreScreen extends StatefulWidget {
 }
 
 class _MyStoreScreenState extends State<MyStoreScreen> {
-
   StoreApi storeApi = StoreApi.instance;
 
   @override
@@ -27,7 +26,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
-                    padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30,top:kToolbarHeight + 50 ),
+                    padding: const EdgeInsets.all(30),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color: kColorPurple,
@@ -93,7 +92,8 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                     height: 24,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,7 +122,8 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                   Container(
                     width: double.infinity,
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.only(top: 10,bottom: 10,left: 30),
+                      padding:
+                          const EdgeInsets.only(top: 10, bottom: 10, left: 30),
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
@@ -138,7 +139,8 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                     height: 20,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 10),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,7 +169,8 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                   Container(
                     width: double.infinity,
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.only(top: 10,bottom: 10,left: 30),
+                      padding:
+                          const EdgeInsets.only(top: 10, bottom: 10, left: 30),
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
@@ -200,13 +203,13 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
               ),
               onPressed: () {
                 // TODO:CODE
-                UserApi userapi=UserApi.instance;
-                if(userapi.isSeller)
-                  Navigator.pushNamed(context,"/addItem");
-                else
-                  {
-                    AlertBox.showMessageDialog(context,"Error","Please wait until your are a verified seller");
-                  }
+                UserApi userapi = UserApi.instance;
+                if (userapi.isSeller)
+                  Navigator.pushNamed(context, "/addItem");
+                else {
+                  AlertBox.showMessageDialog(context, "Error",
+                      "Please wait until your are a verified seller");
+                }
               },
               child: Text(
                 'Add Item',
@@ -223,5 +226,3 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
     );
   }
 }
-
-
