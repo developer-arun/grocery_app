@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:grocery_app/Components/ListData.dart';
+import 'package:grocery_app/Screens/category_screen.dart';
+import 'package:grocery_app/utilities/categories.dart';
 import 'package:grocery_app/utilities/constants.dart';
 
 class CategoriesPager extends StatefulWidget {
@@ -8,49 +11,62 @@ class CategoriesPager extends StatefulWidget {
 }
 
 class _CategoriesPagerState extends State<CategoriesPager> {
-
-  List<ListData> promotions = [
-    ListData(
-        url:
-        "https://images.pexels.com/photos/89778/strawberries-frisch-ripe-sweet-89778.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"),
-    ListData(
-        url:
-        "https://images.pexels.com/photos/89778/strawberries-frisch-ripe-sweet-89778.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"),
-    ListData(
-        url:
-        "https://images.pexels.com/photos/89778/strawberries-frisch-ripe-sweet-89778.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 200,
-      padding: const EdgeInsets.only(top: 10,bottom: 10,left: 30),
+      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
       child: ListView.builder(
-        itemCount: 3,
+        itemCount: Categories.availableCategories.length - 1,
         scrollDirection: Axis.horizontal,
-        itemBuilder: (BuildContext context,int index){
-          return Container(
-            width: 150,
-            margin: const EdgeInsets.only(right: 10),
-            child: Container(
-              decoration: BoxDecoration(
-                color: kColorWhite,
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                image: DecorationImage(
-                  image: NetworkImage(
-                    promotions[index].url,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (buildContext) => CategoryScreen(
+                    category: Categories.availableCategories[index],
                   ),
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(kColorPurple.withOpacity(0.5), BlendMode.srcATop),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: kColorPurple.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 2,
-                  ),
-                ],
+              );
+            },
+            child: Container(
+              width: 120,
+              margin: const EdgeInsets.all(10),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: kColorWhite,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: kColorPurple.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 2,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Image(
+                        image: AssetImage(
+                            'assets/images/categories/${Categories.availableCategories[index]}.png'),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      Categories.availableCategories[index],
+                      style: TextStyle(
+                        color: kColorPurple,
+                        fontSize: 14,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           );

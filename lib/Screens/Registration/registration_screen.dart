@@ -1,3 +1,9 @@
+/*
+Registration Screen
+-> Registers users with email and password
+-> Sends a verification email to the address provided
+ */
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +40,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 text: 'Sign Up',
               ),
               Form(
-                key: _formKey,               //ENTERING DETAILS FOR SIGNUP
+                key: _formKey, //ENTERING DETAILS FOR SIGNUP
                 child: Padding(
                   padding: EdgeInsets.all(30.0),
                   child: Column(
@@ -97,53 +103,57 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
-                child: CustomButtonWidget(
-                  label: 'Sign Up',
-                  onPressed: () async {
-                    if (_email.isNotEmpty &&
-                        _password.isNotEmpty &&
-                        _password.length > 6) {
-                      setState(() {
-                        _loading = true;
-                      });
-                      FirebaseAuth.instance              //CREATING USER WITH EMAIL AND PASSWORD
-                          .createUserWithEmailAndPassword(
-                          email: _email, password: _password)
-                          .then((signedInUser) {
-                        FirebaseAuth.instance.currentUser
-                            .sendEmailVerification()
-                            .then((value) async {
-                          setState(() {
-                            _loading = false;
-                          });
-                          await AlertBox.showMessageDialog(context, 'Success',   //SUCCESSFULL SIGNUP
-                              'Registration successful! Please verify your email to login.');
-                          Navigator.pushReplacementNamed(context, '/login');
-                        }).catchError((error) {
-                          setState(() {
-                            _loading = false;
-                          });
-                          AlertBox.showMessageDialog(context, 'Error', error.message);
-                        });
-                      }).catchError((e) {
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
+                  child: CustomButtonWidget(
+                    label: 'Sign Up',
+                    onPressed: () async {
+                      if (_email.isNotEmpty &&
+                          _password.isNotEmpty &&
+                          _password.length > 6) {
                         setState(() {
-                          _loading = false;
+                          _loading = true;
                         });
-                        AlertBox.showMessageDialog(context, 'Error', e.message);
-                      });
-                    } else {
-                      if (_password.isEmpty || _email.isEmpty)
-                        AlertBox.showMessageDialog(context, 'Error',
-                            'Please fill up all the required fields!');
-                      else
-                        AlertBox.showMessageDialog(context, 'Error',
-                            'Password length must be greater than 6.');
-                    }
-                  },
-                )
-              ),
+                        FirebaseAuth
+                            .instance //CREATING USER WITH EMAIL AND PASSWORD
+                            .createUserWithEmailAndPassword(
+                                email: _email, password: _password)
+                            .then((signedInUser) {
+                          FirebaseAuth.instance.currentUser
+                              .sendEmailVerification()
+                              .then((value) async {
+                            setState(() {
+                              _loading = false;
+                            });
+                            await AlertBox.showMessageDialog(
+                                context,
+                                'Success', //SUCCESSFULL SIGNUP
+                                'Registration successful! Please verify your email to login.');
+                            Navigator.pushReplacementNamed(context, '/login');
+                          }).catchError((error) {
+                            setState(() {
+                              _loading = false;
+                            });
+                            AlertBox.showMessageDialog(
+                                context, 'Error', error.message);
+                          });
+                        }).catchError((e) {
+                          setState(() {
+                            _loading = false;
+                          });
+                          AlertBox.showMessageDialog(
+                              context, 'Error', e.message);
+                        });
+                      } else {
+                        if (_password.isEmpty || _email.isEmpty)
+                          AlertBox.showMessageDialog(context, 'Error',
+                              'Please fill up all the required fields!');
+                        else
+                          AlertBox.showMessageDialog(context, 'Error',
+                              'Password length must be greater than 6.');
+                      }
+                    },
+                  )),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
@@ -169,5 +179,4 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
     );
   }
-
 }

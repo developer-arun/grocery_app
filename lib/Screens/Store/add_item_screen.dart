@@ -14,20 +14,11 @@ import 'package:grocery_app/utilities/store_api.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:grocery_app/utilities/categories.dart';
 
 class AddItem extends StatefulWidget {
   @override
   _AddItemState createState() => _AddItemState();
-}
-
-enum _Categories {
-  Beverages,
-  Bakery,
-  Dairy,
-  Others,
-  Spices,
-  Perishables,
-  FreshProduce
 }
 
 class _AddItemState extends State<AddItem> {
@@ -193,11 +184,11 @@ class _AddItemState extends State<AddItem> {
                     ),
                     onPressed: () {
                       setState(() {
-                        category = _Categories.Bakery.toString().split(".")[1];
+                        category = Categories.availableCategories[0];
                       });
                     },
                     child: Text(
-                      _Categories.Bakery.toString().split(".")[1],
+                      Categories.availableCategories[0],
                       style: TextStyle(
                         color: Colors.red[900],
                         fontSize: 15,
@@ -214,11 +205,11 @@ class _AddItemState extends State<AddItem> {
                     onPressed: () {
                       setState(() {
                         category =
-                            _Categories.Beverages.toString().split(".")[1];
+                            Categories.availableCategories[1];
                       });
                     },
                     child: Text(
-                      _Categories.Beverages.toString().split(".")[1],
+                      Categories.availableCategories[1],
                       style: TextStyle(
                         color: Colors.purple[900],
                         fontSize: 15,
@@ -234,11 +225,11 @@ class _AddItemState extends State<AddItem> {
                     ),
                     onPressed: () {
                       setState(() {
-                        category = _Categories.Spices.toString().split(".")[1];
+                        category = Categories.availableCategories[2];
                       });
                     },
                     child: Text(
-                      _Categories.Spices.toString().split(".")[1],
+                      Categories.availableCategories[2],
                       style: TextStyle(
                         color: Colors.orange[900],
                         fontSize: 15,
@@ -254,11 +245,11 @@ class _AddItemState extends State<AddItem> {
                     ),
                     onPressed: () {
                       setState(() {
-                        category = _Categories.Dairy.toString().split(".")[1];
+                        category = Categories.availableCategories[3];
                       });
                     },
                     child: Text(
-                      _Categories.Dairy.toString().split(".")[1],
+                      Categories.availableCategories[3],
                       style: TextStyle(
                         color: Colors.indigo[900],
                         fontSize: 15,
@@ -280,11 +271,11 @@ class _AddItemState extends State<AddItem> {
                   onPressed: () {
                     setState(() {
                       category =
-                          _Categories.Perishables.toString().split(".")[1];
+                          Categories.availableCategories[4];
                     });
                   },
                   child: Text(
-                    _Categories.Perishables.toString().split(".")[1],
+                    Categories.availableCategories[4],
                     style: TextStyle(
                       color: Colors.pink[900],
                       fontSize: 15,
@@ -301,11 +292,11 @@ class _AddItemState extends State<AddItem> {
                   onPressed: () {
                     setState(() {
                       category =
-                          _Categories.FreshProduce.toString().split(".")[1];
+                          Categories.availableCategories[5];
                     });
                   },
                   child: Text(
-                    _Categories.FreshProduce.toString().split(".")[1],
+                    Categories.availableCategories[5],
                     style: TextStyle(
                       color: Colors.green[900],
                       fontSize: 15,
@@ -321,11 +312,11 @@ class _AddItemState extends State<AddItem> {
                   ),
                   onPressed: () {
                     setState(() {
-                      category = _Categories.Others.toString().split(".")[1];
+                      category = Categories.availableCategories[6];
                     });
                   },
                   child: Text(
-                    _Categories.Others.toString().split(".")[1],
+                    Categories.availableCategories[6],
                     style: TextStyle(
                       color: Colors.blue[900],
                       fontSize: 15,
@@ -485,9 +476,9 @@ class _AddItemState extends State<AddItem> {
       "orders": product.orders,
       "description": product.desc,
       "imageurl": imageurl,
-      "timestamp" : (new DateTime.now().millisecondsSinceEpoch).toString(),
-      "city" : userApi.getCity(),
-      "country" : userApi.getCountry(),
+      "timestamp": (new DateTime.now().millisecondsSinceEpoch).toString(),
+      "city": userApi.getCity(),
+      "country": userApi.getCountry(),
     };
 
     FirebaseFirestore.instance

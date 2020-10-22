@@ -81,7 +81,9 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
                         });
                         _position = await LocationService.getCurrentLocation(
                             context: context);
-                        address = await LocationService.getPlace(_position);
+                        if (_position != null) {
+                          address = await LocationService.getPlace(_position);
+                        }
                         setState(() {
                           addressController.text = address;
                           _loading = false;
@@ -137,44 +139,47 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
       ),
     );
   }
-  
-  Future<void> createStore(Store store) async {
 
-    Map<String,dynamic> data = {
-      'name' : store.name,
-      'ownerContact' : store.ownerContact,
-      'ownerName' : store.ownerName,
-      'ownerEmail' : store.ownerEmail,
-      'latitude' : store.latitude,
-      'longitude' : store.longitude,
-      'address' : store.address,
-      'rating' : store.rating,
-      'reviews' : store.reviews,
+  Future<void> createStore(Store store) async {
+    Map<String, dynamic> data = {
+      'name': store.name,
+      'ownerContact': store.ownerContact,
+      'ownerName': store.ownerName,
+      'ownerEmail': store.ownerEmail,
+      'latitude': store.latitude,
+      'longitude': store.longitude,
+      'address': store.address,
+      'rating': store.rating,
+      'reviews': store.reviews,
     };
 
     // ignore: deprecated_member_use
-    await Firestore.instance.collection('Sellers')
+    await Firestore.instance
+        .collection('Sellers')
         .doc(userApi.email)
-        .set(data).then((value) async {
+        .set(data)
+        .then((value) async {
+      // Save all the data in store api class
+      StoreApi storeApi = StoreApi.instance;
+      storeApi.name = store.name;
+      storeApi.ownerName = store.ownerName;
+      storeApi.ownerEmail = store.ownerEmail;
+      storeApi.ownerContact = store.ownerContact;
+      storeApi.latitude = store.latitude;
+      storeApi.longitude = store.longitude;
+      storeApi.address = store.address;
+      storeApi.rating = store.rating;
+      storeApi.reviews = store.reviews;
+      storeApi.orders = store.orders;
 
-          // Save all the data in store api class
-          StoreApi storeApi = StoreApi.instance;
-          storeApi.name = store.name;
-          storeApi.ownerName = store.ownerName;
-          storeApi.ownerEmail = store.ownerEmail;
-          storeApi.ownerContact = store.ownerContact;
-          storeApi.latitude = store.latitude;
-          storeApi.longitude = store.longitude;
-          storeApi.address = store.address;
-          storeApi.rating = store.rating;
-          storeApi.reviews = store.reviews;
-          storeApi.orders = store.orders;
+      await AlertBox.showMessageDialog(
+          context, 'Success', 'Registered as a seller successfully');
 
-          await AlertBox.showMessageDialog(context, 'Success', 'Registered as a seller successfully');
-
-          Navigator.pop(context,'SUCCESS');
-    }).catchError((error){
-      AlertBox.showMessageDialog(context, 'Error','Unable to create store.\n${error.message}');
+      // TODO: SEND REQUEST
+      Navigator.pop(context, 'SUCCESS');
+    }).catchError((error) {
+      AlertBox.showMessageDialog(
+          context, 'Error', 'Unable to create store.\n${error.message}');
     });
   }
 }

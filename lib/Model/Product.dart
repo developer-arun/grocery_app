@@ -1,7 +1,7 @@
 class Product {
-
   // TODO : Add more fields
 
+  String id;
   String name;
   String desc;
   String ownerEmail;
@@ -16,19 +16,20 @@ class Product {
   String city;
   String country;
 
-  Product({this.name,
-    this.desc,
-    this.ownerEmail,
-    this.price,
-    this.quantity,
-    this.rating,
-    this.reviews,
-    this.orders,
-    this.imageURL,
-    this.category,
-    this.timestamp,
-    this.city,
-    this.country});
-
+  Product(
+      {
+        this.id,
+       this.name,
+      this.desc,
+      this.ownerEmail,
+      this.price,
+      this.quantity,
+      this.rating,
+      this.reviews,
+      this.orders,
+      this.imageURL,
+      this.category,
+      this.timestamp,
+      this.city,
+      this.country});
 }
-

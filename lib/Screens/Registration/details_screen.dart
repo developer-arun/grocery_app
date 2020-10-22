@@ -1,3 +1,10 @@
+/*
+Details Screen
+-> Takes basic details from the users
+-> Verifies the phone number
+-> Fetches current location for finding address
+ */
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as AUTH;
 import 'package:flutter/material.dart';
@@ -10,6 +17,7 @@ import 'package:grocery_app/Model/User.dart';
 import 'package:grocery_app/Services/location_service.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
+import 'package:grocery_app/utilities/user_api.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -87,11 +95,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           _loading = true;
                         });
                         _position = await LocationService.getCurrentLocation(context: context);
-                        address = await LocationService.getPlace(_position);
-                        setState(() {
-                          addressController.text = address;
-                          _loading = false;
-                        });
+                        if(_position != null){
+                          address = await LocationService.getPlace(_position);
+                          setState(() {
+                            addressController.text = address;
+                            _loading = false;
+                          });
+                        }
                       }
                     },
                     controller: addressController,
@@ -115,6 +125,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       setState(() {
                         _loading = true;
                       });
+                      // Saving user details in the database
                       User user =  User(
                         email: AUTH.FirebaseAuth.instance.currentUser.email,
                         fistName: firstName,
@@ -143,6 +154,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
+  /*
+  Function to save the user's details in firestore database
+   */
   Future updateUserDetails({User user, BuildContext context}) async {
 
     Map<String,dynamic> data = {
@@ -162,12 +176,24 @@ class _DetailsScreenState extends State<DetailsScreen> {
         .collection("Users")
         .doc(user.email)
         .set(data).then((value) async {
+          // After successfully saving the details, sowing a success dialog and moving to home screen
+      UserApi userApi = UserApi.instance;
+      userApi.email = user.email;
+      userApi.firstName = user.fistName;
+      userApi.lastName = user.lastName;
+      userApi.address = user.address;
+      userApi.phoneNo = user.phoneNumber;
+      userApi.latitude = user.latitude;
+      userApi.longitude = user.longitude;
+      userApi.isSeller = false;
+      userApi.orders = 0;
       await AlertBox.showMessageDialog(context, 'Success', 'User details stored successfully!');
       setState(() {
         _loading = false;
       });
       Navigator.pushReplacementNamed(context, '/home');
     }).catchError((error){
+      // Displaying error in case of any failure
       AlertBox.showMessageDialog(context, 'Error', 'An error occurred in saving user data\n${error.message}');
     });
 
