@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/text_input_widget.dart';
 import 'package:grocery_app/Model/Product.dart';
-import 'package:grocery_app/Screens/product_screen.dart';
+import 'file:///C:/Users/hp/AndroidStudioProjects/test1/lib/Screens/Shopping/product_screen.dart';
 import 'package:grocery_app/Services/database_services.dart';
 import 'package:grocery_app/utilities/constants.dart';
 

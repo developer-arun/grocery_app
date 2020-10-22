@@ -4,7 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:grocery_app/Components/custom_button_widget.dart';
 import 'package:grocery_app/Model/CartProduct.dart';
 import 'package:grocery_app/Model/Store.dart';
-import 'package:grocery_app/Screens/product_screen.dart';
+import '../../search_screen.dart';
+import 'file:///C:/Users/hp/AndroidStudioProjects/test1/lib/Screens/Shopping/product_screen.dart';
 import 'package:grocery_app/Services/cart_service.dart';
 import 'package:grocery_app/Services/database_services.dart';
 import 'package:grocery_app/utilities/constants.dart';
@@ -12,6 +13,10 @@ import 'package:grocery_app/utilities/constants.dart';
 class CartPage extends StatefulWidget {
   @override
   _CartPageState createState() => _CartPageState();
+
+  final Widget leadingWidget;
+
+  const CartPage({@required this.leadingWidget});
 }
 
 class _CartPageState extends State<CartPage> {
@@ -140,14 +145,29 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    if(storeDetails == null){
+    if (storeDetails == null) {
       loadStoreDetails();
     }
 
     return SafeArea(
-      top: true,
+      top: false,
       child: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: kColorPurple,
+          ),
+          backgroundColor: kColorWhite,
+          elevation: 0,
+          leading: widget.leadingWidget,
+          centerTitle: true,
+          title: Text(
+            'My Cart',
+            style: TextStyle(
+              color: kColorPurple,
+              fontSize: 24,
+            ),
+          ),
+        ),
         backgroundColor: kColorWhite,
         body: CartService.sellerId != null
             ? Stack(
@@ -160,101 +180,102 @@ class _CartPageState extends State<CartPage> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(30),
-                            child: storeDetails != null ?
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Text(
-                                  storeDetails.name,
-                                  style: TextStyle(
-                                      color: kColorPurple,
-                                      fontSize: 36,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        storeDetails.address,
+                            child: storeDetails != null
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Text(
+                                        storeDetails.name,
                                         style: TextStyle(
-                                          color: kColorPurple,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                            color: kColorPurple,
+                                            fontSize: 36,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        // TODO : LOAD MAP
-                                      },
-                                      child: Icon(
-                                        Icons.location_on,
-                                        color: kColorPurple,
+                                      SizedBox(
+                                        height: 10,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Wrap(
-                                  alignment: WrapAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      storeDetails.ownerEmail,
-                                      style: TextStyle(
-                                        color: kColorPurple,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              storeDetails.address,
+                                              style: TextStyle(
+                                                color: kColorPurple,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              // TODO : LOAD MAP
+                                            },
+                                            child: Icon(
+                                              Icons.location_on,
+                                              color: kColorPurple,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        // TODO : MAIL TO
-                                      },
-                                      child: Icon(
-                                        Icons.mail,
-                                        color: kColorPurple,
+                                      SizedBox(
+                                        height: 10,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Wrap(
-                                  alignment: WrapAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      storeDetails.ownerContact,
-                                      style: TextStyle(
-                                        color: kColorPurple,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                                      Wrap(
+                                        alignment: WrapAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            storeDetails.ownerEmail,
+                                            style: TextStyle(
+                                              color: kColorPurple,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              // TODO : MAIL TO
+                                            },
+                                            child: Icon(
+                                              Icons.mail,
+                                              color: kColorPurple,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        // TODO : PLACE CALL
-                                      },
-                                      child: Icon(
-                                        Icons.call,
-                                        color: kColorPurple,
+                                      SizedBox(
+                                        height: 10,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ):
-                            Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                                      Wrap(
+                                        alignment: WrapAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            storeDetails.ownerContact,
+                                            style: TextStyle(
+                                              color: kColorPurple,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              // TODO : PLACE CALL
+                                            },
+                                            child: Icon(
+                                              Icons.call,
+                                              color: kColorPurple,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                : Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
@@ -305,7 +326,7 @@ class _CartPageState extends State<CartPage> {
                 child: CustomButtonWidget(
                   label: 'Shop Now',
                   onPressed: () {
-                    // TODO : CODE
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SearchPage()));
                   },
                 ),
               ),

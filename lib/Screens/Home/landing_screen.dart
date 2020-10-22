@@ -18,6 +18,7 @@ import 'Navigation_Pages/store_page.dart';
 class LandingScreen extends StatefulWidget {
   @override
   _LandingScreenState createState() => _LandingScreenState();
+
 }
 
 class _LandingScreenState extends State<LandingScreen>
@@ -32,7 +33,6 @@ class _LandingScreenState extends State<LandingScreen>
 
   UserApi userApi = UserApi.instance;
   int currentIndex = 0;
-  Color appBarColors = kColorPurple;
 
   @override
   void initState() {
@@ -56,7 +56,6 @@ class _LandingScreenState extends State<LandingScreen>
     Size size = MediaQuery.of(context).size;
     screenHeight = size.height;
     screenWidth = size.width;
-
     return Scaffold(
       backgroundColor: kColorWhite,
       body: Stack(
@@ -111,7 +110,6 @@ class _LandingScreenState extends State<LandingScreen>
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 0;
-                                    appBarColors = kColorPurple;
                                   });
                                 },
                               ),
@@ -121,7 +119,6 @@ class _LandingScreenState extends State<LandingScreen>
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 1;
-                                    appBarColors = kColorPurple;
                                   });
                                 },
                               ),
@@ -131,7 +128,6 @@ class _LandingScreenState extends State<LandingScreen>
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 2;
-                                    appBarColors = kColorPurple;
                                   });
                                 },
                               ),
@@ -141,7 +137,6 @@ class _LandingScreenState extends State<LandingScreen>
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 3;
-                                    appBarColors = kColorPurple;
                                   });
                                 },
                               ),
@@ -151,7 +146,6 @@ class _LandingScreenState extends State<LandingScreen>
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 4;
-                                    appBarColors = kColorWhite;
                                   });
                                 },
                               ),
@@ -161,7 +155,6 @@ class _LandingScreenState extends State<LandingScreen>
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 5;
-                                    appBarColors = kColorPurple;
                                   });
                                 },
                               ),
@@ -171,7 +164,6 @@ class _LandingScreenState extends State<LandingScreen>
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 6;
-                                    appBarColors = kColorPurple;
                                   });
                                 },
                               ),
@@ -181,7 +173,6 @@ class _LandingScreenState extends State<LandingScreen>
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 7;
-                                    appBarColors = kColorWhite;
                                   });
                                 },
                               ),
@@ -214,6 +205,23 @@ class _LandingScreenState extends State<LandingScreen>
   }
 
   Widget dashboard(context) {
+
+    Widget leadingWidget = IconButton(
+      icon: Icon(
+        isCollapsed ? Icons.menu : Icons.arrow_back_ios,
+      ),
+      onPressed: () {
+        setState(() {
+          if (isCollapsed)
+            _controller.forward();
+          else
+            _controller.reverse();
+          isCollapsed = !isCollapsed;
+        });
+      },
+    );
+
+
     return AnimatedPositioned(
       duration: duration,
       height: screenHeight,
@@ -234,89 +242,33 @@ class _LandingScreenState extends State<LandingScreen>
             child: Scaffold(
               extendBodyBehindAppBar: true,
               backgroundColor: kColorWhite,
-              appBar: PreferredSize(
-                preferredSize: Size.fromHeight(45),
-                child: SafeArea(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(
-                          isCollapsed ? Icons.menu : Icons.arrow_back_ios,
-                          color:
-                              currentIndex != 4 ? appBarColors : Colors.white,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            if (isCollapsed)
-                              _controller.forward();
-                            else
-                              _controller.reverse();
-                            isCollapsed = !isCollapsed;
-                          });
-                        },
-                      ),
-                      Text(
-                        "SabziWaaley",
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: appBarColors,
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon((currentIndex == 0 || currentIndex == 2)
-                            ? Icons.shopping_cart
-                            : null),
-                        color: kColorPurple,
-                        onPressed: (currentIndex == 0 || currentIndex == 2)
-                            ? () {
-                                // TODO change address functionality
-                              }
-                            : null,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              // appBar: AppBar(
-              //   backgroundColor: kColorTransparent,
-              //   elevation: 0,
-              //   centerTitle: true,
-              //   title: Text(
-              //     "SabziWaaley",
-              //     style: TextStyle(
-              //       fontSize: 24,
-              //       color: appBarColors,
-              //     ),
-              //   ),
-              //   leading: IconButton(
-              //     icon: Icon(
-              //       isCollapsed ? Icons.menu : Icons.arrow_back_ios,
-              //       color: appBarColors,
-              //     ),
-              //     onPressed: () {
-              //       setState(() {
-              //         if (isCollapsed)
-              //           _controller.forward();
-              //         else
-              //           _controller.reverse();
-              //         isCollapsed = !isCollapsed;
-              //       });
-              //     },
-              //   ),
-              //
-              // ),
               body: IndexedStack(
                 index: currentIndex,
                 children: <Widget>[
-                  HomePage(), //0
-                  ProfilePage(), //1
-                  CartPage(), //2
-                  OrdersPage(), //3
-                  StorePage(), //4
-                  OffersPage(), //5
-                  SettingsPage(), //6
-                  ContactUsPage(), //7
+                  HomePage(
+                    leadingWidget: leadingWidget,
+                  ), //0
+                  ProfilePage(
+                    leadingWidget: leadingWidget,
+                  ), //1
+                  CartPage(
+                    leadingWidget: leadingWidget,
+                  ), //2
+                  OrdersPage(
+                    leadingWidget: leadingWidget,
+                  ), //3
+                  StorePage(
+                    leadingWidget: leadingWidget,
+                  ), //4
+                  OffersPage(
+                    leadingWidget: leadingWidget,
+                  ), //5
+                  SettingsPage(
+                    leadingWidget: leadingWidget,
+                  ), //6
+                  ContactUsPage(
+                    leadingWidget: leadingWidget,
+                  ), //7
                 ],
               ),
             ),
