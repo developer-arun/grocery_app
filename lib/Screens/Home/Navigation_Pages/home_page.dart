@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: GestureDetector(
                         onTap: (){
-                          Navigator.pushNamed(context, "/search");
+                          Navigator.pushNamed(context, "/shop");          //code dalna h
                         },
                         child: Container(
                           width: double.infinity,
