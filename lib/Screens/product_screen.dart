@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grocery_app/Components/custom_button_widget.dart';
 import 'package:grocery_app/Model/Product.dart';
+import 'package:grocery_app/Services/cart_service.dart';
 import 'package:grocery_app/utilities/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductScreen extends StatefulWidget {
   @override
@@ -14,10 +16,13 @@ class ProductScreen extends StatefulWidget {
   const ProductScreen({@required this.product});
 }
 
-class _ProductScreenState extends State<ProductScreen> with SingleTickerProviderStateMixin{
-
+class _ProductScreenState extends State<ProductScreen>
+    with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<Offset> animation;
+  double currentSelected = 0;
+
+  Uri _emailLaunchUri;
 
   @override
   void initState() {
@@ -25,7 +30,7 @@ class _ProductScreenState extends State<ProductScreen> with SingleTickerProvider
 
     controller = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
-    animation = Tween<Offset>(begin: Offset(0,1),end: Offset(0,0)).animate(
+    animation = Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0)).animate(
       CurvedAnimation(
         parent: controller,
         curve: Interval(
@@ -36,6 +41,11 @@ class _ProductScreenState extends State<ProductScreen> with SingleTickerProvider
       ),
     );
     controller.forward();
+
+    _emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: widget.product.ownerEmail,
+    );
   }
 
   @override
@@ -71,7 +81,7 @@ class _ProductScreenState extends State<ProductScreen> with SingleTickerProvider
               tag: widget.product.id,
               child: Container(
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * 2/3,
+                height: MediaQuery.of(context).size.height * 2 / 3,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
@@ -176,7 +186,7 @@ class _ProductScreenState extends State<ProductScreen> with SingleTickerProvider
                         ),
                         GestureDetector(
                           onTap: () {
-                            // TODO:CODE
+                            launch(_emailLaunchUri.toString());
                           },
                           child: Icon(
                             Icons.mail,
@@ -213,13 +223,22 @@ class _ProductScreenState extends State<ProductScreen> with SingleTickerProvider
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(
-                                  Icons.remove_circle_outline,
-                                  color: kColorPurple,
+                                GestureDetector(
+                                  onTap: () {
+                                    if (currentSelected > 0) {
+                                      setState(() {
+                                        currentSelected -= 0.25;
+                                      });
+                                    }
+                                  },
+                                  child: Icon(
+                                    Icons.remove_circle_outline,
+                                    color: kColorPurple,
+                                  ),
                                 ),
                                 Text.rich(
                                   TextSpan(
-                                      text: '0',
+                                      text: '$currentSelected',
                                       style: TextStyle(
                                         color: kColorPurple,
                                         fontSize: 40,
@@ -235,9 +254,19 @@ class _ProductScreenState extends State<ProductScreen> with SingleTickerProvider
                                         ),
                                       ]),
                                 ),
-                                Icon(
-                                  Icons.add_circle_outline,
-                                  color: kColorPurple,
+                                GestureDetector(
+                                  onTap: () {
+                                    if (currentSelected <
+                                        widget.product.quantity) {
+                                      setState(() {
+                                        currentSelected += 0.25;
+                                      });
+                                    }
+                                  },
+                                  child: Icon(
+                                    Icons.add_circle_outline,
+                                    color: kColorPurple,
+                                  ),
                                 ),
                               ],
                             ),
@@ -249,9 +278,7 @@ class _ProductScreenState extends State<ProductScreen> with SingleTickerProvider
                         Expanded(
                           child: CustomButtonWidget(
                             label: 'Add to cart',
-                            onPressed: () {
-                              // TODO:CODE
-                            },
+                            onPressed: () {},
                           ),
                         ),
                       ],
