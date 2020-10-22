@@ -20,7 +20,7 @@ class DatabaseServices{
         name: element.data()["name"],
         desc: element.data()["description"],
         ownerEmail: element.data()["storeId"],
-        price: element.data()["price"],
+         price: element.data()["price"],
         quantity: element.data()["quantity"],
         rating: element.data()["rating"],
         reviews: element.data()["reviews"],
@@ -32,10 +32,7 @@ class DatabaseServices{
         country: UserApi.instance.getCountry(),
       ));
     });
-    return product;
-
-
-    // TODO: ADD CODE HERE
+    return product;  //Returning list of product belonging to a a particular category in user's city
 
   }
 
