@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:grocery_app/Model/Product.dart';
+import 'package:grocery_app/Model/Store.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
@@ -84,6 +86,30 @@ static Future<List<Product>> getCurrentStock(String category) async {
   Function to fetch products for a particular seller from database
   that were added in the store within a single day
    */
+
+  static Future<Store> getStoreById(String email) async
+  {
+    var firebaseinstance=FirebaseFirestore.instance;
+    await firebaseinstance.collection("Sellers").doc(email).get().then((value) {
+      return Store(
+          name: value.data()["name"],
+          ownerEmail:value.data()["ownerEmail"],
+          ownerName:value.data()["ownerName"],
+          ownerContact:value.data()["ownerContact"],
+          rating:value.data()["rating"],
+          reviews:value.data()["reviews"],
+          address:value.data()["address"],
+          latitude:value.data()["latitude"],
+          longitude:value.data()["longitude"] ,
+          orders:value.data()["orders"],
+      );
+    });
+  }
+/*
+  Function to fetch store details for a particular store from database
+  using the store owner's email id.
+   */
+
 
 
 
