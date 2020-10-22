@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/data_display_widget.dart';
 import 'package:grocery_app/Components/stock_item_widget.dart';
+import 'package:grocery_app/Model/Product.dart';
+import 'package:grocery_app/Services/database_services.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/store_api.dart';
@@ -14,6 +16,22 @@ class MyStoreScreen extends StatefulWidget {
 
 class _MyStoreScreenState extends State<MyStoreScreen> {
   StoreApi storeApi = StoreApi.instance;
+
+  List<Product> currentStock = [];
+  bool displayCurrentStock = false;
+
+  void getCurrentStock() async {
+    currentStock = await DatabaseServices.getCurrentStock();
+    displayCurrentStock = true;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getCurrentStock();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,22 +137,35 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                       ],
                     ),
                   ),
-                  Container(
-                    width: double.infinity,
-                    child: SingleChildScrollView(
-                      padding:
-                          const EdgeInsets.only(top: 10, bottom: 10, left: 30),
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          StockItemWidget(),
-                          StockItemWidget(),
-                          StockItemWidget(),
-                          StockItemWidget(),
-                        ],
-                      ),
-                    ),
-                  ),
+                  displayCurrentStock
+                      ? (currentStock.isNotEmpty
+                          ? Container(
+                              width: double.infinity,
+                              height: 200,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: currentStock.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: StockItemWidget(
+                                      product: currentStock[index],
+                                    ),
+                                  );
+                                },
+                              ),
+                            )
+                          : Center(
+                              child: Text(
+                                'Nothing to display',
+                                style: TextStyle(
+                                  color: kColorPurple.withOpacity(0.4),
+                                ),
+                              ),
+                            ))
+                      : Center(
+                          child: CircularProgressIndicator(),
+                        ),
                   SizedBox(
                     height: 20,
                   ),
@@ -168,18 +199,18 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                   ),
                   Container(
                     width: double.infinity,
-                    child: SingleChildScrollView(
-                      padding:
-                          const EdgeInsets.only(top: 10, bottom: 10, left: 30),
+                    height: 200,
+                    child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          StockItemWidget(),
-                          StockItemWidget(),
-                          StockItemWidget(),
-                          StockItemWidget(),
-                        ],
-                      ),
+                      itemCount: 0,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: StockItemWidget(
+                            // TODO:ADD PRODUCT
+                          ),
+                        );
+                      },
                     ),
                   ),
                   SizedBox(
