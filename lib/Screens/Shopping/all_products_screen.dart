@@ -13,6 +13,7 @@ class AllProductsScreen extends StatefulWidget {
   _AllProductsScreenState createState() => _AllProductsScreenState();
 }
 
+
 class _AllProductsScreenState extends State<AllProductsScreen> {
   FirebaseFirestore _firebasefirestore = FirebaseFirestore.instance;
   List<QueryDocumentSnapshot> _products = [];
