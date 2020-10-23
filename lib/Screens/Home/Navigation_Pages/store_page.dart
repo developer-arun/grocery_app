@@ -46,6 +46,8 @@ class _StorePageState extends State<StorePage> {
     storeApi.rating = data['rating'];
     storeApi.reviews = data['reviews'];
     storeApi.orders = data['orders'];
+    storeApi.city = data['city'];
+    storeApi.country = data['country'];
   }
 
   /*

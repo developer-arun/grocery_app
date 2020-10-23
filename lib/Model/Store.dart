@@ -11,9 +11,11 @@ class Store{
   String address;
   double latitude;
   double longitude;
-  String storeId;
   int orders;
+  String city;
+  String country;
 
   Store({this.name, this.ownerEmail, this.ownerName, this.ownerContact, this.rating,
-      this.reviews, this.address, this.latitude, this.longitude,this.orders,this.storeId});
+      this.reviews, this.address, this.latitude, this.longitude,this.orders,this.city,this.country});
+
 }
