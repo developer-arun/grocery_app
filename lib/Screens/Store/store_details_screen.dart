@@ -121,6 +121,8 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
                         rating: 0,
                         reviews: 0,
                         orders: 0,
+                        city: userApi.getCity(),
+                        country: userApi.getCountry(),
                       );
                       await createStore(store);
                       setState(() {
@@ -152,6 +154,8 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
       'rating': store.rating,
       'reviews': store.reviews,
       'orders' : store.orders,
+      'city' : store.city,
+      'country' : store.country,
     };
 
     // ignore: deprecated_member_use
@@ -172,6 +176,8 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
       storeApi.rating = store.rating;
       storeApi.reviews = store.reviews;
       storeApi.orders = store.orders;
+      storeApi.city = store.city;
+      storeApi.country = store.country;
 
       await AlertBox.showMessageDialog(
           context, 'Success', 'Registered as a seller successfully');
