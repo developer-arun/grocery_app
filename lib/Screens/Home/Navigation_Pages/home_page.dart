@@ -16,11 +16,11 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 
   final Widget leadingWidget;
+
   const HomePage({@required this.leadingWidget});
 }
 
 class _HomePageState extends State<HomePage> {
-
   UserApi userApi = UserApi.instance;
 
   @override
@@ -32,10 +32,9 @@ class _HomePageState extends State<HomePage> {
           color: kColorPurple,
         ),
         textTheme: TextTheme(
-          headline6: TextStyle(
-            color: kColorPurple,
-          )
-        ),
+            headline6: TextStyle(
+          color: kColorPurple,
+        )),
         backgroundColor: kColorWhite,
         elevation: 0,
         leading: widget.leadingWidget,
@@ -48,6 +47,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -55,8 +55,7 @@ class _HomePageState extends State<HomePage> {
               height: 40,
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
               child: Text(
                 'Hello ${userApi.firstName},',
                 style: TextStyle(
@@ -70,8 +69,7 @@ class _HomePageState extends State<HomePage> {
               height: 2,
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
               child: Text(
                 'Let\'s find some fresh food for you!',
                 style: TextStyle(
@@ -95,8 +93,8 @@ class _HomePageState extends State<HomePage> {
                         vertical: 10,
                       ),
                       child: GestureDetector(
-                        onTap: (){
-                          Navigator.pushNamed(context, "/shop");          //code dalna h
+                        onTap: () {
+                          Navigator.pushNamed(context, "/shop"); //code dalna h
                         },
                         child: Container(
                           width: double.infinity,
@@ -142,8 +140,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -174,8 +171,7 @@ class _HomePageState extends State<HomePage> {
               height: 10,
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -198,8 +194,7 @@ class _HomePageState extends State<HomePage> {
               height: 10,
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
