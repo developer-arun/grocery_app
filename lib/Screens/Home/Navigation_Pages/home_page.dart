@@ -6,6 +6,7 @@ import 'package:grocery_app/Components/advertisementPager.dart';
 import 'package:grocery_app/Components/categoriesPager.dart';
 import 'package:grocery_app/Components/productsPager.dart';
 import 'package:grocery_app/Screens/Shopping/all_products_screen.dart';
+import 'package:grocery_app/Screens/Shopping/all_sellers_screen.dart';
 import 'package:grocery_app/Screens/search_screen.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
@@ -210,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => AllProductsScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AllSellersScreen()));
                     },
                     child: Text(
                       'View All',
