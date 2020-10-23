@@ -3,12 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:grocery_app/Components/ListData.dart';
 import 'package:grocery_app/utilities/constants.dart';
 
-class SellersPager extends StatefulWidget {
+class ProductsPager extends StatefulWidget {
   @override
-  _SellersPagerState createState() => _SellersPagerState();
+  _ProductsPagerState createState() => _ProductsPagerState();
 }
 
-class _SellersPagerState extends State<SellersPager> {
+class _ProductsPagerState extends State<ProductsPager> {
 
   List<ListData> promotions = [
     ListData(
@@ -26,13 +26,13 @@ class _SellersPagerState extends State<SellersPager> {
   Widget build(BuildContext context) {
     return Container(
       height: 150,
-      padding: const EdgeInsets.only(top: 10,bottom: 10,left: 30),
       child: ListView.builder(
+        physics: BouncingScrollPhysics(),
         itemCount: 3,
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context,int index){
           return Container(
-            margin: const EdgeInsets.only(right: 15),
+            margin: const EdgeInsets.only(left: 10,right: 5,top: 10,bottom: 10),
             child: AspectRatio(
               aspectRatio: 1,
               child: Container(

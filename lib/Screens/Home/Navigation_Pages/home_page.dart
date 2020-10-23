@@ -4,10 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/advertisementPager.dart';
 import 'package:grocery_app/Components/categoriesPager.dart';
-import 'package:grocery_app/Components/sellersPager.dart';
-import 'package:grocery_app/Components/text_input_widget.dart';
-import 'package:grocery_app/Model/Product.dart';
-import 'package:grocery_app/Services/database_services.dart';
+import 'package:grocery_app/Components/productsPager.dart';
+import 'package:grocery_app/Screens/Shopping/all_products_screen.dart';
+import 'package:grocery_app/Screens/search_screen.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
@@ -94,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, "/shop"); //code dalna h
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
                         },
                         child: Container(
                           width: double.infinity,
@@ -202,25 +201,30 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 children: [
                   Text(
-                    'Top Sellers',
+                    'Most Popular',
                     style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
                       color: kColorPurple,
                     ),
                   ),
-                  Text(
-                    'View All',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: kColorPurple.withOpacity(.5),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AllProductsScreen()));
+                    },
+                    child: Text(
+                      'View All',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: kColorPurple.withOpacity(.5),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            SellersPager(),
+            ProductsPager(),
             SizedBox(
               height: 10,
             ),
