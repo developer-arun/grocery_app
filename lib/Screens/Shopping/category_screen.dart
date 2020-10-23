@@ -88,6 +88,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       );
                     },
                     child: Container(
+                      margin: const EdgeInsets.only(bottom: 20),
                       padding: const EdgeInsets.all(10),
                       width: double.infinity,
                       decoration: BoxDecoration(
