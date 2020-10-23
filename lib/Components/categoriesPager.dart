@@ -17,6 +17,7 @@ class _CategoriesPagerState extends State<CategoriesPager> {
       height: 200,
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10),
       child: ListView.builder(
+        physics: BouncingScrollPhysics(),
         itemCount: Categories.availableCategories.length - 1,
         scrollDirection: Axis.horizontal,
         itemBuilder: (BuildContext context, int index) {
