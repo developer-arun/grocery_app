@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:grocery_app/Screens/Home/Navigation_Pages/home_page.dart';
+import 'package:grocery_app/Screens/Shopping/shopping.dart';
 //import 'package:grocery_app/Screens/Home/landing_screen.dart';
 import 'package:grocery_app/Screens/search_screen.dart';
 //import 'package:grocery_app/Screens/splashscreen.dart';
@@ -37,6 +38,7 @@ class _MyAppState extends State<MyApp> {
           '/details_page': (BuildContext context) => DetailsScreen(),
           '/search':(BuildContext context) =>SearchPage(),
           '/addItem':(BuildContext context) =>AddItem(),
+          '/shop':(BuildContext context)=>Shopping(),  //CODE BADLANA H
         }
     );
   }

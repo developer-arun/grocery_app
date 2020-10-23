@@ -4,8 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:grocery_app/Components/custom_button_widget.dart';
 import 'package:grocery_app/Model/CartProduct.dart';
 import 'package:grocery_app/Model/Store.dart';
+import 'package:grocery_app/Screens/Shopping/product_screen.dart';
 import '../../search_screen.dart';
-import 'file:///C:/Users/hp/AndroidStudioProjects/test1/lib/Screens/Shopping/product_screen.dart';
+
 import 'package:grocery_app/Services/cart_service.dart';
 import 'package:grocery_app/Services/database_services.dart';
 import 'package:grocery_app/utilities/constants.dart';
