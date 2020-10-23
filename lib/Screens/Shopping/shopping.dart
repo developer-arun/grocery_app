@@ -13,9 +13,9 @@ class _ShoppingState extends State<Shopping> {
   FirebaseFirestore _firebasefirestore=FirebaseFirestore.instance;
   List <QueryDocumentSnapshot> _products=[];
   bool _loading=true;                                            //boolean variable to check if data is presently loading
-  int _perpage=20;                                                //limit of documents reading in one go.
+  int _perpage=2;                                                //limit of documents reading in one go.
   DocumentSnapshot _lastDocument;
-  ScrollController _scrollController=ScrollController();
+  ScrollController _scrollController=new ScrollController();
   bool _gettingMoreProducts=false;
   bool _moreProductsAvailable=true;                                    //boolean variable to check if more products are available
 
@@ -35,7 +35,7 @@ class _ShoppingState extends State<Shopping> {
 
   //function for loading more products
   _getMoreProducts() async{
-    _gettingMoreProducts=true;
+
     if(_moreProductsAvailable==false)
       {
         print("nomore products");
@@ -45,11 +45,11 @@ class _ShoppingState extends State<Shopping> {
       {
         return;
       }
-
+    _gettingMoreProducts=true;
     print("getmore called");
-    Query query= _firebasefirestore.collection("Products").
-    where("city",isEqualTo: UserApi.instance.getCity()).
-    startAfter([_lastDocument.data()["name"]]).
+    Query query= _firebasefirestore.collection("Products").orderBy("name").
+    where("city",isEqualTo: UserApi.instance.getCity())
+    .startAfter([_lastDocument]).
     limit(_perpage);
 
     QuerySnapshot querySnapshot=await query.get();
@@ -90,7 +90,7 @@ class _ShoppingState extends State<Shopping> {
           child: Text("no data"),
         ):ListView.builder(
           controller: _scrollController,
-          itemCount: _products.length,
+          itemCount: 10,
             itemBuilder: (BuildContext context,int index){
           return ListTile(
             title: Text(_products[index].data()["name"]),
