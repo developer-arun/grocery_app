@@ -115,7 +115,7 @@ class DatabaseServices {
   in decreasing order of rating
    */
   static Future<List<Product>> getProductsByRating() async {
-
+ 
     List<Product> product = [];
     var firestoreInstance = FirebaseFirestore.instance;
     await firestoreInstance
@@ -150,4 +150,42 @@ class DatabaseServices {
     return product;
   }
 
+
+  /*
+  Function to fetch seller's details in user's city and country from database
+  in decreasing order of rating
+   */
+  static Future<List<Store>> getSellerByRating() async {
+
+    List<Store> store = [];
+    var firestoreInstance = FirebaseFirestore.instance;
+    await firestoreInstance
+        .collection("Sellers")
+        .where("city", isEqualTo: (UserApi.instance).getCity())             //fetching top 5 rating stores details
+        .where("country", isEqualTo: UserApi.instance.getCountry())
+        .orderBy("rating",descending: true)
+        .limit(5)
+        .get()
+        .then((result) {
+      for (var element in result.docs) {
+        store.add(Store(
+          name: element.data()["name"],
+          ownerEmail: element.data()["storeId"],
+          ownerName: element.data()["ownerName"],
+          ownerContact: element.data()["ownerContact"],
+          rating: element.data()["rating"],
+          reviews: element.data()["reviews"],
+          address: element.data()["address"],
+          latitude: element.data()["latitude"],
+          longitude: element.data()["longitude"],
+          orders: element.data()["orders"],
+          city: UserApi.instance.getCity(),
+          country: UserApi.instance.getCountry(),
+        ));
+      }
+    }).catchError((error) {
+      print(error);
+    });
+    return store;
+  }
 }
