@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/store_card.dart';
 import 'package:grocery_app/Model/Store.dart';
 import 'package:grocery_app/Services/database_services.dart';
-import 'package:grocery_app/utilities/constants.dart';
 
 class SellersPager extends StatefulWidget {
   @override
@@ -20,7 +19,6 @@ class _SellersPagerState extends State<SellersPager> {
   @override
   void initState() {
     super.initState();
-
     getStores();
   }
 

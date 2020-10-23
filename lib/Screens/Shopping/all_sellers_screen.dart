@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/product_card.dart';
+import 'package:grocery_app/Components/store_card.dart';
 import 'package:grocery_app/Components/text_input_widget.dart';
 import 'package:grocery_app/Model/Product.dart';
+import 'package:grocery_app/Model/Store.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
@@ -199,13 +201,20 @@ class _AllSellersScreenState extends State<AllSellersScreen> {
                             controller: _scrollController,
                             itemCount: _sellers.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 0),
-                                child: Container(
-                                  child: Text(
-                                    _sellers[index].data()['ownerEmail'],
-                                  ),
+                              return StoreCard(
+                                store: Store(
+                                  name: _sellers[index].data()["name"],
+                                  ownerEmail: _sellers[index].data()["ownerEmail"],
+                                  ownerName: _sellers[index].data()["ownerName"],
+                                  ownerContact: _sellers[index].data()["ownerContact"],
+                                  rating: _sellers[index].data()["rating"],
+                                  reviews: _sellers[index].data()["reviews"],
+                                  address: _sellers[index].data()["address"],
+                                  latitude: _sellers[index].data()["latitude"],
+                                  longitude: _sellers[index].data()["longitude"],
+                                  orders: _sellers[index].data()["orders"],
+                                  city: UserApi.instance.getCity(),
+                                  country: UserApi.instance.getCountry(),
                                 ),
                               );
                             },
