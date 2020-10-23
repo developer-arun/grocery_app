@@ -155,32 +155,30 @@ class DatabaseServices {
   Function to fetch seller's details in user's city and country from database
   in decreasing order of rating
    */
-  static Future<List<Product>> getSellerByRating() async {
+  static Future<List<Store>> getSellerByRating() async {
 
-    List<Product> product = [];
+    List<Store> store = [];
     var firestoreInstance = FirebaseFirestore.instance;
     await firestoreInstance
-        .collection("Products")
-        .where("city", isEqualTo: (UserApi.instance).getCity())
+        .collection("Sellers")
+        .where("city", isEqualTo: (UserApi.instance).getCity())             //fetching top 5 rating stores details
         .where("country", isEqualTo: UserApi.instance.getCountry())
         .orderBy("rating",descending: true)
         .limit(5)
         .get()
         .then((result) {
       for (var element in result.docs) {
-        product.add(Product(
-          id: element.data()["itemId"],
+        store.add(Store(
           name: element.data()["name"],
-          desc: element.data()["description"],
           ownerEmail: element.data()["storeId"],
-          price: element.data()["price"],
-          quantity: element.data()["quantity"],
+          ownerName: element.data()["ownerName"],
+          ownerContact: element.data()["ownerContact"],
           rating: element.data()["rating"],
           reviews: element.data()["reviews"],
+          address: element.data()["address"],
+          latitude: element.data()["latitude"],
+          longitude: element.data()["longitude"],
           orders: element.data()["orders"],
-          imageURL: element.data()["imageurl"],
-          category: element.data()["category"],
-          timestamp: int.parse(element.data()["timestamp"]),
           city: UserApi.instance.getCity(),
           country: UserApi.instance.getCountry(),
         ));
@@ -188,6 +186,6 @@ class DatabaseServices {
     }).catchError((error) {
       print(error);
     });
-    return product;
+    return store;
   }
 }
