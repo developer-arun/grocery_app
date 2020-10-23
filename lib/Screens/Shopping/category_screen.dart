@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_app/Components/product_card.dart';
 import 'package:grocery_app/Components/text_input_widget.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'product_screen.dart';
@@ -74,122 +75,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
               child: ListView.builder(
                 itemCount: products.length,
                 itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ProductScreen(
-                                  product: products[index],
-                                fromCart: false,
-                              ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(bottom: 20),
-                      padding: const EdgeInsets.all(10),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: kColorWhite,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: kColorPurple.withOpacity(0.1),
-                            blurRadius: 2,
-                            spreadRadius: 1,
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: Hero(
-                                tag: products[index].id,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    image: DecorationImage(
-                                      image:
-                                          NetworkImage(products[index].imageURL),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Flexible(
-                            flex: 2,
-                            child: AspectRatio(
-                              aspectRatio: 2 / 1,
-                              child: Container(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(
-                                          products[index].name,
-                                          style: TextStyle(
-                                            fontSize: 24,
-                                            color: kColorPurple,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          products[index].desc,
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            color:
-                                                kColorPurple.withOpacity(0.4),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Wrap(
-                                      alignment: WrapAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          WrapCrossAlignment.end,
-                                      direction: Axis.horizontal,
-                                      children: [
-                                        Text(
-                                          '⭐ ${products[index].rating}',
-                                        ),
-                                        Text(
-                                          '₹ ${products[index].price}',
-                                          style: TextStyle(
-                                            color: kColorPurple,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  return ProductCard(
+                      product: products[index],
                   );
                 },
               ),

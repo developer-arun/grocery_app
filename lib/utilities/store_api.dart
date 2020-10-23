@@ -17,7 +17,15 @@ class StoreApi {
   double _latitude;
   double _longitude;
   int _orders;
+  String _city;
+  String _country;
 
+
+  String get city => _city;
+
+  set city(String value) {
+    _city = value;
+  }
 
   int get orders => _orders;
 
@@ -77,6 +85,12 @@ class StoreApi {
 
   set longitude(double value) {
     _longitude = value;
+  }
+
+  String get country => _country;
+
+  set country(String value) {
+    _country = value;
   }
 
 

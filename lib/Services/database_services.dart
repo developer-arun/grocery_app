@@ -102,6 +102,8 @@ class DatabaseServices {
         latitude: value.data()["latitude"],
         longitude: value.data()["longitude"],
         orders: value.data()["orders"],
+        country: value.data()['country'],
+        city: value.data()['city'],
       );
     });
     return store;
