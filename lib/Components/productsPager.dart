@@ -47,14 +47,15 @@ class _ProductsPagerState extends State<ProductsPager> {
                     MaterialPageRoute(
                       builder: (context) => ProductScreen(
                         product: products[index],
-                        fromCart: false,
+                        fromCart: true,
                       ),
                     ),
                   );
                 },
                 child: Hero(
-                  tag: products[index].id,
+                  tag: '${products[index].id}cart',
                   child: Material(
+                    color: kColorWhite,
                     child: Container(
                       height: 120,
                       padding: const EdgeInsets.all(5),

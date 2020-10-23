@@ -33,7 +33,7 @@ class _AdvertisementPagerState extends State<AdvertisementPager> {
           itemBuilder: (BuildContext context,int index){
             return Container(
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
               child: Container(
                 decoration: BoxDecoration(
                   color: kColorWhite,

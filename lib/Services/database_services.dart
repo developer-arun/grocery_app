@@ -50,7 +50,7 @@ class DatabaseServices {
    */
   static Future<List<Product>> getCurrentStock() async {
     var presentstamp = DateTime.now().millisecondsSinceEpoch;
-    presentstamp = presentstamp - (24* 3600 * 1000);
+    presentstamp = presentstamp - (24 * 3600 * 1000);
 
     List<Product> product = [];
     var firestoreInstance = FirebaseFirestore.instance;
@@ -92,7 +92,7 @@ class DatabaseServices {
     Store store;
     var firebaseinstance = FirebaseFirestore.instance;
     await firebaseinstance.collection("Sellers").doc(email).get().then((value) {
-      store =  Store(
+      store = Store(
         name: value.data()["name"],
         ownerEmail: value.data()["ownerEmail"],
         ownerName: value.data()["ownerName"],
@@ -110,20 +110,18 @@ class DatabaseServices {
     return store;
   }
 
-
   /*
   Function to fetch products details in user's city and country from database
   in decreasing order of rating
    */
   static Future<List<Product>> getProductsByRating() async {
- 
     List<Product> product = [];
     var firestoreInstance = FirebaseFirestore.instance;
     await firestoreInstance
         .collection("Products")
         .where("city", isEqualTo: (UserApi.instance).getCity())
         .where("country", isEqualTo: UserApi.instance.getCountry())
-        .orderBy("rating",descending: true)
+        .orderBy("rating", descending: true)
         .limit(5)
         .get()
         .then((result) {
@@ -151,27 +149,27 @@ class DatabaseServices {
     return product;
   }
 
-
   /*
   Function to fetch seller's details in user's city and country from database
   in decreasing order of rating
    */
   static Future<List<Store>> getSellerByRating() async {
-
     List<Store> store = [];
     var firestoreInstance = FirebaseFirestore.instance;
     await firestoreInstance
         .collection("Sellers")
-        .where("city", isEqualTo: (UserApi.instance).getCity())             //fetching top 5 rating stores details
+        .where("city",
+            isEqualTo: (UserApi.instance)
+                .getCity()) //fetching top 5 rating stores details
         .where("country", isEqualTo: UserApi.instance.getCountry())
-        .orderBy("rating",descending: true)
+        .orderBy("rating", descending: true)
         .limit(5)
         .get()
         .then((result) {
       for (var element in result.docs) {
         store.add(Store(
           name: element.data()["name"],
-          ownerEmail: element.data()["storeId"],
+          ownerEmail: element.data()["ownerEmail"],
           ownerName: element.data()["ownerName"],
           ownerContact: element.data()["ownerContact"],
           rating: element.data()["rating"],
