@@ -152,7 +152,7 @@ class DatabaseServices {
 
 
   /*
-  Function to fetch p details in user's city and country from database
+  Function to fetch seller's details in user's city and country from database
   in decreasing order of rating
    */
   static Future<List<Product>> getSellerByRating() async {
