@@ -160,7 +160,7 @@ class _AllSellersScreenState extends State<AllSellersScreen> {
                     children: [
                       Expanded(
                         child: TextInputWidget(
-                          hint: 'Search for stores, sellers in your area',
+                          hint: 'Search for stores, sellers',
                           icon: Icons.search,
                           obscureText: false,
                           onChanged: (value) {
