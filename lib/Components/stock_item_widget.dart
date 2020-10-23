@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/utilities/constants.dart';
 
 class StockItemWidget extends StatelessWidget {
-  const StockItemWidget({
-    Key key,
-  }) : super(key: key);
+
+  final Product product;
+  const StockItemWidget({@required this.product});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 150,
-      height: 180,
       padding: const EdgeInsets.all(5),
-      margin: const EdgeInsets.only(right: 20),
       decoration: BoxDecoration(
         color: kColorWhite,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -30,7 +29,10 @@ class StockItemWidget extends StatelessWidget {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                // TODO: ADD DECORATION IMAGE
+                image: DecorationImage(
+                  image: NetworkImage(product.imageURL),
+                  fit: BoxFit.cover,
+                ),
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 color: kColorPurple,
               ),
@@ -42,7 +44,7 @@ class StockItemWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 0),
             child: Text(
-              'Apple',
+              product.name,
               style: TextStyle(
                 color: kColorPurple,
                 fontSize: 18,
@@ -56,7 +58,7 @@ class StockItemWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 0),
             child: Text(
-              '2 Kg',
+              '${product.quantity} Kgs',
               style: TextStyle(
                 color: kColorPurple,
                 fontSize: 12,

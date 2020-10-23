@@ -47,15 +47,15 @@ class DatabaseServices {
   Function to fetch products for a particular seller from database
   that were added in the store within a single day
    */
-  static Future<List<Product>> getCurrentStock(String category) async {
+  static Future<List<Product>> getCurrentStock() async {
     var presentstamp = DateTime.now().millisecondsSinceEpoch;
-    presentstamp = presentstamp - (24 * 3600 * 1000);
+    presentstamp = presentstamp - (24* 3600 * 1000);
 
     List<Product> product = [];
     var firestoreInstance = FirebaseFirestore.instance;
     await firestoreInstance
         .collection("Products")
-        .where("email", isEqualTo: UserApi.instance.email)
+        .where("storeId", isEqualTo: (UserApi.instance).email)
         .where("timestamp", isGreaterThanOrEqualTo: presentstamp.toString())
         .get()
         .then((result) {
