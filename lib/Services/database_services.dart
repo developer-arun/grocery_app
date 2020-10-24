@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Model/Store.dart';
+import 'package:grocery_app/utilities/task_status.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
 class DatabaseServices {
@@ -185,5 +187,45 @@ class DatabaseServices {
       print(error);
     });
     return store;
+  }
+
+  /*
+  Function to order a product
+   */
+  static Future<String> orderProducts(List<Booking> bookings) async {
+    for (Booking booking in bookings) {
+      final DocumentReference documentReference = await FirebaseFirestore
+          .instance
+          .collection('Bookings')
+          .add(new Map<String, dynamic>())
+          .catchError((error) {
+        return error.message.toString();
+      });
+
+      Map<String, dynamic> data = {
+        'id': documentReference.id,
+        'fromLat': booking.fromLat,
+        'fromLong': booking.fromLong,
+        'toLat': booking.toLat,
+        'toLong': booking.toLong,
+        'buyerEmail': booking.buyerEmail,
+        'sellerEmail': booking.sellerEmail,
+        'storeName': booking.storeName,
+        'productId': booking.productId,
+        'quantity': booking.quantity,
+        'price': booking.price,
+        'status': booking.status,
+      };
+
+      await FirebaseFirestore.instance
+          .collection('Bookings')
+          .doc(documentReference.id)
+          .set(data)
+          .then((value) => {})
+          .catchError((error) {
+        return error.message.toString();
+      });
+    }
+    return TaskStatus.SUCCESS.toString();
   }
 }

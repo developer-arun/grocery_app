@@ -481,7 +481,7 @@ class _AddItemState extends State<AddItem> {
       "country": userApi.getCountry(),
     };
 
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection("Products")
         .doc(data['itemId'])
         .set(data)
