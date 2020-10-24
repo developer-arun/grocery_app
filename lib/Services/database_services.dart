@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Model/Store.dart';
+import 'package:grocery_app/utilities/task_status.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
 class DatabaseServices {
@@ -189,31 +190,42 @@ class DatabaseServices {
   }
 
   /*
-  Function to fetch booking's details of a user from database
-  which are not yet delivered
+  Function to order a product
    */
-  static Future<List<Booking>> getBooking() async {
+  static Future<String> orderProducts(List<Booking> bookings) async {
+    for (Booking booking in bookings) {
+      final DocumentReference documentReference = await FirebaseFirestore
+          .instance
+          .collection('Bookings')
+          .add(new Map<String, dynamic>())
+          .catchError((error) {
+        return error.message.toString();
+      });
 
-    List<Booking> booking = [];
-    var firestoreInstance = FirebaseFirestore.instance;
-    await firestoreInstance
-        .collection("Bookings")
-        .where("buyerEmail", isEqualTo: (UserApi.instance).email)             //fetching top 5 rating stores details
-        .where("status", isEqualTo: "BookingStatus.PENDING")
-        .get()
-        .then((result) {
-      for (var element in result.docs) {
-        booking.add(Booking(
-          productname: element.data()["productId"],
-          price: element.data()["price"],
-          quantity: element.data()["quantity"],
-          imageurl: element.data()["ownerContact"],
+      Map<String, dynamic> data = {
+        'id': documentReference.id,
+        'fromLat': booking.fromLat,
+        'fromLong': booking.fromLong,
+        'toLat': booking.toLat,
+        'toLong': booking.toLong,
+        'buyerEmail': booking.buyerEmail,
+        'sellerEmail': booking.sellerEmail,
+        'storeName': booking.storeName,
+        'productId': booking.productId,
+        'quantity': booking.quantity,
+        'price': booking.price,
+        'status': booking.status,
+      };
 
-        ));
-      }
-    }).catchError((error) {
-      print(error);
-    });
-    return booking;
+      await FirebaseFirestore.instance
+          .collection('Bookings')
+          .doc(documentReference.id)
+          .set(data)
+          .then((value) => {})
+          .catchError((error) {
+        return error.message.toString();
+      });
+    }
+    return TaskStatus.SUCCESS.toString();
   }
 }

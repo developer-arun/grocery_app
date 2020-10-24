@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Model/Store.dart';
 import 'package:grocery_app/utilities/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StoreCard extends StatelessWidget {
-
   final Store store;
+
   const StoreCard({@required this.store});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       padding: const EdgeInsets.all(20),
       width: MediaQuery.of(context).size.width - 40,
       decoration: BoxDecoration(
@@ -20,10 +21,8 @@ class StoreCard extends StatelessWidget {
             BoxShadow(
                 color: kColorPurple.withOpacity(0.1),
                 blurRadius: 2,
-                spreadRadius: 1
-            ),
-          ]
-      ),
+                spreadRadius: 1),
+          ]),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -44,8 +43,7 @@ class StoreCard extends StatelessWidget {
                 style: TextStyle(
                     color: kColorPurple,
                     fontSize: 18,
-                    fontWeight: FontWeight.bold
-                ),
+                    fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -70,8 +68,9 @@ class StoreCard extends StatelessWidget {
                   Icons.directions,
                   color: kColorPurple,
                 ),
-                onPressed: (){
-                  // TODO: CODE
+                onPressed: () {
+                  launch(
+                      'https://www.google.com/maps/search/?api=1&query=${store.latitude},${store.longitude}');
                 },
               ),
               IconButton(
@@ -79,8 +78,12 @@ class StoreCard extends StatelessWidget {
                   Icons.call,
                   color: kColorPurple,
                 ),
-                onPressed: (){
-                  // TODO: CODE
+                onPressed: () {
+                  final Uri _launchUri = Uri(
+                    scheme: 'tel',
+                    path: store.ownerContact,
+                  );
+                  launch(_launchUri.toString());
                 },
               ),
               IconButton(
@@ -88,8 +91,12 @@ class StoreCard extends StatelessWidget {
                   Icons.mail,
                   color: kColorPurple,
                 ),
-                onPressed: (){
-                  // TODO: CODE
+                onPressed: () {
+                  final Uri _emailLaunchUri = Uri(
+                    scheme: 'mailto',
+                    path: store.ownerEmail,
+                  );
+                  launch(_emailLaunchUri.toString());
                 },
               ),
             ],
