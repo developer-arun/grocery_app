@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/advertisementPager.dart';
 import 'package:grocery_app/Components/categoriesPager.dart';
 import 'package:grocery_app/Components/productsPager.dart';
+import 'package:grocery_app/Components/sellersPager.dart';
 import 'package:grocery_app/Screens/Shopping/all_products_screen.dart';
+import 'package:grocery_app/Screens/Shopping/all_sellers_screen.dart';
 import 'package:grocery_app/Screens/search_screen.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
@@ -51,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             SizedBox(
-              height: 40,
+              height: 30,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
@@ -227,6 +229,42 @@ class _HomePageState extends State<HomePage> {
             ProductsPager(),
             SizedBox(
               height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                textBaseline: TextBaseline.alphabetic,
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                children: [
+                  Text(
+                    'Top Stores',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: kColorPurple,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AllSellersScreen()));
+                    },
+                    child: Text(
+                      'View All',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: kColorPurple.withOpacity(.5),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SellersPager(),
+            SizedBox(
+              height: 30,
             ),
           ],
         ),

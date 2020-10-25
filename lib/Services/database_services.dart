@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Model/Store.dart';
+import 'package:grocery_app/utilities/task_status.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
 class DatabaseServices {
@@ -50,7 +51,7 @@ class DatabaseServices {
    */
   static Future<List<Product>> getCurrentStock() async {
     var presentstamp = DateTime.now().millisecondsSinceEpoch;
-    presentstamp = presentstamp - (24* 3600 * 1000);
+    presentstamp = presentstamp - (24 * 3600 * 1000);
 
     List<Product> product = [];
     var firestoreInstance = FirebaseFirestore.instance;
@@ -92,7 +93,7 @@ class DatabaseServices {
     Store store;
     var firebaseinstance = FirebaseFirestore.instance;
     await firebaseinstance.collection("Sellers").doc(email).get().then((value) {
-      store =  Store(
+      store = Store(
         name: value.data()["name"],
         ownerEmail: value.data()["ownerEmail"],
         ownerName: value.data()["ownerName"],
@@ -110,20 +111,18 @@ class DatabaseServices {
     return store;
   }
 
-
   /*
   Function to fetch products details in user's city and country from database
   in decreasing order of rating
    */
   static Future<List<Product>> getProductsByRating() async {
- 
     List<Product> product = [];
     var firestoreInstance = FirebaseFirestore.instance;
     await firestoreInstance
         .collection("Products")
         .where("city", isEqualTo: (UserApi.instance).getCity())
         .where("country", isEqualTo: UserApi.instance.getCountry())
-        .orderBy("rating",descending: true)
+        .orderBy("rating", descending: true)
         .limit(5)
         .get()
         .then((result) {
@@ -151,27 +150,27 @@ class DatabaseServices {
     return product;
   }
 
-
   /*
   Function to fetch seller's details in user's city and country from database
   in decreasing order of rating
    */
   static Future<List<Store>> getSellerByRating() async {
-
     List<Store> store = [];
     var firestoreInstance = FirebaseFirestore.instance;
     await firestoreInstance
         .collection("Sellers")
-        .where("city", isEqualTo: (UserApi.instance).getCity())             //fetching top 5 rating stores details
+        .where("city",
+            isEqualTo: (UserApi.instance)
+                .getCity()) //fetching top 5 rating stores details
         .where("country", isEqualTo: UserApi.instance.getCountry())
-        .orderBy("rating",descending: true)
+        .orderBy("rating", descending: true)
         .limit(5)
         .get()
         .then((result) {
       for (var element in result.docs) {
         store.add(Store(
           name: element.data()["name"],
-          ownerEmail: element.data()["storeId"],
+          ownerEmail: element.data()["ownerEmail"],
           ownerName: element.data()["ownerName"],
           ownerContact: element.data()["ownerContact"],
           rating: element.data()["rating"],
@@ -191,31 +190,43 @@ class DatabaseServices {
   }
 
   /*
-  Function to fetch booking's details of a user from database
-  which are not yet delivered
+  Function to order a product
    */
-  static Future<List<Booking>> getBooking() async {
+  static Future<String> orderProducts(List<Booking> bookings) async {
+    for (Booking booking in bookings) {
+      final DocumentReference documentReference = await FirebaseFirestore
+          .instance
+          .collection('Bookings')
+          .add(new Map<String, dynamic>())
+          .catchError((error) {
+        return error.message.toString();
+      });
 
-    List<Booking> booking = [];
-    var firestoreInstance = FirebaseFirestore.instance;
-    await firestoreInstance
-        .collection("Bookings")
-        .where("buyerEmail", isEqualTo: (UserApi.instance).email)             //fetching top 5 rating stores details
-        .where("status", isEqualTo: "BookingStatus.PENDING")
-        .get()
-        .then((result) {
-      for (var element in result.docs) {
-        booking.add(Booking(
-          productname: element.data()["productId"],
-          price: element.data()["price"],
-          quantity: element.data()["quantity"],
-          imageurl: element.data()["ownerContact"],
+      Map<String, dynamic> data = {
+        'id': documentReference.id,
+        'fromLat': booking.fromLat,
+        'fromLong': booking.fromLong,
+        'toLat': booking.toLat,
+        'toLong': booking.toLong,
+        'buyerEmail': booking.buyerEmail,
+        'sellerEmail': booking.sellerEmail,
+        'storeName': booking.storeName,
+        'productId': booking.productId,
+        'quantity': booking.quantity,
+        'price': booking.price,
+        'status': booking.status,
+        'timestamp': booking.timestamp,
+      };
 
-        ));
-      }
-    }).catchError((error) {
-      print(error);
-    });
-    return booking;
+      await FirebaseFirestore.instance
+          .collection('Bookings')
+          .doc(documentReference.id)
+          .set(data)
+          .then((value) => {})
+          .catchError((error) {
+        return error.message.toString();
+      });
+    }
+    return TaskStatus.SUCCESS.toString();
   }
 }
