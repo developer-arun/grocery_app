@@ -215,6 +215,7 @@ class DatabaseServices {
         'quantity': booking.quantity,
         'price': booking.price,
         'status': booking.status,
+        'timestamp': booking.timestamp,
       };
 
       await FirebaseFirestore.instance

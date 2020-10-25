@@ -322,6 +322,8 @@ class _CartPageState extends State<CartPage> {
                             _loading = true;
                           });
 
+                          final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+
                           List<Booking> booking = [];
                           for (CartProduct cartProduct in cartProducts) {
                             booking.add(Booking(
@@ -337,6 +339,7 @@ class _CartPageState extends State<CartPage> {
                               productId: cartProduct.product.id,
                               price: cartProduct.totalCost,
                               status: BookingStatus.PENDING.toString(),
+                              timestamp: timestamp,
                             ));
                           }
 
