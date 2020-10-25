@@ -217,6 +217,7 @@ class DatabaseServices {
         'price': booking.price,
         'status': booking.status,
         'timestamp': booking.timestamp,
+        'productName': booking.productName,
       };
 
       await FirebaseFirestore.instance
@@ -241,12 +242,12 @@ class DatabaseServices {
     await firestoreInstance
         .collection("Bookings")
         .where("buyerEmail", isEqualTo: (UserApi.instance).email)
-        .where("status",isEqualTo: BookingStatus.PENDING.toString())
+        .where("status", isEqualTo: BookingStatus.PENDING.toString())
         .orderBy("timestamp", descending: true)
         .get()
         .then((result) {
       for (var element in result.docs) {
-          booking.add(Booking(
+        booking.add(Booking(
           id: element.data()["id"],
           fromLat: element.data()["fromLat"],
           fromLong: element.data()["fromLong"],
@@ -259,36 +260,37 @@ class DatabaseServices {
           price: element.data()["price"],
           status: element.data()["status"],
           quantity: element.data()["quantity"],
-          timestamp: element.data()["timestamp"]
+          timestamp: element.data()["timestamp"],
+          productName: element.data()['productName'],
         ));
       }
     }).catchError((error) {
       print(error);
     });
 
-
     await firestoreInstance
         .collection("Bookings")
         .where("buyerEmail", isEqualTo: (UserApi.instance).email)
-        .where("status",isEqualTo: BookingStatus.CONFIRMED.toString())
+        .where("status", isEqualTo: BookingStatus.CONFIRMED.toString())
         .orderBy("timestamp", descending: true)
         .get()
         .then((result) {
       for (var element in result.docs) {
         booking.add(Booking(
-            id: element.data()["itemId"],
-            fromLat: element.data()["fromLat"],
-            fromLong: element.data()["fromLong"],
-            toLat: element.data()["toLat"],
-            toLong: element.data()["toLong"],
-            buyerEmail: element.data()["buyerEmail"],
-            sellerEmail: element.data()["sellerEmail"],
-            storeName: element.data()["storeName"],
-            productId: element.data()["productId"],
-            price: element.data()["price"],
-            status: element.data()["status"],
-            quantity: element.data()["quantity"],
-            timestamp: element.data()["timestamp"]
+          id: element.data()["itemId"],
+          fromLat: element.data()["fromLat"],
+          fromLong: element.data()["fromLong"],
+          toLat: element.data()["toLat"],
+          toLong: element.data()["toLong"],
+          buyerEmail: element.data()["buyerEmail"],
+          sellerEmail: element.data()["sellerEmail"],
+          storeName: element.data()["storeName"],
+          productId: element.data()["productId"],
+          price: element.data()["price"],
+          status: element.data()["status"],
+          quantity: element.data()["quantity"],
+          timestamp: element.data()["timestamp"],
+          productName: element.data()['productName'],
         ));
       }
     }).catchError((error) {

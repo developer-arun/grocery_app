@@ -340,6 +340,7 @@ class _CartPageState extends State<CartPage> {
                               price: cartProduct.totalCost,
                               status: BookingStatus.PENDING.toString(),
                               timestamp: timestamp,
+                              productName: cartProduct.product.name,
                             ));
                           }
 
