@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Model/Store.dart';
+import 'package:grocery_app/utilities/booking_status.dart';
 import 'package:grocery_app/utilities/task_status.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
@@ -228,5 +229,71 @@ class DatabaseServices {
       });
     }
     return TaskStatus.SUCCESS.toString();
+  }
+
+  /*
+  Function to fetch booking details of a user from database
+  in decreasing order of timestamp
+   */
+  static Future<List<Booking>> getBooking() async {
+    List<Booking> booking = [];
+    var firestoreInstance = FirebaseFirestore.instance;
+    await firestoreInstance
+        .collection("Bookings")
+        .where("buyerEmail", isEqualTo: (UserApi.instance).email)
+        .where("status",isEqualTo: BookingStatus.PENDING.toString())
+        .orderBy("timestamp", descending: true)
+        .get()
+        .then((result) {
+      for (var element in result.docs) {
+          booking.add(Booking(
+          id: element.data()["id"],
+          fromLat: element.data()["fromLat"],
+          fromLong: element.data()["fromLong"],
+          toLat: element.data()["toLat"],
+          toLong: element.data()["toLong"],
+          buyerEmail: element.data()["buyerEmail"],
+          sellerEmail: element.data()["sellerEmail"],
+          storeName: element.data()["storeName"],
+          productId: element.data()["productId"],
+          price: element.data()["price"],
+          status: element.data()["status"],
+          quantity: element.data()["quantity"],
+          timestamp: element.data()["timestamp"]
+        ));
+      }
+    }).catchError((error) {
+      print(error);
+    });
+
+
+    await firestoreInstance
+        .collection("Bookings")
+        .where("buyerEmail", isEqualTo: (UserApi.instance).email)
+        .where("status",isEqualTo: BookingStatus.CONFIRMED.toString())
+        .orderBy("timestamp", descending: true)
+        .get()
+        .then((result) {
+      for (var element in result.docs) {
+        booking.add(Booking(
+            id: element.data()["itemId"],
+            fromLat: element.data()["fromLat"],
+            fromLong: element.data()["fromLong"],
+            toLat: element.data()["toLat"],
+            toLong: element.data()["toLong"],
+            buyerEmail: element.data()["buyerEmail"],
+            sellerEmail: element.data()["sellerEmail"],
+            storeName: element.data()["storeName"],
+            productId: element.data()["productId"],
+            price: element.data()["price"],
+            status: element.data()["status"],
+            quantity: element.data()["quantity"],
+            timestamp: element.data()["timestamp"]
+        ));
+      }
+    }).catchError((error) {
+      print(error);
+    });
+    return booking;
   }
 }
