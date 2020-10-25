@@ -135,7 +135,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
           : Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(20),
+                 padding: const EdgeInsets.all(20),
                 child: Row(
                   children: [
                     Expanded(
