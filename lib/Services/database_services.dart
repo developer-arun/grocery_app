@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Model/Store.dart';
 import 'package:grocery_app/utilities/user_api.dart';
@@ -187,5 +188,34 @@ class DatabaseServices {
       print(error);
     });
     return store;
+  }
+
+  /*
+  Function to fetch booking's details of a user from database
+  which are not yet delivered
+   */
+  static Future<List<Booking>> getBooking() async {
+
+    List<Booking> booking = [];
+    var firestoreInstance = FirebaseFirestore.instance;
+    await firestoreInstance
+        .collection("Bookings")
+        .where("buyerEmail", isEqualTo: (UserApi.instance).email)             //fetching top 5 rating stores details
+        .where("status", isEqualTo: "BookingStatus.PENDING")
+        .get()
+        .then((result) {
+      for (var element in result.docs) {
+        booking.add(Booking(
+          productname: element.data()["productId"],
+          price: element.data()["price"],
+          quantity: element.data()["quantity"],
+          imageurl: element.data()["ownerContact"],
+
+        ));
+      }
+    }).catchError((error) {
+      print(error);
+    });
+    return booking;
   }
 }
