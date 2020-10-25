@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/booking_card.dart';
 import 'package:grocery_app/Components/menu_item_widget.dart';
 import 'package:grocery_app/Model/Booking.dart';
+import 'package:grocery_app/Screens/Home/Navigation_Pages/previous_orders_page.dart';
 import 'package:grocery_app/Services/database_services.dart';
 import 'package:grocery_app/utilities/constants.dart';
 
@@ -73,22 +74,32 @@ class _OrdersPageState extends State<OrdersPage> {
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: kColorPurple,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20),
+          GestureDetector(
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PreviousOrdersPage(),
+                ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: kColorPurple,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20),
+                  topLeft: Radius.circular(20),
+                ),
               ),
-            ),
-            child: Center(
-              child: Text(
-                'Previous Orders',
-                style: TextStyle(
-                  color: kColorWhite,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+              child: Center(
+                child: Text(
+                  'Previous Orders',
+                  style: TextStyle(
+                    color: kColorWhite,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
