@@ -31,16 +31,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: CalculateTEE(),
-//        routes: <String,WidgetBuilder>{
-//          '/login' : (BuildContext context) => LoginScreen(),
-//          '/signup': (BuildContext context) => RegistrationScreen(),
-//          '/home': (BuildContext context) => LandingScreen(),
-//          '/details_page': (BuildContext context) => DetailsScreen(),
-//          '/search':(BuildContext context) =>SearchPage(),
-//          '/addItem':(BuildContext context) =>AddItem(),
-//          '/shop':(BuildContext context)=>AllProductsScreen(),  //CODE BADLANA H
-//        }
+        home: SplashScreen(),
+        routes: <String,WidgetBuilder>{
+          '/login' : (BuildContext context) => LoginScreen(),
+          '/signup': (BuildContext context) => RegistrationScreen(),
+          '/home': (BuildContext context) => LandingScreen(),
+          '/details_page': (BuildContext context) => DetailsScreen(),
+          '/search':(BuildContext context) =>SearchPage(),
+          '/addItem':(BuildContext context) =>AddItem(),
+          '/shop':(BuildContext context)=>AllProductsScreen(),  //CODE BADLANA H
+        }
     );
   }
 }
