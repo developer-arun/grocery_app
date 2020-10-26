@@ -10,175 +10,206 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  String searchQuery;
-  FirebaseFirestore _firestoreInstance=FirebaseFirestore.instance;
-  List<QueryDocumentSnapshot> _SearchResults=[];
-  bool _loading =true;  //boolean variable to check if data is currently loading
-  int _perpage=10;
-  DocumentSnapshot _lastDocument;
-  ScrollController _scrollController=ScrollController();
-  bool _gettingMoreResults=false;
-  bool _moreResultsAvail=true;
+  TextEditingController _controller = TextEditingController();
 
-  _getResults(String searchQuery) async{
-    //finding serarchquery in colllection
-    Query query= _firestoreInstance
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  List<QueryDocumentSnapshot> _products = [];
+  bool _loading = true; //boolean variable to check if data is presently loading
+  int _perPage = 15; //limit of documents reading in one go.
+  DocumentSnapshot _lastDocument;
+  ScrollController _scrollController = ScrollController();
+  bool _gettingMoreProducts = false;
+  bool _moreProductsAvailable =
+      true; //boolean variable to check if more products are available
+
+  //function for initially getting the products
+  Future _getProducts(String queryString) async {
+    Query query = db
         .collection("SearchQueries")
-        .where("caseSearch",isEqualTo: searchQuery)
-        .limit(_perpage);
+        .where("nameCase", arrayContains: queryString)
+        .orderBy("docId")
+        .limit(_perPage);
+
     setState(() {
-      _loading=true;
+      _loading = true;
     });
-    QuerySnapshot querySnapshot=await query.get();
-    _SearchResults=querySnapshot.docs;
-    // finding last document loaded
-    _lastDocument=querySnapshot.docs[querySnapshot.docs.length-1];
+
+    QuerySnapshot querySnapshot = await query.get();
+    _products = querySnapshot.docs;
+
+    if (querySnapshot.docs.length > 0)
+      _lastDocument = querySnapshot.docs[
+          querySnapshot.docs.length - 1]; //finding the last document loaded
+
     setState(() {
-      _loading=false;
+      _loading = false;
     });
   }
-  //getting more results and adding it to list
-  _getMoreResults(String search) async{
-    if(_gettingMoreResults==false)
-    {
-      print("Docs are empty now");
+
+  //function for loading more products
+  Future _getMoreProducts(String queryString) async {
+    if (_moreProductsAvailable == false) {
+      print("No more products");
       return;
     }
-    if(_gettingMoreResults==true){
-      Query query =_firestoreInstance
+    if (_gettingMoreProducts == true) {
+      return;
+    }
+    _gettingMoreProducts = true;
+    if (_gettingMoreProducts == true) {
+      print("getmore called");
+      Query query = db
           .collection("SearchQueries")
-          .where("name",arrayContains : search)
-          .startAfter([_lastDocument.id]).limit(_perpage);
-      QuerySnapshot querySnapshot=await query.get();
-      if(querySnapshot.docs.length!=0){
-        _lastDocument=querySnapshot.docs[querySnapshot.docs.length-1];
+          .where("nameCase", arrayContains: queryString.toLowerCase())
+          .orderBy("docId")
+          .startAfter([_lastDocument.data()["itemId"]]).limit(_perPage);
+
+      QuerySnapshot querySnapshot = await query.get();
+      if (querySnapshot.docs.length != 0) {
+        _lastDocument = querySnapshot.docs[querySnapshot.docs.length - 1];
       }
-      else if(querySnapshot.docs.length<_perpage){
-        _moreResultsAvail=false;
+
+      if (querySnapshot.docs.length < _perPage) {
+        _moreProductsAvailable = false;
       }
-      _SearchResults.addAll(querySnapshot.docs);
-      setState(() {
-        _gettingMoreResults=false;
-      });
+
+      _products.addAll(querySnapshot.docs); //adding loaded products to the list
+
+      setState(() {});
+      _gettingMoreProducts = false;
     }
   }
-  //getting data for individual query
-  List<QueryDocumentSnapshot> _DATA=[];
-  _setDataProducts() async{
-    for(int i=0;i<_SearchResults.length;i++)
-    {
-      DocumentReference Productquery =_firestoreInstance
-          .collection("Products")
-          .doc("${_SearchResults[i].id}");
-      DocumentReference SellerQuery =_firestoreInstance
-          .collection("Sellers")
-          .doc("${_SearchResults[i].id}");
-      DocumentSnapshot productSnapshot=await Productquery.get();
-      DocumentSnapshot sellerSnapshot=await SellerQuery.get();
-      if(productSnapshot.exists) {
-        _DATA.add(productSnapshot);
-      }
-      if(sellerSnapshot.exists) {
-        _DATA.add(sellerSnapshot);
-      }
-    }
-  }
+
   @override
   void initState() {
     super.initState();
+
     _scrollController.addListener(() {
-      double _maxscroll = _scrollController.position.maxScrollExtent;
-      double _currscroll = _scrollController.position.pixels;
+      //adding scroll listener to check if more items to be loaded on scrolling
+      double _maxScroll = _scrollController.position.maxScrollExtent;
+      double _currScroll = _scrollController.position.pixels;
       double _delta = MediaQuery.of(context).size.height * 0.25;
-      if(_maxscroll-_currscroll<_delta){
-        _getMoreResults(searchQuery);
+
+      if (_maxScroll - _currScroll < _delta) {
+        _getMoreProducts(_controller.text.toLowerCase());
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kColorWhite,
-      appBar: AppBar(
-        elevation: 0,
         backgroundColor: kColorWhite,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: kColorPurple,
+        appBar: AppBar(
+          backgroundColor: kColorWhite,
+          elevation: 0,
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: kColorPurple,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title:  Text(
-          "SabziWaaley",
-          style: TextStyle(
-            fontSize: 24,
-            color: kColorPurple,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: <Widget>[
-          Form(
-            child: Padding(
-              padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-              child: Column(
-                children: [
-                  TextInputWidget(
-                    hint: "Order something refreshing!!!",
-                    icon: Icons.search,
-                    obscureText: false,
-                    onChanged: (value) {
-                      setState(() {
-                        searchQuery=value;
-                        searchQuery=searchQuery.toLowerCase();
-                      });
-                      _getResults(searchQuery);
-                    },
-                  ),
-                ],
-              ),
+          title: Text(
+            'SabziWaaley',
+            style: TextStyle(
+              color: kColorPurple,
+              fontSize: 24,
             ),
           ),
-          SizedBox(height: 8,),
-          _loading==true?
-          Container(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          )
-              :
-          Expanded(
-            child: Container(
-              child: _SearchResults.length==0
-                  ?Center(
-                child: Text("No data available"),
-              )
-                  :ListView.builder(
-                physics: BouncingScrollPhysics(),
-                controller: _scrollController,
-                itemCount: _SearchResults.length,
-                itemBuilder: (BuildContext context,int index){
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 4),
-                    //TODO : add card for both product and seller
-                    child: Text("${_DATA[index].data()["name"]}"+"\n"+"${_DATA[index].data()["rating"]}"),
-                  );
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: TextInputWidget(
+                hint: 'Search for something!!',
+                icon: Icons.search,
+                obscureText: false,
+                controller: _controller,
+                onChanged: (value) {
+                  _getProducts(value);
                 },
               ),
             ),
-          ),
-          _gettingMoreResults?
-          Center(
-            child: Transform.scale(scale: 0.5,
-              child: CircularProgressIndicator(),
+            Expanded(
+              child: Container(
+                child: _loading == true
+                    ? (_controller.text.isEmpty
+                        ? Center(
+                            child: Text(
+                              'Nothing to display',
+                              style: TextStyle(
+                                color: kColorPurple.withOpacity(0.4),
+                                fontSize: 20
+                              ),
+                            ),
+                          )
+                        : Container(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ))
+                    : Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+                              child: _products.length == 0
+                                  ? Center(
+                                      child: Text(
+                                        'No matches found',
+                                        style: TextStyle(
+                                            color: kColorPurple.withOpacity(0.4),
+                                            fontSize: 20
+                                        ),
+                                      ),
+                                    )
+                                  : ListView.builder(
+                                      physics: BouncingScrollPhysics(),
+                                      controller: _scrollController,
+                                      itemCount: _products.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return ListTile(
+                                          title: Text(
+                                            _products[index].data()['name'],
+                                          ),
+                                          onTap: (){
+                                            print(_products[index].data()['docId']);
+                                          },
+                                        );
+                                      },
+                                    ),
+                            ),
+                          ),
+                          _gettingMoreProducts
+                              ? Center(
+                                  child: Transform.scale(
+                                    scale: 0.5,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      ),
+              ),
             ),
-          ):Container(),
-        ],
-      ),
-    );
+          ],
+        ));
   }
+// Future getCasesDetailList(String query) async {
+//    List<DocumentSnapshot> documentList = (await Firestore.instance
+//        .collection("SearchQueries")
+//        .where("nameCase", arrayContains: query)
+//        .orderBy('docId')
+//        .get())
+//    .docs;
+//
+//    if(documentList.length > 0)
+//    print(documentList[0].data());
+//  }
 }
