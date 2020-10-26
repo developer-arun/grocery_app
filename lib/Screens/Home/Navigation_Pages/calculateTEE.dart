@@ -133,8 +133,7 @@ class _CalculateTEEState extends State<CalculateTEE> {
                       obscureText: false,
                       onChanged: (value) {
                         _weight = double.parse(value);
-                      },
-                    ),
+                      },),
                     SizedBox(height: 15.0),
                     Text(
                       "Gender",
