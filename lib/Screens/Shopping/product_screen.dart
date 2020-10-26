@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -8,6 +9,8 @@ import 'package:grocery_app/Screens/Home/Navigation_Pages/cart_page.dart';
 import 'package:grocery_app/Services/cart_service.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
+import 'package:grocery_app/utilities/user_api.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -16,8 +19,12 @@ class ProductScreen extends StatefulWidget {
 
   final Product product;
   final bool fromCart;
+  final String productId;
 
-  const ProductScreen({@required this.product, @required this.fromCart});
+  const ProductScreen(
+      {@required this.product,
+      @required this.fromCart,
+      @required this.productId});
 }
 
 class _ProductScreenState extends State<ProductScreen>
@@ -25,12 +32,56 @@ class _ProductScreenState extends State<ProductScreen>
   AnimationController controller;
   Animation<Offset> animation;
   double currentSelected = 0;
-
+  bool _loadedProduct = false;
   Uri _emailLaunchUri;
+
+  Product _product;
+
+  Future loadProduct() async {
+    await FirebaseFirestore.instance
+        .collection("Products")
+        .doc(widget.productId)
+        .get()
+        .then((element) {
+      _product = Product(
+        id: element.data()["itemId"],
+        name: element.data()["name"],
+        desc: element.data()["description"],
+        ownerEmail: element.data()["storeId"],
+        price: element.data()["price"],
+        quantity: element.data()["quantity"],
+        rating: element.data()["rating"],
+        reviews: element.data()["reviews"],
+        orders: element.data()["orders"],
+        imageURL: element.data()["imageurl"],
+        category: element.data()["category"],
+        timestamp: int.parse(element.data()["timestamp"]),
+        city: UserApi.instance.getCity(),
+        country: UserApi.instance.getCountry(),
+      );
+
+      initializeData();
+
+      setState(() {
+        _loadedProduct = true;
+      });
+    }).catchError((error) {
+      AlertBox.showMessageDialog(
+          context, 'Error', 'Error loading product details\n$error');
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+
+    if (widget.product != null) {
+      _loadedProduct = true;
+      _product = widget.product;
+      initializeData();
+    } else {
+      loadProduct();
+    }
 
     controller = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
@@ -47,312 +98,322 @@ class _ProductScreenState extends State<ProductScreen>
       ),
     );
     controller.forward();
+  }
 
+  void initializeData() {
     _emailLaunchUri = Uri(
       scheme: 'mailto',
-      path: widget.product.ownerEmail,
+      path: _product.ownerEmail,
     );
 
-    if (CartService.cartProducts[widget.product.id] != null) {
-      currentSelected = CartService.cartProducts[widget.product.id].quantity;
+    if (CartService.cartProducts[_product.id] != null) {
+      currentSelected = CartService.cartProducts[_product.id].quantity;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kColorWhite,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: kColorTransparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.shopping_cart,
-            ),
-            onPressed: () {
-              // TODO:CODE
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CartPage(
-                    leadingWidget: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Hero(
-              tag: widget.fromCart
-                  ? '${widget.product.id}cart'
-                  : widget.product.id,
-              child: Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 2 / 3,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      widget.product.imageURL,
-                    ),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+    return _loadedProduct
+        ? Scaffold(
+            backgroundColor: kColorWhite,
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              backgroundColor: kColorTransparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.shopping_cart,
+                  ),
+                  onPressed: () {
+                    // TODO:CODE
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CartPage(
+                          leadingWidget: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SlideTransition(
-              position: animation,
-              child: Container(
-                padding: const EdgeInsets.only(left: 30, right: 30, top: 50),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: kColorWhite,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+            body: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Hero(
+                    tag: widget.fromCart ? '${_product.id}cart' : _product.id,
+                    child: Container(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 2 / 3,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            _product.imageURL,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Wrap(
-                      alignment: WrapAlignment.spaceBetween,
-                      crossAxisAlignment: WrapCrossAlignment.end,
-                      direction: Axis.horizontal,
-                      children: [
-                        Text(
-                          widget.product.name,
-                          style: TextStyle(
-                              fontSize: 36,
-                              color: kColorPurple,
-                              fontWeight: FontWeight.bold),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SlideTransition(
+                    position: animation,
+                    child: Container(
+                      padding:
+                          const EdgeInsets.only(left: 30, right: 30, top: 50),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: kColorWhite,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
                         ),
-                        Text.rich(
-                          TextSpan(
-                            text: '₹',
-                            style: TextStyle(
-                              color: kColorPurple,
-                              fontSize: 18,
-                            ),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Wrap(
+                            alignment: WrapAlignment.spaceBetween,
+                            crossAxisAlignment: WrapCrossAlignment.end,
+                            direction: Axis.horizontal,
                             children: [
-                              TextSpan(
-                                text: '${widget.product.price}',
+                              Text(
+                                _product.name,
                                 style: TextStyle(
-                                  color: kColorPurple,
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '/Kg',
-                                style: TextStyle(
-                                  color: kColorPurple,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      widget.product.desc,
-                      style: TextStyle(
-                        color: kColorPurple.withOpacity(0.3),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '⭐ ${widget.product.rating}',
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Text(
-                      'Product By',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: kColorPurple,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Wrap(
-                      alignment: WrapAlignment.spaceBetween,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Text(
-                          widget.product.ownerEmail,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            launch(_emailLaunchUri.toString());
-                          },
-                          child: Icon(
-                            Icons.mail,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    CustomButtonWidget(
-                      label: 'View Reviews',
-                      onPressed: () {
-                        // TODO : CODE
-                      },
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'In stock: ${widget.product.quantity} Kg',
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 5,
-                              vertical: 0,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    if (currentSelected > 0) {
-                                      setState(() {
-                                        currentSelected -= 0.25;
-                                      });
-                                    }
-                                  },
-                                  child: Icon(
-                                    Icons.remove_circle_outline,
+                                    fontSize: 36,
                                     color: kColorPurple,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text.rich(
+                                TextSpan(
+                                  text: '₹',
+                                  style: TextStyle(
+                                    color: kColorPurple,
+                                    fontSize: 18,
                                   ),
-                                ),
-                                Text.rich(
-                                  TextSpan(
-                                      text: '$currentSelected',
+                                  children: [
+                                    TextSpan(
+                                      text: '${_product.price}',
                                       style: TextStyle(
                                         color: kColorPurple,
                                         fontSize: 40,
                                         fontWeight: FontWeight.bold,
                                       ),
-                                      children: [
-                                        TextSpan(
-                                          text: 'Kg',
-                                          style: TextStyle(
-                                            color: kColorPurple,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ]),
+                                    ),
+                                    TextSpan(
+                                      text: '/Kg',
+                                      style: TextStyle(
+                                        color: kColorPurple,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if (currentSelected <
-                                        widget.product.quantity) {
-                                      setState(() {
-                                        currentSelected += 0.25;
-                                      });
-                                    }
-                                  },
-                                  child: Icon(
-                                    Icons.add_circle_outline,
-                                    color: kColorPurple,
-                                  ),
-                                ),
-                              ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            _product.desc,
+                            style: TextStyle(
+                              color: kColorPurple.withOpacity(0.3),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: CustomButtonWidget(
-                            label:
-                                CartService.cartProducts[widget.product.id] ==
-                                        null
-                                    ? 'Add to cart'
-                                    : 'Update Cart',
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '⭐ ${_product.rating}',
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Text(
+                            'Product By',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: kColorPurple,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Wrap(
+                            alignment: WrapAlignment.spaceBetween,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Text(
+                                _product.ownerEmail,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  launch(_emailLaunchUri.toString());
+                                },
+                                child: Icon(
+                                  Icons.mail,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          CustomButtonWidget(
+                            label: 'View Reviews',
                             onPressed: () {
-                              // Checking if the cart already contains products from same store or is empty
-                              // Checking the quantity of products
-                              if (currentSelected == 0) {
-                                CartService.sellerId = null;
-                                CartService.cartProducts[widget.product.id] =
-                                    null;
-                              } else {
-                                if (CartService.sellerId ==
-                                        widget.product.ownerEmail ||
-                                    CartService.sellerId == null) {
-                                  CartService.sellerId =
-                                      widget.product.ownerEmail;
-                                  CartService.cartProducts[widget.product.id] =
-                                      CartProduct(
-                                    discount: 0,
-                                    product: widget.product,
-                                    quantity: currentSelected,
-                                    totalCost:
-                                        currentSelected * widget.product.price,
-                                  );
-                                } else {
-                                  // Displaying error if cart contains products from a different store
-                                  AlertBox.showMessageDialog(context, 'Error',
-                                      'Cannot add items from two different stores! Please empty the cart first.');
-                                }
-                              }
-
-                              setState(() {});
+                              // TODO : CODE
                             },
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'In stock: ${_product.quantity} Kg',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 5,
+                                    vertical: 0,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (currentSelected > 0) {
+                                            setState(() {
+                                              currentSelected -= 0.25;
+                                            });
+                                          }
+                                        },
+                                        child: Icon(
+                                          Icons.remove_circle_outline,
+                                          color: kColorPurple,
+                                        ),
+                                      ),
+                                      Text.rich(
+                                        TextSpan(
+                                            text: '$currentSelected',
+                                            style: TextStyle(
+                                              color: kColorPurple,
+                                              fontSize: 40,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text: 'Kg',
+                                                style: TextStyle(
+                                                  color: kColorPurple,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ]),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (currentSelected <
+                                              _product.quantity) {
+                                            setState(() {
+                                              currentSelected += 0.25;
+                                            });
+                                          }
+                                        },
+                                        child: Icon(
+                                          Icons.add_circle_outline,
+                                          color: kColorPurple,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: CustomButtonWidget(
+                                  label:
+                                      CartService.cartProducts[_product.id] ==
+                                              null
+                                          ? 'Add to cart'
+                                          : 'Update Cart',
+                                  onPressed: () {
+                                    // Checking if the cart already contains products from same store or is empty
+                                    // Checking the quantity of products
+                                    if (currentSelected == 0) {
+                                      CartService.sellerId = null;
+                                      CartService.cartProducts[_product.id] =
+                                          null;
+                                    } else {
+                                      if (CartService.sellerId ==
+                                              _product.ownerEmail ||
+                                          CartService.sellerId == null) {
+                                        CartService.sellerId =
+                                            _product.ownerEmail;
+                                        CartService.cartProducts[_product.id] =
+                                            CartProduct(
+                                          discount: 0,
+                                          product: _product,
+                                          quantity: currentSelected,
+                                          totalCost:
+                                              currentSelected * _product.price,
+                                        );
+                                      } else {
+                                        // Displaying error if cart contains products from a different store
+                                        AlertBox.showMessageDialog(
+                                            context,
+                                            'Error',
+                                            'Cannot add items from two different stores! Please empty the cart first.');
+                                      }
+                                    }
+
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          )
+        : ModalProgressHUD(
+            inAsyncCall: true,
+            color: kColorWhite,
+            child: Container(),
+          );
   }
 }

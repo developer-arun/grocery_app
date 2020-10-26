@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/text_input_widget.dart';
+import 'package:grocery_app/Screens/Shopping/product_screen.dart';
 import 'package:grocery_app/utilities/constants.dart';
+import 'package:grocery_app/utilities/user_api.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -26,6 +28,8 @@ class _SearchPageState extends State<SearchPage> {
   Future _getProducts(String queryString) async {
     Query query = db
         .collection("SearchQueries")
+        .where("city", isEqualTo: UserApi.instance.getCity())
+        .where("country", isEqualTo: UserApi.instance.getCountry())
         .where("nameCase", arrayContains: queryString)
         .orderBy("docId")
         .limit(_perPage);
@@ -60,6 +64,8 @@ class _SearchPageState extends State<SearchPage> {
       print("getmore called");
       Query query = db
           .collection("SearchQueries")
+          .where("city", isEqualTo: UserApi.instance.getCity())
+          .where("country", isEqualTo: UserApi.instance.getCountry())
           .where("nameCase", arrayContains: queryString.toLowerCase())
           .orderBy("docId")
           .startAfter([_lastDocument.data()["itemId"]]).limit(_perPage);
@@ -143,9 +149,8 @@ class _SearchPageState extends State<SearchPage> {
                             child: Text(
                               'Nothing to display',
                               style: TextStyle(
-                                color: kColorPurple.withOpacity(0.4),
-                                fontSize: 20
-                              ),
+                                  color: kColorPurple.withOpacity(0.4),
+                                  fontSize: 20),
                             ),
                           )
                         : Container(
@@ -157,15 +162,16 @@ class _SearchPageState extends State<SearchPage> {
                         children: [
                           Expanded(
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 0),
                               child: _products.length == 0
                                   ? Center(
                                       child: Text(
                                         'No matches found',
                                         style: TextStyle(
-                                            color: kColorPurple.withOpacity(0.4),
-                                            fontSize: 20
-                                        ),
+                                            color:
+                                                kColorPurple.withOpacity(0.4),
+                                            fontSize: 20),
                                       ),
                                     )
                                   : ListView.builder(
@@ -178,8 +184,19 @@ class _SearchPageState extends State<SearchPage> {
                                           title: Text(
                                             _products[index].data()['name'],
                                           ),
-                                          onTap: (){
-                                            print(_products[index].data()['docId']);
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProductScreen(
+                                                  productId: _products[index]
+                                                      .data()['docId'],
+                                                  product: null,
+                                                  fromCart: false,
+                                                ),
+                                              ),
+                                            );
                                           },
                                         );
                                       },
@@ -201,15 +218,4 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ));
   }
-// Future getCasesDetailList(String query) async {
-//    List<DocumentSnapshot> documentList = (await Firestore.instance
-//        .collection("SearchQueries")
-//        .where("nameCase", arrayContains: query)
-//        .orderBy('docId')
-//        .get())
-//    .docs;
-//
-//    if(documentList.length > 0)
-//    print(documentList[0].data());
-//  }
 }

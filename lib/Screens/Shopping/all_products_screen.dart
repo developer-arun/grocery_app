@@ -8,6 +8,8 @@ import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
+import '../search_screen.dart';
+
 class AllProductsScreen extends StatefulWidget {
   @override
   _AllProductsScreenState createState() => _AllProductsScreenState();
@@ -139,13 +141,47 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: TextInputWidget(
-                          hint: 'Search for something!!',
-                          icon: Icons.search,
-                          obscureText: false,
-                          onChanged: (value){
-                            // TODO: CODE
-                          },
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 48,
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: kColorWhite,
+                            boxShadow: [
+                              BoxShadow(
+                                color: kColorPurple.withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 2,
+                              ),
+                            ],
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.search,
+                                  color: kColorPurple,
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Text(
+                                  'Order something refreshing!!',
+                                  style: TextStyle(
+                                    color: kColorPurple.withOpacity(0.3),
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     SizedBox(
