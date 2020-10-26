@@ -494,8 +494,11 @@ class _AddItemState extends State<AddItem> {
       Map<String, dynamic> searchData = {
         "docId": documentReference.id,
         "name": product.name.toLowerCase(),
+        "city": userApi.getCity(),
+        "country": userApi.getCountry(),
         "nameCase": caseSearchList,
       };
+
       FirebaseFirestore.instance
           .collection("SearchQueries")
           .doc(data['itemId'])
