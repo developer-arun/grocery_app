@@ -9,7 +9,10 @@ import 'custom_button_widget.dart';
 class BookingCard extends StatelessWidget {
 
   final Booking booking;
-  const BookingCard({@required this.booking});
+  final Function onCancelClick;
+  final Function onCancelFailed;
+  final Function onCancelSuccess;
+  const BookingCard({@required this.booking,@required this.onCancelClick,@required this.onCancelSuccess,@required this.onCancelFailed});
 
   @override
   Widget build(BuildContext context) {
@@ -90,14 +93,16 @@ class BookingCard extends StatelessWidget {
                   label: 'Cancel',
                   onPressed: () async{              //Function for Deleting the given booking
                     // TODO : CODE
+                    onCancelClick();
                     FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
                     await firebaseFirestore.collection("Bookings")
                         .doc(booking.id)
                         .delete()
                         .then((value) {
-                          // TODO:CODE
+                          onCancelSuccess();
                     }).catchError((error){
                       print(error);
+                      onCancelFailed(error);
                     });
                     },
                 ),
