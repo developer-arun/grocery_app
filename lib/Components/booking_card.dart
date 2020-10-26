@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/utilities/booking_status.dart';
@@ -87,9 +88,18 @@ class BookingCard extends StatelessWidget {
               Expanded(
                 child: CustomButtonWidget(
                   label: 'Cancel',
-                  onPressed: (){
+                  onPressed: () async{              //Function for Deleting the given booking
                     // TODO : CODE
-                  },
+                    FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
+                    await firebaseFirestore.collection("Bookings")
+                        .doc(booking.id)
+                        .delete()
+                        .then((value) {
+                          // TODO:CODE
+                    }).catchError((error){
+                      print(error);
+                    });
+                    },
                 ),
               ),
               SizedBox(
