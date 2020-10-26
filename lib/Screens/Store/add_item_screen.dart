@@ -204,8 +204,7 @@ class _AddItemState extends State<AddItem> {
                     ),
                     onPressed: () {
                       setState(() {
-                        category =
-                            Categories.availableCategories[1];
+                        category = Categories.availableCategories[1];
                       });
                     },
                     child: Text(
@@ -270,8 +269,7 @@ class _AddItemState extends State<AddItem> {
                   ),
                   onPressed: () {
                     setState(() {
-                      category =
-                          Categories.availableCategories[4];
+                      category = Categories.availableCategories[4];
                     });
                   },
                   child: Text(
@@ -291,8 +289,7 @@ class _AddItemState extends State<AddItem> {
                   ),
                   onPressed: () {
                     setState(() {
-                      category =
-                          Categories.availableCategories[5];
+                      category = Categories.availableCategories[5];
                     });
                   },
                   child: Text(
@@ -486,12 +483,39 @@ class _AddItemState extends State<AddItem> {
         .doc(data['itemId'])
         .set(data)
         .then((value) async {
-      await AlertBox.showMessageDialog(
-          context, 'Success', 'User details stored successfully!');
-      setState(() {
-        _loading = false;
+      List<String> caseSearchList = List();
+      String temp = "";
+      for (int i = 0; i < product.name.length; i++) {
+        temp = temp + product.name.toLowerCase()[i];
+        caseSearchList.add(temp);
+      }
+
+      // addding data for search queries
+      Map<String, dynamic> searchData = {
+        "docId": documentReference.id,
+        "name": product.name.toLowerCase(),
+        "city": userApi.getCity(),
+        "country": userApi.getCountry(),
+        "nameCase": caseSearchList,
+      };
+
+      FirebaseFirestore.instance
+          .collection("SearchQueries")
+          .doc(data['itemId'])
+          .set(searchData)
+          .then((value) async {
+        await AlertBox.showMessageDialog(
+            context, 'Success', 'User details stored successfully!');
+        setState(() {
+          _loading = false;
+        });
+      }).catchError((error) {
+        setState(() {
+          _loading = false;
+        });
+        AlertBox.showMessageDialog(
+            context, 'Error', 'Unable to add search queries\n$error');
       });
-      Navigator.pushReplacementNamed(context, '/addItem');
     }).catchError((error) {
       AlertBox.showMessageDialog(context, 'Error',
           'An error occurred in saving user data\n${error.message}');

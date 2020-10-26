@@ -19,6 +19,7 @@ class ProductCard extends StatelessWidget {
                 ProductScreen(
                   product: product,
                   fromCart: false,
+                  productId: null,
                 ),
           ),
         );

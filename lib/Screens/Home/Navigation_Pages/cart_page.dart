@@ -47,6 +47,7 @@ class _CartPageState extends State<CartPage> {
                 builder: (context) => ProductScreen(
                   product: cartProduct.product,
                   fromCart: true,
+                  productId: null,
                 ),
               ),
             );

@@ -70,16 +70,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
             ),
           ),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              child: ListView.builder(
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  return ProductCard(
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(top: 10),
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 0),
+                  child: ProductCard(
                       product: products[index],
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
         ],

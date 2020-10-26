@@ -156,40 +156,6 @@ class _AllSellersScreenState extends State<AllSellersScreen> {
             )
           : Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextInputWidget(
-                          hint: 'Search for stores, sellers',
-                          icon: Icons.search,
-                          obscureText: false,
-                          onChanged: (value) {
-                            // TODO: CODE
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: kColorPurple,
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.tune,
-                            color: kColorWhite,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 Expanded(
                   child: Container(
                     child: _sellers.length == 0

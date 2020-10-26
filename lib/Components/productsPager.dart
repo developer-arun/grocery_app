@@ -47,6 +47,7 @@ class _ProductsPagerState extends State<ProductsPager> {
                       builder: (context) => ProductScreen(
                         product: products[index],
                         fromCart: true,
+                        productId: null,
                       ),
                     ),
                   );
