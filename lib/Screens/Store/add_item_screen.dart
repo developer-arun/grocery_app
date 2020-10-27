@@ -477,6 +477,23 @@ class _AddItemState extends State<AddItem> {
       "city": userApi.getCity(),
       "country": userApi.getCountry(),
     };
+    //converting name into subarrays
+    List<String> caseSearchList = List();
+    String temp = "";
+    for (int i = 0; i < product.name.length; i++) {
+      temp = temp + product.name[i];
+      caseSearchList.add(temp);
+    }
+    // addding data for search queries
+    Map<String,dynamic> searchData={
+      "docId" :documentReference.id,
+      "name":product.name,
+      "nameCase": caseSearchList,
+    };
+    FirebaseFirestore.instance
+        .collection("SearchQueries")
+        .doc(data['itemId'])
+        .set(searchData);
 
     await FirebaseFirestore.instance
         .collection("Products")
@@ -521,4 +538,5 @@ class _AddItemState extends State<AddItem> {
           'An error occurred in saving user data\n${error.message}');
     });
   }
+
 }

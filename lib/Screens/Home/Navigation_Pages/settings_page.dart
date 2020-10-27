@@ -22,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
         leading: widget.leadingWidget,
         centerTitle: true,
         title: Text(
-          'My Cart',
+          'My Setting',
           style: TextStyle(
             color: kColorPurple,
             fontSize: 24,

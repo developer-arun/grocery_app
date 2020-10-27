@@ -119,7 +119,7 @@ class _StorePageState extends State<StorePage> {
         leading: widget.leadingWidget,
         centerTitle: true,
         title: Text(
-          'My Cart',
+          'My Store',
           style: TextStyle(
             color: darkAppBarIcons ? kColorPurple : kColorWhite,
             fontSize: 24,

@@ -24,8 +24,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
   DocumentSnapshot _lastDocument;
   ScrollController _scrollController = ScrollController();
   bool _gettingMoreProducts = false;
-  bool _moreProductsAvailable =
-      true; //boolean variable to check if more products are available
+  bool _moreProductsAvailable = true; //boolean variable to check if more products are available
 
   //function for initially getting the products
   _getProducts() async {

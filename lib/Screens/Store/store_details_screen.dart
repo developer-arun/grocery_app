@@ -157,7 +157,22 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
       'city' : store.city,
       'country' : store.country,
     };
-
+    List<String> caseSearchList = List();
+    String temp = "";
+    for (int i = 0; i < store.name.length; i++) {
+      temp = temp + store.name[i];
+      caseSearchList.add(temp);
+    }
+    // addding data for search queries
+    Map<String,dynamic> searchData={
+      "docId" :store.ownerEmail,
+      "name":store.name,
+      "nameCase": caseSearchList,
+    };
+    FirebaseFirestore.instance
+        .collection("SearchQueries")
+        .doc(store.name)
+        .set(searchData);
     // ignore: deprecated_member_use
     await Firestore.instance
         .collection('Sellers')
