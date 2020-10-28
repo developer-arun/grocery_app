@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:grocery_app/Components/product_card.dart';
 import 'package:grocery_app/Components/store_card.dart';
-import 'package:grocery_app/Components/text_input_widget.dart';
-import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Model/Store.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
