@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:grocery_app/Screens/Home/Navigation_Pages/calculateTEE.dart';
-import 'package:grocery_app/Screens/Home/Navigation_Pages/home_page.dart';
 import 'package:grocery_app/Screens/Review&Rating/review_screen.dart';
 import 'package:grocery_app/Screens/Shopping/all_products_screen.dart';
-//import 'package:grocery_app/Screens/Home/landing_screen.dart';
 import 'package:grocery_app/Screens/search_screen.dart';
 import 'package:grocery_app/screens/Home/landing_screen.dart';
 import 'package:grocery_app/screens/Registration/details_screen.dart';
