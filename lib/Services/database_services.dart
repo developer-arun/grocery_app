@@ -298,4 +298,47 @@ class DatabaseServices {
     });
     return booking;
   }
+
+  /*
+  Function to subscribe to products in the cart
+   */
+  static Future<String> subscribeToProducts(List<Booking> bookings) async {
+    for (Booking booking in bookings) {
+      final DocumentReference documentReference = await FirebaseFirestore
+          .instance
+          .collection('Subscriptions')
+          .add(new Map<String, dynamic>())
+          .catchError((error) {
+        return error.message.toString();
+      });
+
+      Map<String, dynamic> data = {
+        'id': documentReference.id,
+        'fromLat': booking.fromLat,
+        'fromLong': booking.fromLong,
+        'toLat': booking.toLat,
+        'toLong': booking.toLong,
+        'buyerEmail': booking.buyerEmail,
+        'sellerEmail': booking.sellerEmail,
+        'storeName': booking.storeName,
+        'productId': booking.productId,
+        'quantity': booking.quantity,
+        'price': booking.price,
+        'status': booking.status,
+        'timestamp': booking.timestamp,
+        'productName': booking.productName,
+      };
+
+      await FirebaseFirestore.instance
+          .collection('Subscriptions')
+          .doc(documentReference.id)
+          .set(data)
+          .then((value) => {})
+          .catchError((error) {
+        return error.message.toString();
+      });
+    }
+    return TaskStatus.SUCCESS.toString();
+  }
+
 }

@@ -11,6 +11,7 @@ import 'package:grocery_app/screens/Registration/details_screen.dart';
 import 'package:grocery_app/screens/Registration/login_screen.dart';
 import 'package:grocery_app/screens/Registration/registration_screen.dart';
 import 'package:grocery_app/screens/splashscreen.dart';
+import 'package:grocery_app/utilities/constants.dart';
 import 'Screens/Store/add_item_screen.dart';
 
 
@@ -29,6 +30,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.light().copyWith(
+        primaryColor: kColorPurple,
+        accentColor: kColorPurple,
+      ),
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
         routes: <String,WidgetBuilder>{

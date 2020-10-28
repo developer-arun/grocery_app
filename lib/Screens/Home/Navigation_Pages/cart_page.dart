@@ -306,8 +306,99 @@ class _CartPageState extends State<CartPage> {
                                 children: getCartProducts(),
                               ),
                             ),
+                            Padding(
+                              padding: const EdgeInsets.all(30.0),
+                              child: CustomButtonWidget(
+                                label: 'Subscribe To Cart Products',
+                                onPressed: () async {
+                                  await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(
+                                      2000,
+                                    ),
+                                    lastDate: DateTime(
+                                      2100,
+                                    ),
+                                    helpText: 'Choose a starting date',
+                                    confirmText:
+                                        'Our product would be at your door every 7th day after selected date. Click to proceed.',
+                                  ).then((DateTime picked) async {
+                                    if (picked.year >= DateTime.now().year) {
+                                      if (picked.month >=
+                                          DateTime.now().month) {
+                                        if (picked.day > DateTime.now().day) {
+                                          // TODO: ADD SUBSCRIPTION
+
+                                          setState(() {
+                                            _loading = true;
+                                          });
+
+                                          final timestamp = picked
+                                              .millisecondsSinceEpoch
+                                              .toString();
+
+                                          List<Booking> booking = [];
+                                          for (CartProduct cartProduct
+                                              in cartProducts) {
+                                            booking.add(Booking(
+                                              id: null,
+                                              quantity: cartProduct.quantity,
+                                              fromLat: storeDetails.latitude,
+                                              fromLong: storeDetails.longitude,
+                                              toLat: UserApi.instance.latitude,
+                                              toLong:
+                                                  UserApi.instance.longitude,
+                                              storeName: storeDetails.name,
+                                              sellerEmail:
+                                                  storeDetails.ownerEmail,
+                                              buyerEmail:
+                                                  UserApi.instance.email,
+                                              productId: cartProduct.product.id,
+                                              price: cartProduct.totalCost,
+                                              status: BookingStatus.PENDING
+                                                  .toString(),
+                                              timestamp: timestamp,
+                                              productName:
+                                                  cartProduct.product.name,
+                                            ));
+                                          }
+
+                                          String result = await DatabaseServices
+                                              .subscribeToProducts(booking);
+
+                                          if (result ==
+                                              TaskStatus.SUCCESS.toString()) {
+                                            CartService.sellerId = null;
+                                            CartService.cartProducts = {};
+                                            AlertBox.showMessageDialog(
+                                                context,
+                                                'Success',
+                                                'Subscribed to product successfully!');
+                                          } else {
+                                            AlertBox.showMessageDialog(
+                                                context,
+                                                'Error',
+                                                'Unable to subscribe to product\n$result');
+                                          }
+
+                                          setState(() {
+                                            _loading = false;
+                                          });
+                                        } else {
+                                          AlertBox.showMessageDialog(
+                                              context,
+                                              'Error',
+                                              'Please select a valid date');
+                                        }
+                                      }
+                                    }
+                                  });
+                                },
+                              ),
+                            ),
                             SizedBox(
-                              height: 50,
+                              height: 30,
                             ),
                           ],
                         ),
@@ -323,7 +414,8 @@ class _CartPageState extends State<CartPage> {
                             _loading = true;
                           });
 
-                          final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+                          final timestamp =
+                              DateTime.now().millisecondsSinceEpoch.toString();
 
                           List<Booking> booking = [];
                           for (CartProduct cartProduct in cartProducts) {

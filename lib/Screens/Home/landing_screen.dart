@@ -11,7 +11,7 @@ import 'Navigation_Pages/cart_page.dart';
 import 'Navigation_Pages/contact_us_page.dart';
 import 'Navigation_Pages/offers_page.dart';
 import 'Navigation_Pages/orders_page.dart';
-import 'Navigation_Pages/profile_page.dart';
+import 'Navigation_Pages/diet_screen.dart';
 import 'Navigation_Pages/settings_page.dart';
 import 'Navigation_Pages/store_page.dart';
 
@@ -114,8 +114,8 @@ class _LandingScreenState extends State<LandingScreen>
                                 },
                               ),
                               MenuItemWidget(
-                                label: 'Profile',
-                                icon: Icons.person,
+                                label: 'My Diet',
+                                icon: Icons.pie_chart,
                                 onPressed: () {
                                   setState(() {
                                     currentIndex = 1;
@@ -248,7 +248,7 @@ class _LandingScreenState extends State<LandingScreen>
                   HomePage(
                     leadingWidget: leadingWidget,
                   ), //0
-                  ProfilePage(
+                  DietScreen(
                     leadingWidget: leadingWidget,
                   ), //1
                   CartPage(

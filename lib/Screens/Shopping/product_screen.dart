@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grocery_app/Components/custom_button_widget.dart';
+import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/Model/CartProduct.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Screens/Home/Navigation_Pages/cart_page.dart';
@@ -284,7 +285,9 @@ class _ProductScreenState extends State<ProductScreen>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => RatingReviewScreen(productId: _product.id,),
+                                  builder: (context) => RatingReviewScreen(
+                                    productId: _product.id,
+                                  ),
                                 ),
                               );
                             },
