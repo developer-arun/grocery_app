@@ -366,7 +366,6 @@ class _CartPageState extends State<CartPage> {
 
                                           String result = await DatabaseServices
                                               .subscribeToProducts(booking);
-
                                           if (result ==
                                               TaskStatus.SUCCESS.toString()) {
                                             CartService.sellerId = null;
