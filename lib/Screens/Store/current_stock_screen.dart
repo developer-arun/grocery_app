@@ -15,7 +15,7 @@ class _CurrentStockScreenState extends State<CurrentStockScreen> {
   List<Product> currentStock = [];
 
   void getCurrentStock() async {
-    currentStock = await DatabaseServices.getCurrentStock();
+    currentStock = await DatabaseServices.getEntireStock();
     displayCurrentStock = true;
     setState(() {});
   }
@@ -66,8 +66,8 @@ class _CurrentStockScreenState extends State<CurrentStockScreen> {
                           ),
                       staggeredTileBuilder: (int index) =>
                           new StaggeredTile.count(2, index.isEven ? 2.5 : 3),
-                      mainAxisSpacing: 10.0,
-                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 15.0,
+                      crossAxisSpacing: 15.0,
                     )
                   : Center(
                       child: Text(

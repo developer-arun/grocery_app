@@ -51,9 +51,7 @@ class DatabaseServices {
   that were added in the store within a single day
    */
   static Future<List<Product>> getCurrentStock() async {
-    var presentstamp = DateTime
-        .now()
-        .millisecondsSinceEpoch;
+    var presentstamp = DateTime.now().millisecondsSinceEpoch;
     presentstamp = presentstamp - (24 * 3600 * 1000);
 
     List<Product> product = [];
@@ -163,8 +161,8 @@ class DatabaseServices {
     await firestoreInstance
         .collection("Sellers")
         .where("city",
-        isEqualTo: (UserApi.instance)
-            .getCity()) //fetching top 5 rating stores details
+            isEqualTo: (UserApi.instance)
+                .getCity()) //fetching top 5 rating stores details
         .where("country", isEqualTo: UserApi.instance.getCountry())
         .orderBy("rating", descending: true)
         .limit(5)
@@ -306,9 +304,7 @@ class DatabaseServices {
   where booking status is delivered
    */
   static Future<List<Booking>> getRecentlySoldOut() async {
-    var presentstamp = DateTime
-        .now()
-        .millisecondsSinceEpoch;
+    var presentstamp = DateTime.now().millisecondsSinceEpoch;
     presentstamp = presentstamp - (24 * 3600 * 1000);
     List<Booking> booking = [];
     var firestoreInstance = FirebaseFirestore.instance;
@@ -423,4 +419,76 @@ class DatabaseServices {
     return TaskStatus.SUCCESS.toString();
   }
 
+  /*
+  Function to fetch products for a particular seller from database
+  that were added in the store */
+  static Future<List<Product>> getEntireStock() async {
+    List<Product> product = [];
+    var firestoreInstance = FirebaseFirestore.instance;
+    await firestoreInstance
+        .collection("Products")
+        .where("storeId", isEqualTo: (UserApi.instance).email)
+        .orderBy("timestamp", descending: true)
+        .get()
+        .then((result) {
+      for (var element in result.docs) {
+        product.add(Product(
+          id: element.data()["itemId"],
+          name: element.data()["name"],
+          desc: element.data()["description"],
+          ownerEmail: element.data()["storeId"],
+          price: element.data()["price"],
+          quantity: element.data()["quantity"],
+          rating: element.data()["rating"],
+          reviews: element.data()["reviews"],
+          orders: element.data()["orders"],
+          imageURL: element.data()["imageurl"],
+          category: element.data()["category"],
+          timestamp: int.parse(element.data()["timestamp"]),
+          city: UserApi.instance.getCity(),
+          country: UserApi.instance.getCountry(),
+        ));
+      }
+    }).catchError((error) {
+      print(error);
+    });
+    return product;
+  }
+
+  /*
+  Function to fetch pending bookings from the database
+   */
+  static Future<List<Booking>> getPendingBooking() async {
+    List<Booking> booking = [];
+    var firestoreInstance = FirebaseFirestore.instance;
+    await firestoreInstance
+        .collection("Bookings")
+        .where("sellerEmail", isEqualTo: (UserApi.instance).email)
+        .where("status", isEqualTo: BookingStatus.PENDING.toString())
+        .orderBy("timestamp", descending: true)
+        .get()
+        .then((result) {
+      for (var element in result.docs) {
+        booking.add(Booking(
+          id: element.data()["id"],
+          fromLat: element.data()["fromLat"],
+          fromLong: element.data()["fromLong"],
+          toLat: element.data()["toLat"],
+          toLong: element.data()["toLong"],
+          buyerEmail: element.data()["buyerEmail"],
+          sellerEmail: element.data()["sellerEmail"],
+          storeName: element.data()["storeName"],
+          productId: element.data()["productId"],
+          price: element.data()["price"],
+          status: element.data()["status"],
+          quantity: element.data()["quantity"],
+          timestamp: element.data()["timestamp"],
+          productName: element.data()['productName'],
+        ));
+      }
+    }).catchError((error) {
+      print(error);
+    });
+    return booking;
+  }
 }
