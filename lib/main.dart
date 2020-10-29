@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:grocery_app/Screens/Review&Rating/review_screen.dart';
@@ -19,14 +20,13 @@ import 'Screens/Store/add_item_screen.dart';
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
 
-  FirebaseFirestore.instance.settings = Settings(
-    host: '192.168.1.9:8080',
-    sslEnabled: false,
-    persistenceEnabled: false,
-  );
+//  FirebaseFirestore.instance.settings = Settings(
+//    host: '192.168.1.9:8080',
+//    sslEnabled: false,
+//    persistenceEnabled: false,
+//  );
   runApp(MyApp());
 }
 

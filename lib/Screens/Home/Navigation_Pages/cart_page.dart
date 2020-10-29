@@ -153,6 +153,7 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
+
     if (storeDetails == null) {
       loadStoreDetails();
     }
