@@ -305,7 +305,7 @@ class DatabaseServices {
   Function to fetch stocks details  from database of last one day
   where booking status is delivered
    */
-  static Future<List<Booking>> getStock() async {
+  static Future<List<Booking>> getRecentlySoldOut() async {
     var presentstamp = DateTime
         .now()
         .millisecondsSinceEpoch;
@@ -347,7 +347,7 @@ class DatabaseServices {
   /*Function to fetch entire stocks details  from database
   where booking status is delivered
   */
-  static Future<List<Booking>> getEntireStock() async {
+  static Future<List<Booking>> getAllSoldOut() async {
     List<Booking> booking = [];
     var firestoreInstance = FirebaseFirestore.instance;
     await firestoreInstance
@@ -381,12 +381,55 @@ class DatabaseServices {
     return booking;
   }
 
+  /*
+  Function to subscribe to products in the cart
+   */
+  static Future<String> subscribeToProducts(List<Booking> bookings) async {
+    for (Booking booking in bookings) {
+      final DocumentReference documentReference = await FirebaseFirestore
+          .instance
+          .collection('Subscriptions')
+          .add(new Map<String, dynamic>())
+          .catchError((error) {
+        return error.message.toString();
+      });
+
+      Map<String, dynamic> data = {
+        'id': documentReference.id,
+        'fromLat': booking.fromLat,
+        'fromLong': booking.fromLong,
+        'toLat': booking.toLat,
+        'toLong': booking.toLong,
+        'buyerEmail': booking.buyerEmail,
+        'sellerEmail': booking.sellerEmail,
+        'storeName': booking.storeName,
+        'productId': booking.productId,
+        'quantity': booking.quantity,
+        'price': booking.price,
+        'status': booking.status,
+        'timestamp': booking.timestamp,
+        'productName': booking.productName,
+      };
+
+      await FirebaseFirestore.instance
+          .collection('Subscriptions')
+          .doc(documentReference.id)
+          .set(data)
+          .then((value) => {})
+          .catchError((error) {
+        return error.message.toString();
+      });
+    }
+    return TaskStatus.SUCCESS.toString();
+  }
+
 
   /*
   Function to fetch products for a particular seller from database
-  that were added in the store
-   */
-  static Future<List<Product>> getCompleteStock() async {
+  that were added in the store */
+  static Future<List<Product>> getEntireStock() async {
+
+
     List<Product> product = [];
     var firestoreInstance = FirebaseFirestore.instance;
     await firestoreInstance
@@ -418,5 +461,6 @@ class DatabaseServices {
     });
     return product;
   }
+
 
 }
