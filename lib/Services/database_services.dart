@@ -387,8 +387,6 @@ class DatabaseServices {
   that were added in the store
    */
   static Future<List<Product>> getCompleteStock() async {
-
-
     List<Product> product = [];
     var firestoreInstance = FirebaseFirestore.instance;
     await firestoreInstance
