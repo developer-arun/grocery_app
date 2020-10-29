@@ -7,7 +7,7 @@ import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/Model/CartProduct.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Screens/Home/Navigation_Pages/cart_page.dart';
-import 'package:grocery_app/Screens/Review&Rating/review_screen.dart';
+import 'package:grocery_app/Screens/Review&Rating/add_review_screen.dart';
 import 'package:grocery_app/Services/cart_service.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
