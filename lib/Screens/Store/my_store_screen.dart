@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_app/Components/booking_card.dart';
 import 'package:grocery_app/Components/data_display_widget.dart';
 import 'package:grocery_app/Components/stock_item_widget.dart';
+import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Services/database_services.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
@@ -20,10 +22,85 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
   List<Product> currentStock = [];
   bool displayCurrentStock = false;
 
+  List<Widget> soldOutProducts = [];
+
   void getCurrentStock() async {
     currentStock = await DatabaseServices.getCurrentStock();
     displayCurrentStock = true;
     setState(() {});
+  }
+
+  void getSoldOutProducts() async {
+    soldOutProducts = [];
+    List<Booking> bookings = await DatabaseServices.getRecentlySoldOut();
+    for(Booking booking in bookings){
+      soldOutProducts.add(
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: kColorWhite,
+                boxShadow: [
+                  BoxShadow(
+                    color: kColorPurple.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 2,
+                  ),
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    booking.productName,
+                    style: TextStyle(
+                      color: kColorPurple,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    '${booking.quantity} Kg',
+                    style: TextStyle(
+                      color: kColorPurple,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    'Rs ${booking.price}',
+                    style: TextStyle(
+                      color: kColorPurple,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    booking.buyerEmail,
+                    style: TextStyle(
+                      color: kColorPurple,
+                    ),
+                  ),
+                  Text(
+                    '${DateTime.fromMillisecondsSinceEpoch(int.parse(booking.timestamp))}',
+                    style: TextStyle(
+                      color: kColorPurple,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+      );
+    }
   }
 
   @override
@@ -31,6 +108,7 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
     super.initState();
 
     getCurrentStock();
+    getSoldOutProducts();
   }
 
   @override
@@ -39,186 +117,182 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
       child: Stack(
         children: [
           Container(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(30),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: kColorPurple,
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(30),
-                        bottomLeft: Radius.circular(30),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: kColorPurple.withOpacity(0.1),
-                          blurRadius: 1,
-                          spreadRadius: 2,
+            child: CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(30),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: kColorPurple,
+                          borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(30),
+                            bottomLeft: Radius.circular(30),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: kColorPurple.withOpacity(0.1),
+                              blurRadius: 1,
+                              spreadRadius: 2,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                storeApi.name,
-                                style: TextStyle(
-                                  color: kColorWhite,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Wrap(
-                                direction: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: kColorWhite,
-                                    size: 14,
-                                  ),
                                   Text(
-                                    storeApi.address,
+                                    storeApi.name,
                                     style: TextStyle(
                                       color: kColorWhite,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 14,
+                                      fontSize: 24,
                                     ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Wrap(
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Icon(
+                                        Icons.location_on,
+                                        color: kColorWhite,
+                                        size: 14,
+                                      ),
+                                      Text(
+                                        storeApi.address,
+                                        style: TextStyle(
+                                          color: kColorWhite,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                            DataDisplayWidget(
+                              color: kColorWhite,
+                              label: 'Orders',
+                              data: storeApi.orders.toString(),
+                            ),
+                          ],
                         ),
-                        DataDisplayWidget(
-                          color: kColorWhite,
-                          label: 'Orders',
-                          data: storeApi.orders.toString(),
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          textBaseline: TextBaseline.alphabetic,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          children: [
+                            Text(
+                              'Current Stock',
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: kColorPurple,
+                              ),
+                            ),
+                            Text(
+                              'View All',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: kColorPurple.withOpacity(.5),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 24,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      textBaseline: TextBaseline.alphabetic,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      children: [
-                        Text(
-                          'Current Stock',
-                          style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            color: kColorPurple,
-                          ),
-                        ),
-                        Text(
-                          'View All',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: kColorPurple.withOpacity(.5),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  displayCurrentStock
-                      ? (currentStock.isNotEmpty
+                      ),
+                      displayCurrentStock
+                          ? (currentStock.isNotEmpty
                           ? Container(
-                              width: double.infinity,
-                              height: 200,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: currentStock.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: StockItemWidget(
-                                      product: currentStock[index],
-                                    ),
-                                  );
-                                },
+                        width: double.infinity,
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: currentStock.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: StockItemWidget(
+                                product: currentStock[index],
                               ),
-                            )
+                            );
+                          },
+                        ),
+                      )
                           : Center(
-                              child: Text(
-                                'Nothing to display',
-                                style: TextStyle(
-                                  color: kColorPurple.withOpacity(0.4),
-                                ),
+                        child: Text(
+                          'Nothing to display',
+                          style: TextStyle(
+                            color: kColorPurple.withOpacity(0.4),
+                          ),
+                        ),
+                      ))
+                          : Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          textBaseline: TextBaseline.alphabetic,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          children: [
+                            Text(
+                              'Sold Out',
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: kColorPurple,
                               ),
-                            ))
-                      : Center(
-                          child: CircularProgressIndicator(),
+                            ),
+                            Text(
+                              'View All',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: kColorPurple.withOpacity(.5),
+                              ),
+                            ),
+                          ],
                         ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 10),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      textBaseline: TextBaseline.alphabetic,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      children: [
-                        Text(
-                          'Sold Out',
-                          style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            color: kColorPurple,
+                      ),
+                      Expanded(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: soldOutProducts,
                           ),
                         ),
-                        Text(
-                          'View All',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: kColorPurple.withOpacity(.5),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: 80,
+                      ),
+                    ],
                   ),
-                  Container(
-                    width: double.infinity,
-                    height: 200,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 0,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: StockItemWidget(
-                            // TODO:ADD PRODUCT
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 80,
-                  ),
-                ],
-              ),
-            ),
+                ),
+              ],
+            )
           ),
           Align(
             alignment: Alignment.bottomCenter,

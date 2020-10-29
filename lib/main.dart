@@ -1,17 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:grocery_app/Screens/Home/Navigation_Pages/calculateTEE.dart';
-import 'package:grocery_app/Screens/Home/Navigation_Pages/home_page.dart';
 import 'package:grocery_app/Screens/Review&Rating/review_screen.dart';
 import 'package:grocery_app/Screens/Shopping/all_products_screen.dart';
-//import 'package:grocery_app/Screens/Home/landing_screen.dart';
 import 'package:grocery_app/Screens/search_screen.dart';
 import 'package:grocery_app/screens/Home/landing_screen.dart';
 import 'package:grocery_app/screens/Registration/details_screen.dart';
 import 'package:grocery_app/screens/Registration/login_screen.dart';
 import 'package:grocery_app/screens/Registration/registration_screen.dart';
 import 'package:grocery_app/screens/splashscreen.dart';
+import 'package:grocery_app/utilities/constants.dart';
 import 'Screens/Store/add_item_screen.dart';
 
 
@@ -34,6 +32,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.light().copyWith(
+        primaryColor: kColorPurple,
+        accentColor: kColorPurple,
+      ),
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),
         routes: <String,WidgetBuilder>{

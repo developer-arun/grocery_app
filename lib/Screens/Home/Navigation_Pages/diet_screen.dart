@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/clipped_widget.dart';
 import 'package:grocery_app/Components/custom_button_widget.dart';
@@ -6,105 +5,102 @@ import 'package:grocery_app/Components/text_input_widget.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 
-class CalculateTEE extends StatefulWidget {
+class DietScreen extends StatefulWidget {
   @override
-  _CalculateTEEState createState() => _CalculateTEEState();
+  _DietScreenState createState() => _DietScreenState();
+
+  final Widget leadingWidget;
+
+  const DietScreen({@required this.leadingWidget});
 }
 
-class _CalculateTEEState extends State<CalculateTEE> {
-  int _age=0;
-  double _weight=0.0;
-  double _height=0.0;
-  int _selectedradio;       //Radiobutton for gender
-  int _selectedradio2;      //Radiobutton for Physical activity intensity
+class _DietScreenState extends State<DietScreen> {
+  int _age = 0;
+  double _weight = 0.0;
+  double _height = 0.0;
+  int _selectedradio; //Radiobutton for gender
+  int _selectedradio2; //Radiobutton for Physical activity intensity
   double _PA;
   double _TEE;
+
   @override
   void initState() {
     super.initState();
-    _selectedradio=1;
-    _selectedradio2=1;
+    _selectedradio = 1;
+    _selectedradio2 = 1;
   }
-  setSelectedRadio(int val){            //function for getting the gender
+
+  setSelectedRadio(int val) {
+    //function for getting the gender
     setState(() {
-      _selectedradio=val;
-    });
-  }
-  setSelectedRadio2(int val){           //function for getting the Physical activity intensity
-    setState(() {
-      _selectedradio2=val;
+      _selectedradio = val;
     });
   }
 
-  calculateTEE(int gender){                //function for calculating calories
-    if(_age!=0&&_weight!=0.0&&_height!=0.0) {
+  setSelectedRadio2(int val) {
+    //function for getting the Physical activity intensity
+    setState(() {
+      _selectedradio2 = val;
+    });
+  }
+
+  calculateTEE(int gender) {
+    //function for calculating calories
+    if (_age != 0 && _weight != 0.0 && _height != 0.0) {
       if (gender == 1) {
-        _TEE = 864 - 9.72 * _age.toDouble() +
+        _TEE = 864 -
+            9.72 * _age.toDouble() +
             _PA * (14.2 * _weight + 503 * _height);
-      }
-      else {
-        _TEE = 387 - 7.31 * _age.toDouble() +
+      } else {
+        _TEE = 387 -
+            7.31 * _age.toDouble() +
             _PA * (10.9 * _weight + 660.7 * _height);
       }
+    } else {
+      AlertBox.showMessageDialog(context, "Error", "Present a valid value");
     }
-    else
-      {
-        AlertBox.showMessageDialog(context, "Error", "Present a valid value");
-      }
   }
 
-
-  calculatePA()                       //function for caluclating physical activity
+  calculatePA() //function for caluclating physical activity
   {
-    if(_selectedradio==1)
-      {
-        if(_selectedradio2==1)
-          {
-          _PA=1.0;
-          }
-        else if(_selectedradio2==2)
-          {
-            _PA=1.12;
-          }
-        else if(_selectedradio2==3)
-        {
-          _PA=1.27;
-        }
-        else if(_selectedradio2==4)
-        {
-          _PA=1.54;
-        }
+    if (_selectedradio == 1) {
+      if (_selectedradio2 == 1) {
+        _PA = 1.0;
+      } else if (_selectedradio2 == 2) {
+        _PA = 1.12;
+      } else if (_selectedradio2 == 3) {
+        _PA = 1.27;
+      } else if (_selectedradio2 == 4) {
+        _PA = 1.54;
       }
-    else
-    {
-      if(_selectedradio2==1)
-      {
-        _PA=1.0;
-      }
-      else if(_selectedradio2==2)
-      {
-        _PA=1.14;
-      }
-      else if(_selectedradio2==3)
-      {
-        _PA=1.27;
-      }
-      else if(_selectedradio2==4)
-      {
-        _PA=1.45;
+    } else {
+      if (_selectedradio2 == 1) {
+        _PA = 1.0;
+      } else if (_selectedradio2 == 2) {
+        _PA = 1.14;
+      } else if (_selectedradio2 == 3) {
+        _PA = 1.27;
+      } else if (_selectedradio2 == 4) {
+        _PA = 1.45;
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kColorWhite,
+      appBar: AppBar(
+        backgroundColor: kColorPurple,
+        elevation: 0,
+        leading: widget.leadingWidget,
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ClippedWidget(
-              text:"Caculate TEE",
+              text: "Let's find what's necessary for you",
             ),
             Form(
               child: Padding(
@@ -113,7 +109,6 @@ class _CalculateTEEState extends State<CalculateTEE> {
                   children: [
                     TextInputWidget(
                       hint: "Enter age",
-                      icon: Icons.person,
                       obscureText: false,
                       onChanged: (value) {
                         _age = int.parse(value);
@@ -121,7 +116,7 @@ class _CalculateTEEState extends State<CalculateTEE> {
                     ),
                     SizedBox(height: 25.0),
                     TextInputWidget(
-                      hint: 'Enter your height(in metres',
+                      hint: 'Enter your height(in metres)',
                       obscureText: false,
                       onChanged: (value) {
                         _height = double.parse(value);
@@ -133,15 +128,15 @@ class _CalculateTEEState extends State<CalculateTEE> {
                       obscureText: false,
                       onChanged: (value) {
                         _weight = double.parse(value);
-                      },),
+                      },
+                    ),
                     SizedBox(height: 15.0),
                     Text(
                       "Gender",
                       style: TextStyle(
-                        color: kColorPurple,
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.bold
-                      ),
+                          color: kColorPurple,
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold),
                     ),
 //                    SizedBox(height: 10.0),
                     ButtonBar(
@@ -152,8 +147,9 @@ class _CalculateTEEState extends State<CalculateTEE> {
                             Radio(
                               value: 1,
                               groupValue: _selectedradio,
-                              activeColor: Colors.deepPurple,
-                              onChanged: (val){                 //selecting the gender
+                              activeColor: kColorPurple,
+                              onChanged: (val) {
+                                //selecting the gender
                                 setSelectedRadio(val);
                               },
                             ),
@@ -170,8 +166,8 @@ class _CalculateTEEState extends State<CalculateTEE> {
                             Radio(
                               value: 2,
                               groupValue: _selectedradio,
-                              activeColor: Colors.deepPurple,
-                              onChanged: (val){
+                              activeColor: kColorPurple,
+                              onChanged: (val) {
                                 setSelectedRadio(val);
                               },
                             ),
@@ -191,8 +187,7 @@ class _CalculateTEEState extends State<CalculateTEE> {
                       style: TextStyle(
                           color: kColorPurple,
                           fontSize: 20.0,
-                          fontWeight: FontWeight.bold
-                      ),
+                          fontWeight: FontWeight.bold),
                     ),
 //                    SizedBox(height: 10.0),
                     Padding(
@@ -204,8 +199,8 @@ class _CalculateTEEState extends State<CalculateTEE> {
                               Radio(
                                 value: 1,
                                 groupValue: _selectedradio2,
-                                activeColor: Colors.deepPurple,
-                                onChanged: (val){
+                                activeColor: kColorPurple,
+                                onChanged: (val) {
                                   setSelectedRadio2(val);
                                 },
                               ),
@@ -222,8 +217,8 @@ class _CalculateTEEState extends State<CalculateTEE> {
                               Radio(
                                 value: 2,
                                 groupValue: _selectedradio2,
-                                activeColor: Colors.deepPurple,
-                                onChanged: (val){
+                                activeColor: kColorPurple,
+                                onChanged: (val) {
                                   setSelectedRadio2(val);
                                 },
                               ),
@@ -240,8 +235,9 @@ class _CalculateTEEState extends State<CalculateTEE> {
                               Radio(
                                 value: 3,
                                 groupValue: _selectedradio2,
-                                activeColor: Colors.deepPurple,
-                                onChanged: (val){                  //selecting the physical activity intensity
+                                activeColor: kColorPurple,
+                                onChanged: (val) {
+                                  //selecting the physical activity intensity
                                   setSelectedRadio2(val);
                                 },
                               ),
@@ -258,8 +254,8 @@ class _CalculateTEEState extends State<CalculateTEE> {
                               Radio(
                                 value: 4,
                                 groupValue: _selectedradio2,
-                                activeColor: Colors.deepPurple,
-                                onChanged: (val){
+                                activeColor: kColorPurple,
+                                onChanged: (val) {
                                   setSelectedRadio2(val);
                                 },
                               ),
@@ -278,18 +274,21 @@ class _CalculateTEEState extends State<CalculateTEE> {
                 ),
               ),
             ),
-            CustomButtonWidget(
-              label: "Calculate Calories",
-              onPressed: (){
-                calculatePA();
-                calculateTEE(_selectedradio);
-                print(_TEE);
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+              child: CustomButtonWidget(
+                label: "Calculate Calories",
+                onPressed: () {
+                  calculatePA();
+                  calculateTEE(_selectedradio);
+                  print(_TEE);
+                  AlertBox.showMessageDialog(context,'Your Requirement', 'Based on our calculations you require ${_TEE.round()} calories per day to live a healthy life.');
+                },
+              ),
             )
           ],
         ),
       ),
-
     );
   }
 }
