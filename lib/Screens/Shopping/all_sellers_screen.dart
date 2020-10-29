@@ -141,7 +141,7 @@ class _AllSellersScreenState extends State<AllSellersScreen> {
           },
         ),
         title: Text(
-          'SabziWaaley',
+          appTitle,
           style: TextStyle(
             color: kColorPurple,
             fontSize: 24,

@@ -231,7 +231,7 @@ class _RatingReviewScreenState extends State<RatingReviewScreen> {
       //"storeId":storeId,
       "productId":productId,
       "rating":rating,
-      "revies":review
+      "review":review
     };
     await FirebaseFirestore.instance
         .collection("Reviews&Ratings")

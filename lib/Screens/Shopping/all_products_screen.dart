@@ -120,7 +120,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
           },
         ),
         title: Text(
-          'SabziWaaley',
+          appTitle,
           style: TextStyle(
             color: kColorPurple,
             fontSize: 24,
