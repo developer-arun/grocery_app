@@ -60,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Text(
-            'SabziWaaley',
+            appTitle,
             style: TextStyle(
               color: kColorWhite,
               fontSize: 36,

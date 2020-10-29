@@ -120,7 +120,7 @@ class _SearchPageState extends State<SearchPage> {
             },
           ),
           title: Text(
-            'SabziWaaley',
+            appTitle,
             style: TextStyle(
               color: kColorPurple,
               fontSize: 24,

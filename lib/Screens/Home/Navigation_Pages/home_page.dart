@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         leading: widget.leadingWidget,
         centerTitle: true,
         title: Text(
-          'SabziWaaley',
+          appTitle,
           style: TextStyle(
             fontSize: 24,
           ),
