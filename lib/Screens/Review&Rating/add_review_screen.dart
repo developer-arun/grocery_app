@@ -14,12 +14,11 @@ class RatingReviewScreen extends StatefulWidget {
 }
 
 class _RatingReviewScreenState extends State<RatingReviewScreen> {
+  //initial rating
+  double _rating=3;
+  String _review;
   @override
   Widget build(BuildContext context) {
-    //initial rating
-    double _rating=3;
-    String _review;
-
     return Scaffold(
       //basic app bar
       appBar:  AppBar(
@@ -115,6 +114,7 @@ class _RatingReviewScreenState extends State<RatingReviewScreen> {
                   // set the value after it is changed
                   _rating=rating ;
                 });
+                print(_rating);
               },
             ),
 
@@ -198,6 +198,7 @@ class _RatingReviewScreenState extends State<RatingReviewScreen> {
             ),
             SizedBox(height: 10,),
             RaisedButton(onPressed: () {
+              print(_review.toString()+_rating.toString());
               _postReview(_rating,_review);
             },
               splashColor: Colors.transparent,
@@ -229,6 +230,7 @@ class _RatingReviewScreenState extends State<RatingReviewScreen> {
         .then((value) async {
       await AlertBox.showMessageDialog(
           context, 'Success', 'User details stored successfully!');
+      Navigator.pop(context);
     });
   }
 }

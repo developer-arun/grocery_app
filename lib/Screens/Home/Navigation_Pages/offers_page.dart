@@ -98,7 +98,7 @@ class _OffersPageState extends State<OffersPage> {
   Widget build(BuildContext context) {
 
     List<int> gestureAry=List<int>(_Offers.length);
-    gestureAry.fillRange(0,_Offers.length-1,-1);
+    gestureAry.fillRange(0,_Offers.length,-1);
 
     return Scaffold(
       appBar: AppBar(
