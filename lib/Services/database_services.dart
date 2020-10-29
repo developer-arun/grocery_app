@@ -508,4 +508,19 @@ class DatabaseServices {
 
     return TaskStatus.SUCCESS.toString();
   }
+  /*
+  Function to decline pending booking
+   */
+  static Future<String> declineProductBooking(String bookingID) async {
+    await FirebaseFirestore.instance
+        .collection("Bookings")
+        .doc(bookingID)
+        .delete()
+        .then((value) {
+      return TaskStatus.SUCCESS.toString();
+    }).catchError((error) {
+      return error.message.toString();
+    });
+    return TaskStatus.SUCCESS.toString();
+  }
 }
