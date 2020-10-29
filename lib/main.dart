@@ -17,9 +17,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-   FirebaseFirestore.instance.settings=Settings(
-      host: '192.168.0.106:8080',
-  sslEnabled: false);
+   
   runApp(MyApp());
 }
 

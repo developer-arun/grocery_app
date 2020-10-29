@@ -462,5 +462,41 @@ class DatabaseServices {
     return product;
   }
 
+  /*Function to fetch entire stocks details whose booking status is pending from database
+  */
+  static Future<List<Booking>> getPendingBooking() async {
+    List<Booking> booking = [];
+    var firestoreInstance = FirebaseFirestore.instance;
+    await firestoreInstance
+        .collection("Bookings")
+        .where("sellerEmail", isEqualTo: (UserApi.instance).email)
+        .where("status", isEqualTo: BookingStatus.PENDING.toString())
+        .orderBy("timestamp", descending: true)
+        .get()
+        .then((result) {
+      for (var element in result.docs) {
+        booking.add(Booking(
+          id: element.data()["id"],
+          fromLat: element.data()["fromLat"],
+          fromLong: element.data()["fromLong"],
+          toLat: element.data()["toLat"],
+          toLong: element.data()["toLong"],
+          buyerEmail: element.data()["buyerEmail"],
+          sellerEmail: element.data()["sellerEmail"],
+          storeName: element.data()["storeName"],
+          productId: element.data()["productId"],
+          price: element.data()["price"],
+          status: element.data()["status"],
+          quantity: element.data()["quantity"],
+          timestamp: element.data()["timestamp"],
+          productName: element.data()['productName'],
+        ));
+      }
+    }).catchError((error) {
+      print(error);
+    });
+    return booking;
+  }
+
 
 }
