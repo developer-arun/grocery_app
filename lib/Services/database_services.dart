@@ -380,4 +380,45 @@ class DatabaseServices {
     });
     return booking;
   }
+
+
+  /*
+  Function to fetch products for a particular seller from database
+  that were added in the store
+   */
+  static Future<List<Product>> getCompleteStock() async {
+
+
+    List<Product> product = [];
+    var firestoreInstance = FirebaseFirestore.instance;
+    await firestoreInstance
+        .collection("Products")
+        .where("storeId", isEqualTo: (UserApi.instance).email)
+        .orderBy("timestamp",descending: true)
+        .get()
+        .then((result) {
+      for (var element in result.docs) {
+        product.add(Product(
+          id: element.data()["itemId"],
+          name: element.data()["name"],
+          desc: element.data()["description"],
+          ownerEmail: element.data()["storeId"],
+          price: element.data()["price"],
+          quantity: element.data()["quantity"],
+          rating: element.data()["rating"],
+          reviews: element.data()["reviews"],
+          orders: element.data()["orders"],
+          imageURL: element.data()["imageurl"],
+          category: element.data()["category"],
+          timestamp: int.parse(element.data()["timestamp"]),
+          city: UserApi.instance.getCity(),
+          country: UserApi.instance.getCountry(),
+        ));
+      }
+    }).catchError((error) {
+      print(error);
+    });
+    return product;
+  }
+
 }

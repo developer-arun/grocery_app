@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:grocery_app/Screens/Home/Navigation_Pages/calculateTEE.dart';
@@ -17,6 +18,10 @@ import 'Screens/Store/add_item_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+   FirebaseFirestore.instance.settings=Settings(
+      host: '192.168.0.106:8080',
+  sslEnabled: false);
   runApp(MyApp());
 }
 
