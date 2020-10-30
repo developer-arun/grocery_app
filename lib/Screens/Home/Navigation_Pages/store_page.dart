@@ -127,7 +127,7 @@ class _StorePageState extends State<StorePage> {
               onPressed: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => StoreNotificationsScreen()));
               },
-          ) : null,
+          ) : Container(),
         ],
         centerTitle: true,
         title: Text(

@@ -491,4 +491,38 @@ class DatabaseServices {
     });
     return booking;
   }
+
+  /*
+  Function to confirm pending booking
+   */
+  static Future<String> confirmProductBooking(String bookingID) async {
+    await FirebaseFirestore.instance
+        .collection("Bookings")
+        .doc(bookingID)
+        .update({
+      'status': BookingStatus.CONFIRMED.toString(),
+    }).then((value) {
+      return TaskStatus.SUCCESS.toString();
+    }).catchError((error) {
+      return error.message.toString();
+    });
+
+    return TaskStatus.SUCCESS.toString();
+  }
+
+  /*
+  Function to decline pending booking
+   */
+  static Future<String> declineProductBooking(String bookingID) async {
+    await FirebaseFirestore.instance
+        .collection("Bookings")
+        .doc(bookingID)
+        .delete()
+        .then((value) {
+      return TaskStatus.SUCCESS.toString();
+    }).catchError((error) {
+      return error.message.toString();
+    });
+    return TaskStatus.SUCCESS.toString();
+  }
 }

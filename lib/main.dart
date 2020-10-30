@@ -22,11 +22,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-//  FirebaseFirestore.instance.settings = Settings(
-//    host: '192.168.1.9:8080',
-//    sslEnabled: false,
-//    persistenceEnabled: false,
-//  );
+  FirebaseFirestore.instance.settings = Settings(
+    host: '192.168.1.9:8080',
+    sslEnabled: false,
+    persistenceEnabled: false,
+  );
   runApp(MyApp());
 }
 
