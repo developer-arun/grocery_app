@@ -30,7 +30,7 @@ class _SearchPageState extends State<SearchPage> {
         .collection("SearchQueries")
         .where("city", isEqualTo: UserApi.instance.getCity())
         .where("country", isEqualTo: UserApi.instance.getCountry())
-        .where("nameCase", arrayContains: queryString)
+        .where("nameCase", arrayContains: queryString.toLowerCase())
         .orderBy("docId")
         .limit(_perPage);
 

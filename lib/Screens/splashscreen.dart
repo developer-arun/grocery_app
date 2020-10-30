@@ -7,6 +7,7 @@ Launching screen for the app
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as AUTH;
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Model/User.dart';
@@ -22,6 +23,34 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
 
   User user;  // OBJECT OF USER CLASS DEFINED BY US
+
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  void firebaseCloudMessaging_Listeners() {
+
+    _firebaseMessaging.getToken().then((token){
+      print('Token is $token');
+      if(AUTH.FirebaseAuth.instance.currentUser != null){
+        FirebaseFirestore.instance.collection("DeviceTokens").doc(AUTH.FirebaseAuth.instance.currentUser.email).set(
+          {
+            'token' : token,
+          }
+        );
+      }
+    });
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+  }
 
   /*
   Function to check the login status of user
@@ -46,6 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     checkLogin();
+    firebaseCloudMessaging_Listeners();
   }
 
   // UI

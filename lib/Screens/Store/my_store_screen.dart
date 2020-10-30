@@ -11,6 +11,8 @@ import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/store_api.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
+import 'current_stock_screen.dart';
+
 class MyStoreScreen extends StatefulWidget {
   @override
   _MyStoreScreenState createState() => _MyStoreScreenState();
@@ -206,12 +208,22 @@ class _MyStoreScreenState extends State<MyStoreScreen> {
                                 color: kColorPurple,
                               ),
                             ),
-                            Text(
-                              'View All',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: kColorPurple.withOpacity(.5),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CurrentStockScreen(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'View All',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: kColorPurple.withOpacity(.5),
+                                ),
                               ),
                             ),
                           ],

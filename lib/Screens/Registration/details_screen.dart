@@ -102,6 +102,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             _loading = false;
                           });
                         }
+                        setState(() {
+                          _loading = false;
+                        });
                       }
                     },
                     controller: addressController,

@@ -490,7 +490,7 @@ class _AddItemState extends State<AddItem> {
         caseSearchList.add(temp);
       }
 
-      // addding data for search queries
+      // adding data for search queries
       Map<String, dynamic> searchData = {
         "docId": documentReference.id,
         "name": product.name.toLowerCase(),
@@ -505,7 +505,7 @@ class _AddItemState extends State<AddItem> {
           .set(searchData)
           .then((value) async {
         await AlertBox.showMessageDialog(
-            context, 'Success', 'User details stored successfully!');
+            context, 'Success', 'Product added!');
         setState(() {
           _loading = false;
         });

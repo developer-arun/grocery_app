@@ -20,7 +20,7 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
   FirebaseFirestore _firebasefirestore = FirebaseFirestore.instance;
   List<QueryDocumentSnapshot> _products = [];
   bool _loading = true; //boolean variable to check if data is presently loading
-  int _perpage = 15; //limit of documents reading in one go.
+  int _perpage = 10; //limit of documents reading in one go.
   DocumentSnapshot _lastDocument;
   ScrollController _scrollController = ScrollController();
   bool _gettingMoreProducts = false;

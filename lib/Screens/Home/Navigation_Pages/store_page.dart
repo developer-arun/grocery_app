@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/custom_button_widget.dart';
 import 'package:grocery_app/Screens/Store/my_store_screen.dart';
 import 'package:grocery_app/Screens/Store/store_details_screen.dart';
+import 'package:grocery_app/Screens/Store/store_notifications_screen.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/store_api.dart';
@@ -117,9 +118,20 @@ class _StorePageState extends State<StorePage> {
         backgroundColor: darkAppBarIcons ? kColorWhite : kColorPurple,
         elevation: 0,
         leading: widget.leadingWidget,
+        actions: [
+          userApi.isSeller ?
+          IconButton(
+              icon: Icon(
+                Icons.notifications,
+              ),
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => StoreNotificationsScreen()));
+              },
+          ) : Container(),
+        ],
         centerTitle: true,
         title: Text(
-          'My Cart',
+          'My Store',
           style: TextStyle(
             color: darkAppBarIcons ? kColorPurple : kColorWhite,
             fontSize: 24,

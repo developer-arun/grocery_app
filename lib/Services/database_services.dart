@@ -51,9 +51,7 @@ class DatabaseServices {
   that were added in the store within a single day
    */
   static Future<List<Product>> getCurrentStock() async {
-    var presentstamp = DateTime
-        .now()
-        .millisecondsSinceEpoch;
+    var presentstamp = DateTime.now().millisecondsSinceEpoch;
     presentstamp = presentstamp - (24 * 3600 * 1000);
 
     List<Product> product = [];
@@ -163,8 +161,8 @@ class DatabaseServices {
     await firestoreInstance
         .collection("Sellers")
         .where("city",
-        isEqualTo: (UserApi.instance)
-            .getCity()) //fetching top 5 rating stores details
+            isEqualTo: (UserApi.instance)
+                .getCity()) //fetching top 5 rating stores details
         .where("country", isEqualTo: UserApi.instance.getCountry())
         .orderBy("rating", descending: true)
         .limit(5)
@@ -306,9 +304,7 @@ class DatabaseServices {
   where booking status is delivered
    */
   static Future<List<Booking>> getRecentlySoldOut() async {
-    var presentstamp = DateTime
-        .now()
-        .millisecondsSinceEpoch;
+    var presentstamp = DateTime.now().millisecondsSinceEpoch;
     presentstamp = presentstamp - (24 * 3600 * 1000);
     List<Booking> booking = [];
     var firestoreInstance = FirebaseFirestore.instance;
@@ -423,19 +419,16 @@ class DatabaseServices {
     return TaskStatus.SUCCESS.toString();
   }
 
-
   /*
   Function to fetch products for a particular seller from database
   that were added in the store */
   static Future<List<Product>> getEntireStock() async {
-
-
     List<Product> product = [];
     var firestoreInstance = FirebaseFirestore.instance;
     await firestoreInstance
         .collection("Products")
         .where("storeId", isEqualTo: (UserApi.instance).email)
-        .orderBy("timestamp",descending: true)
+        .orderBy("timestamp", descending: true)
         .get()
         .then((result) {
       for (var element in result.docs) {
@@ -462,8 +455,9 @@ class DatabaseServices {
     return product;
   }
 
-  /*Function to fetch entire stocks details whose booking status is pending from database
-  */
+  /*
+  Function to fetch pending bookings from the database
+   */
   static Future<List<Booking>> getPendingBooking() async {
     List<Booking> booking = [];
     var firestoreInstance = FirebaseFirestore.instance;
@@ -498,5 +492,37 @@ class DatabaseServices {
     return booking;
   }
 
+  /*
+  Function to confirm pending booking
+   */
+  static Future<String> confirmProductBooking(String bookingID) async {
+    await FirebaseFirestore.instance
+        .collection("Bookings")
+        .doc(bookingID)
+        .update({
+      'status': BookingStatus.CONFIRMED.toString(),
+    }).then((value) {
+      return TaskStatus.SUCCESS.toString();
+    }).catchError((error) {
+      return error.message.toString();
+    });
 
+    return TaskStatus.SUCCESS.toString();
+  }
+
+  /*
+  Function to decline pending booking
+   */
+  static Future<String> declineProductBooking(String bookingID) async {
+    await FirebaseFirestore.instance
+        .collection("Bookings")
+        .doc(bookingID)
+        .delete()
+        .then((value) {
+      return TaskStatus.SUCCESS.toString();
+    }).catchError((error) {
+      return error.message.toString();
+    });
+    return TaskStatus.SUCCESS.toString();
+  }
 }
