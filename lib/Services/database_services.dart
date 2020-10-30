@@ -596,4 +596,39 @@ class DatabaseServices {
     });
     return booking;
   }
+
+  /*
+  Function to fetch user subscriptions from the database
+   */
+  static Future<List<Booking>> getSubscriptions() async {
+    List<Booking> booking = [];
+    var firestoreInstance = FirebaseFirestore.instance;
+    await firestoreInstance
+        .collection("Subscriptions")
+        .where("buyerEmail", isEqualTo: (UserApi.instance).email)
+        .get()
+        .then((result) {
+      for (var element in result.docs) {
+        booking.add(Booking(
+          id: element.data()["id"],
+          fromLat: element.data()["fromLat"],
+          fromLong: element.data()["fromLong"],
+          toLat: element.data()["toLat"],
+          toLong: element.data()["toLong"],
+          buyerEmail: element.data()["buyerEmail"],
+          sellerEmail: element.data()["sellerEmail"],
+          storeName: element.data()["storeName"],
+          productId: element.data()["productId"],
+          price: element.data()["price"],
+          status: element.data()["status"],
+          quantity: element.data()["quantity"],
+          timestamp: element.data()["timestamp"],
+          productName: element.data()['productName'],
+        ));
+      }
+    }).catchError((error) {
+      print(error);
+    });
+    return booking;
+  }
 }
