@@ -525,4 +525,39 @@ class DatabaseServices {
     });
     return TaskStatus.SUCCESS.toString();
   }
+
+
+  /*
+  Function to confirm Subscription booking
+   */
+  static Future<String> confirmSubscriptionBooking(String subscriptionID) async {
+    await FirebaseFirestore.instance
+        .collection("Subscriptions")
+        .doc(subscriptionID)
+        .update({
+      'status': BookingStatus.CONFIRMED.toString(),
+    }).then((value) {
+      return TaskStatus.SUCCESS.toString();
+    }).catchError((error) {
+      return error.message.toString();
+    });
+
+    return TaskStatus.SUCCESS.toString();
+  }
+
+  /*
+  Function to decline subscription booking
+   */
+  static Future<String> declineSubscriptionBooking(String subscriptionID) async {
+    await FirebaseFirestore.instance
+        .collection("Subscriptions")
+        .doc(subscriptionID)
+        .delete()
+        .then((value) {
+      return TaskStatus.SUCCESS.toString();
+    }).catchError((error) {
+      return error.message.toString();
+    });
+    return TaskStatus.SUCCESS.toString();
+  }
 }
