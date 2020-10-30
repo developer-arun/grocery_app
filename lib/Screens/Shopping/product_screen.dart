@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grocery_app/Components/custom_button_widget.dart';
-import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/Model/CartProduct.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Screens/Home/Navigation_Pages/cart_page.dart';
 import 'package:grocery_app/Screens/Review&Rating/add_review_screen.dart';
+import 'package:grocery_app/Screens/Review&Rating/view_review_screeb.dart';
 import 'package:grocery_app/Services/cart_service.dart';
 import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
@@ -285,8 +285,8 @@ class _ProductScreenState extends State<ProductScreen>
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => RatingReviewScreen(
-                                    productId: _product.id,
+                                  builder: (context) => ViewReviewsScreen(
+                                    productID: _product.id,
                                   ),
                                 ),
                               );

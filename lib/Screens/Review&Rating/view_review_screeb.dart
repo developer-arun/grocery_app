@@ -1,45 +1,109 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_app/Components/custom_button_widget.dart';
+import 'package:grocery_app/Model/Review.dart';
+import 'package:grocery_app/Screens/Review&Rating/add_review_screen.dart';
 import 'package:grocery_app/utilities/constants.dart';
 
 class ViewReviewsScreen extends StatefulWidget {
-  String productID;
-  ViewReviewsScreen({this.productID});
   @override
   _ViewReviewsScreenState createState() => _ViewReviewsScreenState();
+
+  final String productID;
+
+  const ViewReviewsScreen({this.productID});
 }
+
 class _ViewReviewsScreenState extends State<ViewReviewsScreen> {
-  FirebaseFirestore firestoreInstance=FirebaseFirestore.instance;
-  List<QueryDocumentSnapshot> _Reviews=[];
-  List<QueryDocumentSnapshot> _User=[];
-  //getting reviews from firestore
-  _getReviews() async{
-    Query query=firestoreInstance
+  FirebaseFirestore _firebasefirestore = FirebaseFirestore.instance;
+  List<QueryDocumentSnapshot> _reviews = [];
+  bool _loading = true; //boolean variable to check if data is presently loading
+  int _perpage = 10; //limit of documents reading in one go.
+  DocumentSnapshot _lastDocument;
+  ScrollController _scrollController = ScrollController();
+  bool _gettingMoreReviews = false;
+  bool _moreProductsAvailable =
+      true; //boolean variable to check if more products are available
+
+  Future _getReviews() async {
+    Query query = _firebasefirestore
         .collection("Reviews&Ratings")
-        .where("productId",isEqualTo: widget.productID);
-    QuerySnapshot snapshot=await query.get();
-    _Reviews=snapshot.docs;
+        .where("productId", isEqualTo: widget.productID)
+        .orderBy("reviewId")
+        .limit(_perpage);
+
+    setState(() {
+      _loading = true;
+    });
+
+    QuerySnapshot querySnapshot = await query.get();
+    _reviews = querySnapshot.docs;
+    if (querySnapshot.docs.length > 0)
+      _lastDocument = querySnapshot.docs[querySnapshot.docs.length - 1];
+
+    setState(() {
+      _loading = false;
+    });
   }
-  _getUser() async{
-    for(int i=0;i<_Reviews.length;i++){
-      DocumentSnapshot snapshot=(await firestoreInstance
-          .collection("Users")
-          .doc(_Reviews[i].data()['userId'])
-          .get());
-      _User.add(snapshot);
+
+  Future _getMoreReviews() async {
+    if (_moreProductsAvailable == false) {
+      print("No more reviews");
+      return;
+    }
+
+    if (_gettingMoreReviews == true) {
+      return;
+    }
+    _gettingMoreReviews = true;
+    if (_gettingMoreReviews == true) {
+      print("getmore called");
+
+      Query query = _firebasefirestore
+          .collection("Reviews&Ratings")
+          .where("productId", isEqualTo: widget.productID)
+          .orderBy("reviewId")
+          .startAfter([_lastDocument.data()['reviewId']]).limit(_perpage);
+
+      QuerySnapshot querySnapshot = await query.get();
+      if (querySnapshot.docs.length != 0) {
+        _lastDocument = querySnapshot.docs[querySnapshot.docs.length - 1];
+      }
+
+      if (querySnapshot.docs.length < _perpage) {
+        _moreProductsAvailable = false;
+      }
+
+      _reviews.addAll(querySnapshot.docs);
+
+      setState(() {});
+      _gettingMoreReviews = false;
     }
   }
 
   @override
   void initState() {
+    super.initState();
+
     _getReviews();
-    _getUser();
+
+    _scrollController.addListener(() {
+      //adding scroll listener to check if more items to be loaded on scrolling
+      double _maxscroll = _scrollController.position.maxScrollExtent;
+      double _currscroll = _scrollController.position.pixels;
+      double _delta = MediaQuery.of(context).size.height * 0.25;
+
+      if (_maxscroll - _currscroll < _delta) {
+        _getMoreReviews();
+      }
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         backgroundColor: kColorWhite,
         elevation: 0,
         centerTitle: true,
@@ -53,7 +117,7 @@ class _ViewReviewsScreenState extends State<ViewReviewsScreen> {
           },
         ),
         title: Text(
-          "Sabjiwaley",
+          "Product Reviews",
           style: TextStyle(
             color: kColorPurple,
             fontSize: 24,
@@ -61,66 +125,84 @@ class _ViewReviewsScreenState extends State<ViewReviewsScreen> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: ListView.builder(
-          itemCount: _Reviews.length,
-          itemBuilder: (context,index){
-            return Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [BoxShadow(color: Colors.pinkAccent[100],spreadRadius: 1),],
-                    color: Colors.transparent
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
-                child: Column(
-                    children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)),
-                            color: Colors.deepPurple[300]
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text("${_User[index].data()['name']}",
-                              style: TextStyle(
-                                color: kColorPurple,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                              ),
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text("${_Reviews[index].data()['rating']}",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                    )),
-                                SizedBox(width: 4,),
-                                Icon(Icons.star_half,color: Colors.yellow,)
-                              ],
-                            ),
-                          ],
-                        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _getReviews,
+              child: ListView.builder(
+                controller: _scrollController,
+                physics: AlwaysScrollableScrollPhysics(),
+                itemCount: _reviews.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: kColorWhite,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: kColorPurple.withOpacity(0.1),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                          ),
+                        ],
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30)),
-                            color: Colors.purple[100]
-                        ),
-                        child: Text("${_Reviews[index].data()['review']}",
-                            maxLines: null,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            _reviews[index].data()['userId'],
                             style: TextStyle(
-                              color: Colors.black,
+                              color: kColorPurple,
                               fontWeight: FontWeight.bold,
-                              fontSize: 11,
-                            )
-                        ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            _reviews[index].data()['review'],
+                            style: TextStyle(
+                              color: kColorPurple.withOpacity(0.5),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '⭐ ${_reviews[index].data()['rating']}',
+                          )
+                        ],
                       ),
-                    ]
-                )
-            );
-          }),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: CustomButtonWidget(
+              label: 'Add Review',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RatingReviewScreen(
+                      productId: widget.productID,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

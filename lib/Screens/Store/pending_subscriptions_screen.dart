@@ -45,7 +45,8 @@ class _PendingSubscriptionsScreenState extends State<PendingSubscriptionsScreen>
             return Container(
               width: double.infinity,
               padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.only(bottom: 15),
+              margin: const EdgeInsets.only(bottom: 15
+              ),
               decoration: BoxDecoration(
                 color: kColorWhite,
                 borderRadius: BorderRadius.all(Radius.circular(10)),

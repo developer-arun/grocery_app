@@ -7,12 +7,18 @@ import 'package:grocery_app/utilities/constants.dart';
 import 'custom_button_widget.dart';
 
 class BookingCard extends StatelessWidget {
-
   final Booking booking;
   final Function onCancelClick;
   final Function onCancelFailed;
   final Function onCancelSuccess;
-  const BookingCard({@required this.booking,@required this.onCancelClick,@required this.onCancelSuccess,@required this.onCancelFailed});
+  final bool isSubscription;
+
+  const BookingCard(
+      {@required this.booking,
+      @required this.onCancelClick,
+      @required this.onCancelSuccess,
+      @required this.onCancelFailed,
+      @required this.isSubscription});
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +83,13 @@ class BookingCard extends StatelessWidget {
             height: 5,
           ),
           Text(
-            booking.status == BookingStatus.PENDING.toString() ? 'Pending' : 'Order Confirmed',
+            booking.status == BookingStatus.PENDING.toString()
+                ? 'Pending'
+                : 'Order Confirmed',
             style: TextStyle(
-              color: booking.status == BookingStatus.PENDING.toString() ? Colors.red : Colors.green,
+              color: booking.status == BookingStatus.PENDING.toString()
+                  ? Colors.red
+                  : Colors.green,
               fontSize: 14,
             ),
           ),
@@ -91,33 +101,39 @@ class BookingCard extends StatelessWidget {
               Expanded(
                 child: CustomButtonWidget(
                   label: 'Cancel',
-                  onPressed: () async{              //Function for Deleting the given booking
+                  onPressed: () async {
+                    //Function for Deleting the given booking
                     // TODO : CODE
                     onCancelClick();
-                    FirebaseFirestore firebaseFirestore=FirebaseFirestore.instance;
-                    await firebaseFirestore.collection("Bookings")
-                        .doc(booking.id)
-                        .delete()
-                        .then((value) {
-                          onCancelSuccess();
-                    }).catchError((error){
+                    FirebaseFirestore firebaseFirestore =
+                        FirebaseFirestore.instance;
+
+                    CollectionReference colRef = !isSubscription
+                        ? firebaseFirestore.collection("Bookings")
+                        : firebaseFirestore.collection("Subscriptions");
+
+                    await colRef.doc(booking.id).delete().then((value) {
+                      onCancelSuccess();
+                    }).catchError((error) {
                       print(error);
                       onCancelFailed(error);
                     });
-                    },
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: CustomButtonWidget(
-                  label: 'Track',
-                  onPressed: (){
-                    // TODO : CODE
                   },
                 ),
               ),
+              SizedBox(
+                width: !isSubscription ? 10 : 0,
+              ),
+              !isSubscription
+                  ? Expanded(
+                      child: CustomButtonWidget(
+                        label: 'Track',
+                        onPressed: () {
+                          // TODO : CODE
+                        },
+                      ),
+                    )
+                  : Container(),
             ],
           ),
         ],
