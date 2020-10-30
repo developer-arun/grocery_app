@@ -8,7 +8,8 @@ class CustomToggleBar extends StatefulWidget {
 
   final int selectedTab;
   final Function onTabChanged;
-  const CustomToggleBar({@required this.selectedTab,@required this.onTabChanged});
+  final String tab1Name,tab2Name;
+  const CustomToggleBar({@required this.selectedTab,@required this.tab1Name,@required this.tab2Name,@required this.onTabChanged});
 }
 
 class _CustomToggleBarState extends State<CustomToggleBar> {
@@ -55,7 +56,7 @@ class _CustomToggleBarState extends State<CustomToggleBar> {
                 ),
                 child: Center(
                   child: Text(
-                    'My Store',
+                    widget.tab1Name,
                     style: TextStyle(
                       color: selectedTab == 0 ? kColorWhite : kColorPurple,
                       fontSize: 18,
@@ -84,7 +85,7 @@ class _CustomToggleBarState extends State<CustomToggleBar> {
                 ),
                 child: Center(
                   child: Text(
-                    'My Orders',
+                    widget.tab2Name,
                     style: TextStyle(
                       color: selectedTab == 1 ? kColorWhite : kColorPurple,
                       fontSize: 18,

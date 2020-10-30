@@ -338,7 +338,6 @@ class _CartPageState extends State<CartPage> {
                                           final timestamp = picked
                                               .millisecondsSinceEpoch
                                               .toString();
-
                                           List<Booking> booking = [];
                                           for (CartProduct cartProduct
                                               in cartProducts) {
@@ -364,10 +363,8 @@ class _CartPageState extends State<CartPage> {
                                                   cartProduct.product.name,
                                             ));
                                           }
-
                                           String result = await DatabaseServices
                                               .subscribeToProducts(booking);
-
                                           if (result ==
                                               TaskStatus.SUCCESS.toString()) {
                                             CartService.sellerId = null;
