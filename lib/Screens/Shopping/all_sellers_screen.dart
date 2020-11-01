@@ -1,9 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:grocery_app/Components/store_card.dart';
 import 'package:grocery_app/Model/Store.dart';
+import 'package:grocery_app/Screens/Home/Navigation_Pages/cart_page.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
+import 'package:toast/toast.dart';
+
+import '../search_screen.dart';
 
 class AllSellersScreen extends StatefulWidget {
   @override
@@ -65,6 +70,7 @@ class _AllSellersScreenState extends State<AllSellersScreen> {
   void _getMoreSellers() async {
     // Checking if more data is available in database or not
     if (_moreSellersAvailable == false) {
+      Toast.show('No more sellers', context,duration: Toast.LENGTH_SHORT,gravity: Toast.BOTTOM);
       return;
     }
 
@@ -76,6 +82,9 @@ class _AllSellersScreenState extends State<AllSellersScreen> {
     // Loading more data
     _gettingMoreSellers = true;
     if (_gettingMoreSellers == true) {
+
+      Toast.show('Loading more sellers', context,duration: Toast.LENGTH_SHORT,gravity: Toast.BOTTOM);
+
       Query query = db
           .collection("Sellers")
           .where("city", isEqualTo: UserApi.instance.getCity())
@@ -114,7 +123,7 @@ class _AllSellersScreenState extends State<AllSellersScreen> {
       double _delta = MediaQuery.of(context).size.height * 0.25;
 
       // Loading more items on overscroll
-      if (_maxScroll - _currentScroll < _delta) {
+      if (_maxScroll - _currentScroll < _delta && _scrollController.position.userScrollDirection == ScrollDirection.reverse) {
         _getMoreSellers();
       }
     });
@@ -144,6 +153,17 @@ class _AllSellersScreenState extends State<AllSellersScreen> {
             fontSize: 24,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.shopping_cart,
+              color: kColorPurple,
+            ),
+            onPressed: (){
+              Navigator.push(context,MaterialPageRoute(builder: (context) => CartPage()));
+            },
+          ),
+        ],
       ),
       body: _loading == true
           ? Container(
@@ -153,6 +173,51 @@ class _AllSellersScreenState extends State<AllSellersScreen> {
             )
           : Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 48,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: kColorWhite,
+                        boxShadow: [
+                          BoxShadow(
+                            color: kColorPurple.withOpacity(0.1),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                          ),
+                        ],
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.search,
+                              color: kColorPurple,
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              'Order something refreshing!!',
+                              style: TextStyle(
+                                color: kColorPurple.withOpacity(0.3),
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: Container(
                     child: _sellers.length == 0

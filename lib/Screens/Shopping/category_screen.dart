@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/product_card.dart';
 import 'package:grocery_app/Components/text_input_widget.dart';
 import 'package:grocery_app/Model/Product.dart';
+import 'package:grocery_app/Screens/Home/Navigation_Pages/cart_page.dart';
 import 'product_screen.dart';
 import 'package:grocery_app/Services/database_services.dart';
 import 'package:grocery_app/utilities/constants.dart';
@@ -18,9 +19,14 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   List<Product> products = [];
+  List<Product> filteredProducts = [];
+  bool _filterApplied = false;
+
+  bool dataLoaded = false;
 
   void loadProducts() async {
     products = await DatabaseServices.getProductsByCategory(widget.category);
+    dataLoaded = true;
     setState(() {});
   }
 
@@ -32,6 +38,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    List<Product> displayProducts = filteredProducts;
+
+    if (_filterApplied == true) {
+      if (filteredProducts.isEmpty) {
+        displayProducts = products;
+      }
+    }else{
+      displayProducts = products;
+    }
+
     return Scaffold(
       backgroundColor: kColorWhite,
       appBar: AppBar(
@@ -55,37 +72,75 @@ class _CategoryScreenState extends State<CategoryScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-            child: TextInputWidget(
-              icon: Icons.search,
-              obscureText: false,
-              hint: "Search for something",
-              onChanged: (value) {
-                //TODO:CODE
-              },
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.shopping_cart,
+              color: kColorPurple,
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(top: 10),
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 0),
-                  child: ProductCard(
-                      product: products[index],
-                  ),
-                );
-              },
-            ),
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => CartPage()));
+            },
           ),
         ],
       ),
+      body: dataLoaded
+          ? Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  child: TextInputWidget(
+                    icon: Icons.search,
+                    obscureText: false,
+                    hint: "Search from loaded products",
+                    onChanged: (value) {
+                      String filter = value.toString().trim();
+                      if (filter.isNotEmpty) {
+                        _filterApplied = true;
+                        filteredProducts = products
+                            .where((product) =>
+                                product.name.toLowerCase().contains(filter))
+                            .toList();
+                      } else {
+                        _filterApplied = false;
+                      }
+                      setState(() {});
+                    },
+                  ),
+                ),
+                displayProducts.isNotEmpty
+                    ? Expanded(
+                        child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          padding: const EdgeInsets.only(top: 10),
+                          itemCount: displayProducts.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 0),
+                              child: ProductCard(
+                                product: displayProducts[index],
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    : Center(
+                        child: Text(
+                          'Nothing to display',
+                          style: TextStyle(
+                            color: kColorPurple.withOpacity(0.4),
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+              ],
+            )
+          : Center(
+              child: CircularProgressIndicator(),
+            ),
     );
   }
 }

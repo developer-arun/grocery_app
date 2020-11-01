@@ -6,6 +6,7 @@ import 'package:grocery_app/Components/advertisementPager.dart';
 import 'package:grocery_app/Components/categoriesPager.dart';
 import 'package:grocery_app/Components/productsPager.dart';
 import 'package:grocery_app/Components/sellersPager.dart';
+import 'package:grocery_app/Screens/Home/Navigation_Pages/cart_page.dart';
 import 'package:grocery_app/Screens/Shopping/all_products_screen.dart';
 import 'package:grocery_app/Screens/Shopping/all_sellers_screen.dart';
 import 'package:grocery_app/Screens/search_screen.dart';
@@ -46,6 +47,17 @@ class _HomePageState extends State<HomePage> {
             fontSize: 24,
           ),
         ),
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+                color: kColorPurple,
+              ),
+              onPressed: (){
+                Navigator.push(context,MaterialPageRoute(builder: (context) => CartPage()));
+              },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),

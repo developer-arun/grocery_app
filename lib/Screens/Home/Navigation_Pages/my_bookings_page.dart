@@ -14,6 +14,7 @@ class MyBookingsPage extends StatefulWidget {
 
 class _MyBookingsPageState extends State<MyBookingsPage> {
 
+  bool _dataLoaded = false;
   List<Widget> ordersToDisplay = [];
   bool _loading = false;
 
@@ -51,6 +52,7 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
         widget,
       );
     }
+    _dataLoaded = true;
     setState(() {});
   }
 
@@ -67,7 +69,8 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
       inAsyncCall: _loading,
       child: RefreshIndicator(
         onRefresh: getOrders,
-        child: Column(
+        child: _dataLoaded ?
+        Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -129,6 +132,8 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
               ),
             ),
           ],
+        ):Center(
+          child: CircularProgressIndicator(),
         ),
       ),
     );

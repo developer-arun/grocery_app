@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Model/Booking.dart';
 import 'package:grocery_app/utilities/booking_status.dart';
@@ -38,38 +39,37 @@ class BookingCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            booking.productName,
-            style: TextStyle(
-              color: kColorPurple,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: Text(
+                  booking.productName,
+                  style: TextStyle(
+                    color: kColorPurple,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                '${booking.quantity} Kg',
+                style: TextStyle(
+                  color: kColorPurple,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+            ],
           ),
           SizedBox(
             height: 5,
-          ),
-          Text(
-            '${booking.quantity} Kg',
-            style: TextStyle(
-              color: kColorPurple,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(
-            'Rs ${booking.price}',
-            style: TextStyle(
-              color: kColorPurple,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(
-            height: 15,
           ),
           Text(
             booking.storeName,
@@ -83,15 +83,46 @@ class BookingCard extends StatelessWidget {
             height: 5,
           ),
           Text(
-            booking.status == BookingStatus.PENDING.toString()
-                ? 'Pending'
-                : 'Order Confirmed',
+            formatDate(DateTime.fromMillisecondsSinceEpoch(int.parse(booking.timestamp)),[d,' ', MM, ', ',yyyy]),
             style: TextStyle(
-              color: booking.status == BookingStatus.PENDING.toString()
-                  ? Colors.red
-                  : Colors.green,
+              color: kColorPurple.withOpacity(0.4),
               fontSize: 14,
             ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: Text(
+                  booking.status == BookingStatus.PENDING.toString()
+                      ? 'Pending'
+                      : 'Order Confirmed',
+                  style: TextStyle(
+                    color: booking.status == BookingStatus.PENDING.toString()
+                        ? Colors.red
+                        : Colors.green,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                'Rs ${booking.price}',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+            ],
           ),
           SizedBox(
             height: 15,

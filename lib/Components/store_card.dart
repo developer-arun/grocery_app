@@ -24,7 +24,7 @@ class StoreCard extends StatelessWidget {
                 spreadRadius: 1),
           ]),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Wrap(

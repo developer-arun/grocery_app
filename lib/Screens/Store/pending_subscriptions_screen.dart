@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Components/custom_button_widget.dart';
 import 'package:grocery_app/Model/Booking.dart';
@@ -61,24 +62,34 @@ class _PendingSubscriptionsScreenState extends State<PendingSubscriptionsScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    pendingSubscriptions[index].productName,
-                    style: TextStyle(
-                      color: kColorPurple,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    '${pendingSubscriptions[index].quantity} Kg',
-                    style: TextStyle(
-                      color: kColorPurple,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          pendingSubscriptions[index].productName,
+                          style: TextStyle(
+                            color: kColorPurple,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        '${pendingSubscriptions[index].quantity} Kg',
+                        style: TextStyle(
+                          color: kColorPurple,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 5,
@@ -86,8 +97,18 @@ class _PendingSubscriptionsScreenState extends State<PendingSubscriptionsScreen>
                   Text(
                     pendingSubscriptions[index].buyerEmail,
                     style: TextStyle(
-                      color: kColorPurple,
-                      fontSize: 12,
+                      color: kColorPurple.withOpacity(0.4),
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    formatDate(DateTime.fromMillisecondsSinceEpoch(int.parse(pendingSubscriptions[index].timestamp)),[d,' ', MM, ', ',yyyy]),
+                    style: TextStyle(
+                      color: kColorPurple.withOpacity(0.4),
+                      fontSize: 14,
                     ),
                   ),
                   SizedBox(

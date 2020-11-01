@@ -22,9 +22,6 @@ class CartPage extends StatefulWidget {
   @override
   _CartPageState createState() => _CartPageState();
 
-  final Widget leadingWidget;
-
-  const CartPage({@required this.leadingWidget});
 }
 
 class _CartPageState extends State<CartPage> {
@@ -169,7 +166,14 @@ class _CartPageState extends State<CartPage> {
             ),
             backgroundColor: kColorWhite,
             elevation: 0,
-            leading: widget.leadingWidget,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             centerTitle: true,
             title: Text(
               'My Cart',

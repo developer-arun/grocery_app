@@ -138,16 +138,7 @@ class _ProductScreenState extends State<ProductScreen>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CartPage(
-                          leadingWidget: IconButton(
-                            icon: Icon(
-                              Icons.arrow_back_ios,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
+                        builder: (context) => CartPage(),
                       ),
                     );
                   },

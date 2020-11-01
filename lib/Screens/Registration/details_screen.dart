@@ -141,8 +141,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         orders: 0,
                       );
                       await updateUserDetails(
-                          user: user,
-                          context: context,
+                        user: user,
+                        context: context,
                       );
                     }else{
                       AlertBox.showMessageDialog(context, 'Error', 'Please fill up all the fields!');

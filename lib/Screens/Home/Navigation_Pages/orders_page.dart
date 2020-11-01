@@ -9,7 +9,6 @@ class OrdersPage extends StatefulWidget {
   _OrdersPageState createState() => _OrdersPageState();
 
   final Widget leadingWidget;
-
   const OrdersPage({@required this.leadingWidget});
 }
 

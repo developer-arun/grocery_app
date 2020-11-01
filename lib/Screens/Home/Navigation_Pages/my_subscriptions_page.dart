@@ -15,6 +15,7 @@ class _MySubscriptionsPageState extends State<MySubscriptionsPage> {
 
   List<Widget> subscriptionsToDisplay = [];
   bool _loading = false;
+  bool _dataLoaded = false;
 
   Future getOrders() async {
     subscriptionsToDisplay = [];
@@ -50,6 +51,7 @@ class _MySubscriptionsPageState extends State<MySubscriptionsPage> {
         widget,
       );
     }
+    _dataLoaded = true;
     setState(() {});
   }
 
@@ -66,7 +68,7 @@ class _MySubscriptionsPageState extends State<MySubscriptionsPage> {
       inAsyncCall: _loading,
       child: RefreshIndicator(
         onRefresh: getOrders,
-        child: CustomScrollView(
+        child: _dataLoaded ? CustomScrollView(
           physics: AlwaysScrollableScrollPhysics(),
           slivers: [
             SliverFillRemaining(
@@ -90,6 +92,8 @@ class _MySubscriptionsPageState extends State<MySubscriptionsPage> {
               ),
             ),
           ],
+        ) : Center(
+          child: CircularProgressIndicator(),
         ),
       ),
     );

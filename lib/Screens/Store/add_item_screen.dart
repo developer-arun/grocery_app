@@ -28,6 +28,7 @@ class _AddItemState extends State<AddItem> {
       category = "Choose category";
   double price = 0, quantity = 0;
   bool _loading = false;
+  bool _stockUpdated = false;
 
   File _productImage;
   final picker = ImagePicker();
@@ -44,7 +45,7 @@ class _AddItemState extends State<AddItem> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context, _stockUpdated);
             },
           ),
         ),
@@ -409,7 +410,7 @@ class _AddItemState extends State<AddItem> {
                       category: category,
                       ownerEmail: StoreApi.instance.ownerEmail,
                       reviews: 0,
-                      rating: 0,
+                      rating: 0.0,
                       orders: 0,
                     );
                     await addProductDetails(
@@ -504,8 +505,9 @@ class _AddItemState extends State<AddItem> {
           .doc(data['itemId'])
           .set(searchData)
           .then((value) async {
-        await AlertBox.showMessageDialog(
-            context, 'Success', 'Product added!');
+        _stockUpdated = true;
+        await AlertBox.showMessageDialog(context, 'Success', 'Product added!');
+        Navigator.pop(context, _stockUpdated);
         setState(() {
           _loading = false;
         });

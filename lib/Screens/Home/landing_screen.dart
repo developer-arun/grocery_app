@@ -7,7 +7,6 @@ import 'package:grocery_app/utilities/alert_box.dart';
 import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
-import 'Navigation_Pages/cart_page.dart';
 import 'Navigation_Pages/contact_us_page.dart';
 import 'Navigation_Pages/offers_page.dart';
 import 'Navigation_Pages/orders_page.dart';
@@ -123,20 +122,11 @@ class _LandingScreenState extends State<LandingScreen>
                                 },
                               ),
                               MenuItemWidget(
-                                label: 'Cart',
-                                icon: Icons.shopping_cart,
-                                onPressed: () {
-                                  setState(() {
-                                    currentIndex = 2;
-                                  });
-                                },
-                              ),
-                              MenuItemWidget(
                                 label: 'My Orders',
                                 icon: Icons.shop,
                                 onPressed: () {
                                   setState(() {
-                                    currentIndex = 3;
+                                    currentIndex = 2;
                                   });
                                 },
                               ),
@@ -145,16 +135,7 @@ class _LandingScreenState extends State<LandingScreen>
                                 icon: Icons.store_mall_directory,
                                 onPressed: () {
                                   setState(() {
-                                    currentIndex = 4;
-                                  });
-                                },
-                              ),
-                              MenuItemWidget(
-                                label: 'Offers',
-                                icon: Icons.local_offer,
-                                onPressed: () {
-                                  setState(() {
-                                    currentIndex = 5;
+                                    currentIndex = 3;
                                   });
                                 },
                               ),
@@ -163,7 +144,7 @@ class _LandingScreenState extends State<LandingScreen>
                                 icon: Icons.settings,
                                 onPressed: () {
                                   setState(() {
-                                    currentIndex = 6;
+                                    currentIndex = 4;
                                   });
                                 },
                               ),
@@ -172,7 +153,7 @@ class _LandingScreenState extends State<LandingScreen>
                                 icon: Icons.info_outline,
                                 onPressed: () {
                                   setState(() {
-                                    currentIndex = 7;
+                                    currentIndex = 5;
                                   });
                                 },
                               ),
@@ -251,24 +232,18 @@ class _LandingScreenState extends State<LandingScreen>
                   DietScreen(
                     leadingWidget: leadingWidget,
                   ), //1
-                  CartPage(
-                    leadingWidget: leadingWidget,
-                  ), //2
                   OrdersPage(
                     leadingWidget: leadingWidget,
-                  ), //3
+                  ), //2
                   StorePage(
                     leadingWidget: leadingWidget,
-                  ), //4
-                  OffersPage(
-                    leadingWidget: leadingWidget,
-                  ), //5
+                  ), //3//4
                   SettingsPage(
                     leadingWidget: leadingWidget,
-                  ), //6
+                  ), //4
                   ContactUsPage(
                     leadingWidget: leadingWidget,
-                  ), //7
+                  ), //5
                 ],
               ),
             ),

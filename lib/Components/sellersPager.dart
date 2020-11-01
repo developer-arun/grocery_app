@@ -25,7 +25,7 @@ class _SellersPagerState extends State<SellersPager> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160,
+      height: 180,
       child: PageView.builder(
         physics: BouncingScrollPhysics(),
         itemCount: stores.length,
