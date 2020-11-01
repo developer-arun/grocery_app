@@ -5,6 +5,7 @@ import 'package:grocery_app/Components/custom_button_widget.dart';
 import 'package:grocery_app/Model/Review.dart';
 import 'package:grocery_app/Screens/Review&Rating/add_review_screen.dart';
 import 'package:grocery_app/utilities/constants.dart';
+import 'package:toast/toast.dart';
 
 class ViewReviewsScreen extends StatefulWidget {
   @override
@@ -18,8 +19,8 @@ class ViewReviewsScreen extends StatefulWidget {
 class _ViewReviewsScreenState extends State<ViewReviewsScreen> {
   FirebaseFirestore _firebasefirestore = FirebaseFirestore.instance;
   List<QueryDocumentSnapshot> _reviews = [];
-  bool _loading = true; //boolean variable to check if data is presently loading
-  int _perpage = 10; //limit of documents reading in one go.
+  bool _loading = false; //boolean variable to check if data is presently loading
+  int _perpage = 20; //limit of documents reading in one go.
   DocumentSnapshot _lastDocument;
   ScrollController _scrollController = ScrollController();
   bool _gettingMoreReviews = false;
@@ -49,7 +50,8 @@ class _ViewReviewsScreenState extends State<ViewReviewsScreen> {
 
   Future _getMoreReviews() async {
     if (_moreProductsAvailable == false) {
-      print("No more reviews");
+      Toast.show('No more reviews', context,
+          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
       return;
     }
 
@@ -58,7 +60,8 @@ class _ViewReviewsScreenState extends State<ViewReviewsScreen> {
     }
     _gettingMoreReviews = true;
     if (_gettingMoreReviews == true) {
-      print("getmore called");
+      Toast.show('Loading more reviews', context,
+          duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
 
       Query query = _firebasefirestore
           .collection("Reviews&Ratings")
@@ -128,10 +131,10 @@ class _ViewReviewsScreenState extends State<ViewReviewsScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
+          _loading == false ? Expanded(
             child: RefreshIndicator(
               onRefresh: _getReviews,
-              child: ListView.builder(
+              child: _reviews.length > 0 ? ListView.builder(
                 controller: _scrollController,
                 physics: AlwaysScrollableScrollPhysics(),
                 itemCount: _reviews.length,
@@ -182,8 +185,18 @@ class _ViewReviewsScreenState extends State<ViewReviewsScreen> {
                     ),
                   );
                 },
+              ) : Center(
+                child: Text(
+                  'Nothing to display',
+                  style: TextStyle(
+                    color: kColorPurple.withOpacity(0.4),
+                    fontSize: 20,
+                  ),
+                ),
               ),
             ),
+          ) : Center(
+            child: CircularProgressIndicator(),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -197,7 +210,11 @@ class _ViewReviewsScreenState extends State<ViewReviewsScreen> {
                       productId: widget.productID,
                     ),
                   ),
-                );
+                ).then((value){
+                  if(value == 'SUCCESS'){
+                    _getReviews();
+                  }
+                });
               },
             ),
           ),

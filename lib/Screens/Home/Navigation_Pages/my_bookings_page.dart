@@ -25,27 +25,29 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
       Widget widget;
       widget = Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-        child: BookingCard(
-          booking: booking,
-          isSubscription: false,
-          onCancelClick: (){
-            setState(() {
-              _loading = true;
-            });
-          },
-          onCancelFailed: (error){
-            setState(() {
-              _loading = false;
-            });
-            AlertBox.showMessageDialog(context, 'Error', 'Unable to cancel booking\n$error');
-          },
-          onCancelSuccess: (){
-            AlertBox.showMessageDialog(context, 'Success', 'Booking cancelled successfully!');
-            ordersToDisplay.remove(widget);
-            setState(() {
-              _loading = false;
-            });
-          },
+        child: Container(
+          child: BookingCard(
+            booking: booking,
+            isSubscription: false,
+            onCancelClick: (){
+              setState(() {
+                _loading = true;
+              });
+            },
+            onCancelFailed: (error){
+              setState(() {
+                _loading = false;
+              });
+              AlertBox.showMessageDialog(context, 'Error', 'Unable to cancel booking\n$error');
+            },
+            onCancelSuccess: (){
+              AlertBox.showMessageDialog(context, 'Success', 'Booking cancelled successfully!');
+              ordersToDisplay.remove(widget);
+              setState(() {
+                _loading = false;
+              });
+            },
+          ),
         ),
       );
       ordersToDisplay.add(

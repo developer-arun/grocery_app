@@ -29,7 +29,7 @@ class DatabaseServices {
           ownerEmail: element.data()["storeId"],
           price: element.data()["price"],
           quantity: element.data()["quantity"],
-          rating: element.data()["rating"]*1.0,
+          rating: element.data()["rating"] * 1.0,
           reviews: element.data()["reviews"],
           orders: element.data()["orders"],
           imageURL: element.data()["imageurl"],
@@ -70,7 +70,7 @@ class DatabaseServices {
           ownerEmail: element.data()["storeId"],
           price: element.data()["price"],
           quantity: element.data()["quantity"],
-          rating: element.data()["rating"]*1.0,
+          rating: element.data()["rating"] * 1.0,
           reviews: element.data()["reviews"],
           orders: element.data()["orders"],
           imageURL: element.data()["imageurl"],
@@ -99,7 +99,7 @@ class DatabaseServices {
         ownerEmail: value.data()["ownerEmail"],
         ownerName: value.data()["ownerName"],
         ownerContact: value.data()["ownerContact"],
-        rating: value.data()["rating"]*1.0,
+        rating: value.data()["rating"] * 1.0,
         reviews: value.data()["reviews"],
         address: value.data()["address"],
         latitude: value.data()["latitude"],
@@ -135,7 +135,7 @@ class DatabaseServices {
           ownerEmail: element.data()["storeId"],
           price: element.data()["price"],
           quantity: element.data()["quantity"],
-          rating: element.data()["rating"]*1.0,
+          rating: element.data()["rating"] * 1.0,
           reviews: element.data()["reviews"],
           orders: element.data()["orders"],
           imageURL: element.data()["imageurl"],
@@ -174,7 +174,7 @@ class DatabaseServices {
           ownerEmail: element.data()["ownerEmail"],
           ownerName: element.data()["ownerName"],
           ownerContact: element.data()["ownerContact"],
-          rating: element.data()["rating"]*1.0,
+          rating: element.data()["rating"] * 1.0,
           reviews: element.data()["reviews"],
           address: element.data()["address"],
           latitude: element.data()["latitude"],
@@ -439,7 +439,7 @@ class DatabaseServices {
           ownerEmail: element.data()["storeId"],
           price: element.data()["price"],
           quantity: element.data()["quantity"],
-          rating: element.data()["rating"]*1.0,
+          rating: element.data()["rating"] * 1.0,
           reviews: element.data()["reviews"],
           orders: element.data()["orders"],
           imageURL: element.data()["imageurl"],
@@ -526,11 +526,11 @@ class DatabaseServices {
     return TaskStatus.SUCCESS.toString();
   }
 
-
   /*
   Function to confirm Subscription booking
    */
-  static Future<String> confirmSubscriptionBooking(String subscriptionID) async {
+  static Future<String> confirmSubscriptionBooking(
+      String subscriptionID) async {
     await FirebaseFirestore.instance
         .collection("Subscriptions")
         .doc(subscriptionID)
@@ -548,7 +548,8 @@ class DatabaseServices {
   /*
   Function to decline subscription booking
    */
-  static Future<String> declineSubscriptionBooking(String subscriptionID) async {
+  static Future<String> declineSubscriptionBooking(
+      String subscriptionID) async {
     await FirebaseFirestore.instance
         .collection("Subscriptions")
         .doc(subscriptionID)
@@ -630,5 +631,22 @@ class DatabaseServices {
       print(error);
     });
     return booking;
+  }
+
+  /*
+  Function to remove product from store
+   */
+  static Future<String> removeProductFromStore(Product currentStock) async {
+    await FirebaseFirestore.instance
+        .collection('Products')
+        .doc(currentStock.id)
+        .delete()
+        .then((value) {
+      return TaskStatus.SUCCESS.toString();
+    }).catchError((error) {
+      return error.toString();
+    });
+
+    return TaskStatus.SUCCESS.toString();
   }
 }

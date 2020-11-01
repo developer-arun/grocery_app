@@ -294,7 +294,7 @@ class _RatingReviewScreenState extends State<RatingReviewScreen> {
       "reviewId": UserApi.instance.email + widget.productId,
       "productId": widget.productId,
       "rating": rating,
-      "review": review,
+      "review": review.trim(),
       "userId": UserApi.instance.email
     };
     await FirebaseFirestore.instance
@@ -304,7 +304,7 @@ class _RatingReviewScreenState extends State<RatingReviewScreen> {
         .then((value) async {
       await AlertBox.showMessageDialog(
           context, 'Success', 'Added review successfully!');
-      Navigator.pop(context);
+      Navigator.pop(context,'SUCCESS');
     });
   }
 }

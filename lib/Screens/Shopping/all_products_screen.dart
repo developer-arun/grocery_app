@@ -80,6 +80,8 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
 
     QuerySnapshot querySnapshot = await query.get();
     _products = querySnapshot.docs;
+
+    if(querySnapshot.docs.length > 0)
     _lastDocument = querySnapshot
         .docs[querySnapshot.docs.length - 1]; //finding the last document loaded
 
@@ -434,7 +436,11 @@ class _AllProductsScreenState extends State<AllProductsScreen> {
                   child: Container(
                     child: _products.length == 0
                         ? Center(
-                            child: Text("no data"),
+                            child: Text(
+                              'Nothing to display',
+                              style: TextStyle(
+                                  color: kColorPurple.withOpacity(0.4), fontSize: 20),
+                            ),
                           )
                         : ListView.builder(
                             physics: BouncingScrollPhysics(),

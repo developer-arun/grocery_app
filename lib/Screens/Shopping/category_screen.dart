@@ -4,7 +4,6 @@ import 'package:grocery_app/Components/product_card.dart';
 import 'package:grocery_app/Components/text_input_widget.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Screens/Home/Navigation_Pages/cart_page.dart';
-import 'product_screen.dart';
 import 'package:grocery_app/Services/database_services.dart';
 import 'package:grocery_app/utilities/constants.dart';
 
@@ -41,11 +40,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
     List<Product> displayProducts = filteredProducts;
 
-    if (_filterApplied == true) {
-      if (filteredProducts.isEmpty) {
-        displayProducts = products;
-      }
-    }else{
+    if (_filterApplied != true) {
       displayProducts = products;
     }
 

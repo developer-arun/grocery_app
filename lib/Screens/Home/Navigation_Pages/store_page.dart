@@ -21,7 +21,7 @@ class _StorePageState extends State<StorePage> {
 
   UserApi userApi = UserApi.instance;
   bool darkAppBarIcons = false;
-
+  bool isStoreAvailable = false;
   // Display progress indicator until data is loaded
   Widget storePageDisplay = Center(
     child: CircularProgressIndicator(
@@ -64,6 +64,7 @@ class _StorePageState extends State<StorePage> {
       // Snapshot loaded
       if (snapshot.exists) {
         // Data present - Seller registered
+        isStoreAvailable = true;
         await loadStoreData(snapshot);
         storePageDisplay = MyStoreScreen();
         darkAppBarIcons = false;
@@ -71,6 +72,7 @@ class _StorePageState extends State<StorePage> {
       } else {
         // Data absent - Seller not registered
         // Replace loading indicator with button
+        isStoreAvailable = false;
         darkAppBarIcons = true;
         storePageDisplay = Center(
           child: CustomButtonWidget(
@@ -119,8 +121,7 @@ class _StorePageState extends State<StorePage> {
         elevation: 0,
         leading: widget.leadingWidget,
         actions: [
-          userApi.isSeller ?
-          IconButton(
+          isStoreAvailable ?IconButton(
               icon: Icon(
                 Icons.notifications,
               ),

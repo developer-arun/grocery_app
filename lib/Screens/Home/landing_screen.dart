@@ -8,7 +8,6 @@ import 'package:grocery_app/utilities/constants.dart';
 import 'package:grocery_app/utilities/user_api.dart';
 
 import 'Navigation_Pages/contact_us_page.dart';
-import 'Navigation_Pages/offers_page.dart';
 import 'Navigation_Pages/orders_page.dart';
 import 'Navigation_Pages/diet_screen.dart';
 import 'Navigation_Pages/settings_page.dart';
@@ -17,7 +16,6 @@ import 'Navigation_Pages/store_page.dart';
 class LandingScreen extends StatefulWidget {
   @override
   _LandingScreenState createState() => _LandingScreenState();
-
 }
 
 class _LandingScreenState extends State<LandingScreen>
@@ -60,7 +58,35 @@ class _LandingScreenState extends State<LandingScreen>
       body: Stack(
         children: <Widget>[
           menu(context),
-          dashboard(context),
+          WillPopScope(
+            onWillPop: () async {
+              final value = await showDialog<bool>(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Text('Are you sure you want to exit?'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text('No'),
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text('Yes, exit'),
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                          },
+                        ),
+                      ],
+                    );
+                  }
+              );
+
+              return value == true;
+            },
+            child: dashboard(context),
+          ),
         ],
       ),
     );
@@ -186,7 +212,6 @@ class _LandingScreenState extends State<LandingScreen>
   }
 
   Widget dashboard(context) {
-
     Widget leadingWidget = IconButton(
       icon: Icon(
         isCollapsed ? Icons.menu : Icons.arrow_back_ios,
@@ -202,7 +227,6 @@ class _LandingScreenState extends State<LandingScreen>
       },
     );
 
-
     return AnimatedPositioned(
       duration: duration,
       height: screenHeight,
@@ -217,9 +241,9 @@ class _LandingScreenState extends State<LandingScreen>
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(30.0), topLeft: Radius.circular(30.0)),
           child: ClipRRect(
-            borderRadius: BorderRadius.only(
+            borderRadius: !isCollapsed ? BorderRadius.only(
                 topRight: Radius.circular(30.0),
-                topLeft: Radius.circular(30.0)),
+                topLeft: Radius.circular(30.0)) : BorderRadius.zero,
             child: Scaffold(
               extendBodyBehindAppBar: true,
               backgroundColor: kColorWhite,

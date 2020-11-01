@@ -57,6 +57,7 @@ class _AllSellersScreenState extends State<AllSellersScreen> {
     _sellers = querySnapshot.docs;
 
     // Last document loaded
+    if(querySnapshot.docs.length > 0)
     _lastDocument = querySnapshot.docs[querySnapshot.docs.length - 1];
 
     setState(() {
@@ -222,7 +223,11 @@ class _AllSellersScreenState extends State<AllSellersScreen> {
                   child: Container(
                     child: _sellers.length == 0
                         ? Center(
-                            child: Text("No data"),
+                            child: Text(
+                              'Nothing to display',
+                              style: TextStyle(
+                                  color: kColorPurple.withOpacity(0.4), fontSize: 20),
+                            ),
                           )
                         : ListView.builder(
                             physics: BouncingScrollPhysics(),
