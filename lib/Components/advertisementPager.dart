@@ -1,3 +1,7 @@
+/*
+For displaying offers and advertisements to the user on the home page
+ */
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/Model/Offer.dart';
@@ -12,9 +16,16 @@ class AdvertisementPager extends StatefulWidget {
 }
 
 class _AdvertisementPagerState extends State<AdvertisementPager> {
+
+  // List of offers to be displayed
   List<Offer> offers = [];
+
+  // Boolean variable used to display progress if data is being loaded
   bool _loading = true;
 
+  /*
+  Function to get offers from server
+   */
   void getOffers() async {
     _loading = true;
     offers = await DatabaseServices.getOffers();
@@ -26,9 +37,13 @@ class _AdvertisementPagerState extends State<AdvertisementPager> {
   void initState() {
     super.initState();
 
+    // Loading the offers on start
     getOffers();
   }
 
+  /*
+  UI of advertisement pager
+   */
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,6 +57,11 @@ class _AdvertisementPagerState extends State<AdvertisementPager> {
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () async {
+
+                        /*
+                        Displaying a dialog boc to apply an offer when tapped on
+                         */
+
                         if (CartService.offerId != offers[index].offerId) {
                           final value = await showDialog(
                               context: context,
@@ -66,6 +86,9 @@ class _AdvertisementPagerState extends State<AdvertisementPager> {
                                 );
                               });
 
+                          /*
+                          Apply offer is user selected yes
+                           */
                           if (value) {
                             CartService.discount = offers[index].discount;
                           }
@@ -73,6 +96,7 @@ class _AdvertisementPagerState extends State<AdvertisementPager> {
                           AlertBox.showMessageDialog(
                               context, 'Error', 'One offer is already in use.');
                         }
+
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,

@@ -1,3 +1,7 @@
+/*
+Booking card widget used to display users their bookings and subscriptions
+ */
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +19,7 @@ class BookingCard extends StatelessWidget {
   final Function onCancelSuccess;
   final bool isSubscription;
 
+  // Fetching the booking object and callback functions
   const BookingCard(
       {@required this.booking,
       @required this.onCancelClick,
@@ -135,21 +140,24 @@ class BookingCard extends StatelessWidget {
                   label: 'Cancel',
                   onPressed: () async {
                     //Function for Deleting the given booking
-                    // TODO : CODE
+
                     onCancelClick();
                     FirebaseFirestore firebaseFirestore =
                         FirebaseFirestore.instance;
 
+                    // Checking if booking is to be cancelled or subscription is to be cancelled
                     CollectionReference colRef = !isSubscription
                         ? firebaseFirestore.collection("Bookings")
                         : firebaseFirestore.collection("Subscriptions");
 
+                    // Cancelling the booking
                     await colRef.doc(booking.id).delete().then((value) {
                       onCancelSuccess();
                     }).catchError((error) {
                       print(error);
                       onCancelFailed(error);
                     });
+
                   },
                 ),
               ),

@@ -64,20 +64,16 @@ class _CartPageState extends State<CartPage> {
             ),
             child: Row(
               children: [
-                Flexible(
-                  flex: 1,
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: Hero(
-                      tag: '${cartProduct.product.id}cart',
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                          image: DecorationImage(
-                            image: NetworkImage(cartProduct.product.imageURL),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                Hero(
+                  tag: '${cartProduct.product.id}cart',
+                  child: Container(
+                    width: 70,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                      image: DecorationImage(
+                        image: NetworkImage(cartProduct.product.imageURL),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -86,48 +82,44 @@ class _CartPageState extends State<CartPage> {
                   width: 15,
                 ),
                 Flexible(
-                  flex: 5,
-                  child: AspectRatio(
-                    aspectRatio: 5 / 1,
-                    child: Container(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            cartProduct.product.name,
-                            style: TextStyle(
-                              fontSize: 24,
-                              color: kColorPurple,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  child: Container(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          cartProduct.product.name,
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: kColorPurple,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Wrap(
-                            alignment: WrapAlignment.spaceBetween,
-                            crossAxisAlignment: WrapCrossAlignment.end,
-                            direction: Axis.horizontal,
-                            children: [
-                              Text(
-                                '${cartProduct.quantity} Kgs',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: kColorPurple,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                '₹ ${cartProduct.totalCost}',
-                                style: TextStyle(
+                        ),
+                        Wrap(
+                          alignment: WrapAlignment.spaceBetween,
+                          crossAxisAlignment: WrapCrossAlignment.end,
+                          direction: Axis.horizontal,
+                          children: [
+                            Text(
+                              '${cartProduct.quantity} Kgs',
+                              style: TextStyle(
+                                  fontSize: 16,
                                   color: kColorPurple,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '₹ ${cartProduct.totalCost}',
+                              style: TextStyle(
+                                color: kColorPurple,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),

@@ -1,3 +1,7 @@
+/*
+Widget for displaying all the categories of food items available for purchase
+ */
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
