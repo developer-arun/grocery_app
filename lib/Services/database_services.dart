@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:grocery_app/Model/Booking.dart';
+import 'package:grocery_app/Model/Offers.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Model/Store.dart';
 import 'package:grocery_app/utilities/booking_status.dart';
@@ -630,5 +631,30 @@ class DatabaseServices {
       print(error);
     });
     return booking;
+  }
+
+  /*
+  Function to fetch offers for the user within same city from the database
+   */
+  static Future<List<Offers>> getOffers() async {
+    List<Offers> offers = [];
+    var firestoreInstance = FirebaseFirestore.instance;
+    await firestoreInstance
+        .collection("Offers")
+        .doc("${UserApi.instance.getCity()}_${UserApi.instance.getCountry()}")
+        .collection("${UserApi.instance.email}")
+        .get()
+        .then((result) {
+      for (var element in result.docs) {
+        offers.add(Offers(
+          offerId: element.data()["offerId"],
+          name: element.data()["name"],
+          discount: element.data()["discount"],
+        ));
+      }
+    }).catchError((error) {
+      print(error);
+    });
+    return offers;
   }
 }
