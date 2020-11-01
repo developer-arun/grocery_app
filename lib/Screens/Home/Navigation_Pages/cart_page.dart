@@ -21,7 +21,6 @@ import 'package:grocery_app/utilities/constants.dart';
 class CartPage extends StatefulWidget {
   @override
   _CartPageState createState() => _CartPageState();
-
 }
 
 class _CartPageState extends State<CartPage> {
@@ -150,7 +149,6 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-
     if (storeDetails == null) {
       loadStoreDetails();
     }
@@ -311,6 +309,15 @@ class _CartPageState extends State<CartPage> {
                                 children: getCartProducts(),
                               ),
                             ),
+                            CartService.discount != 0
+                                ? Text(
+                              'Offer applied: Rs ${totalCost * CartService.discount} off',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            )
+                                : Container(),
                             Padding(
                               padding: const EdgeInsets.all(30.0),
                               child: CustomButtonWidget(
@@ -432,12 +439,16 @@ class _CartPageState extends State<CartPage> {
                               sellerEmail: storeDetails.ownerEmail,
                               buyerEmail: UserApi.instance.email,
                               productId: cartProduct.product.id,
-                              price: cartProduct.totalCost,
+                              price: cartProduct.totalCost -
+                                  cartProduct.totalCost * CartService.discount,
                               status: BookingStatus.PENDING.toString(),
                               timestamp: timestamp,
                               productName: cartProduct.product.name,
                             ));
                           }
+
+                          await DatabaseServices.availOffer(
+                              CartService.offerId);
 
                           String result =
                               await DatabaseServices.orderProducts(booking);
@@ -445,6 +456,8 @@ class _CartPageState extends State<CartPage> {
                           if (result == TaskStatus.SUCCESS.toString()) {
                             CartService.sellerId = null;
                             CartService.cartProducts = {};
+                            CartService.discount = 0;
+
                             AlertBox.showMessageDialog(context, 'Success',
                                 'Order placed successfully!');
                           } else {

@@ -28,6 +28,8 @@ dependencies:
   firebase_messaging: ^5.1.8
   toast: ^0.1.5
   date_format: ^1.0.9
+  google_maps_flutter: ^0.5.11+1
+  location: ^2.3.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:grocery_app/Model/Booking.dart';
+import 'package:grocery_app/Model/Offer.dart';
 import 'package:grocery_app/Model/Product.dart';
 import 'package:grocery_app/Model/Store.dart';
 import 'package:grocery_app/utilities/booking_status.dart';
@@ -640,6 +641,50 @@ class DatabaseServices {
     await FirebaseFirestore.instance
         .collection('Products')
         .doc(currentStock.id)
+        .delete()
+        .then((value) {
+      return TaskStatus.SUCCESS.toString();
+    }).catchError((error) {
+      return error.toString();
+    });
+
+    return TaskStatus.SUCCESS.toString();
+  }
+
+  /*
+  Function to fetch offers for the user within same city from the database
+   */
+  static Future<List<Offer>> getOffers() async {
+    List<Offer> offers = [];
+    var firestoreInstance = FirebaseFirestore.instance;
+    await firestoreInstance
+        .collection("Offers")
+        .doc("${UserApi.instance.getCity()}_${UserApi.instance.getCountry()}")
+        .collection("${UserApi.instance.email}")
+        .get()
+        .then((result) {
+      for (var element in result.docs) {
+        offers.add(Offer(
+          offerId: element.data()["offerId"],
+          name: element.data()["name"],
+          discount: element.data()["discount"],
+        ));
+      }
+    }).catchError((error) {
+      print(error);
+    });
+    return offers;
+  }
+
+  /*
+  Function to avail offer
+   */
+  static Future<String> availOffer(String offerId) async {
+    await FirebaseFirestore.instance
+        .collection("Offers")
+        .doc("${UserApi.instance.getCity()}_${UserApi.instance.getCountry()}")
+        .collection("${UserApi.instance.email}")
+        .doc(offerId)
         .delete()
         .then((value) {
       return TaskStatus.SUCCESS.toString();
