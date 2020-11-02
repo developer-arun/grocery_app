@@ -29,7 +29,7 @@ This Project enables local sellers to reach their customer during this Covid pan
 ***
 
 ### Advance Features
-- [ ] Notification for order status and offers.</br>
+- [X] Notification for order status and offers.</br>
 - [X] Search in different categories.</br>
 - [X] Loading items on Demand(Lazy Loading).</br>
 - [X] Subscription option for a particular product on daily/n-day basis.
