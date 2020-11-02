@@ -9,6 +9,7 @@ admin.initializeApp({
 });
 const db = admin.firestore();
 
+
 // Function to check if user booked a product
 exports.createBooking = functions.firestore
     .document('Bookings/{bookingId}')
@@ -273,11 +274,11 @@ exports.addReview = functions.firestore
         });
 
         // Fetching the product rating
-        const ratingCalc = await db.collection('RatingCounts').doc(newData.productId).get();
+        const ratingCalc = await db.collection('RatingCounts').doc(snap.data().productId).get();
         const rating = ratingCalc.data().ratingSum / ratingCalc.data().count;
 
         // Updating the product rating
-        await db.collection('Products').doc(newData.productId).set({
+        await db.collection('Products').doc(snap.data().productId).set({
             rating: rating
         }, {
             merge: true
